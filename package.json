@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/A-Horse/Wing#readme",
   "dependencies": {
+    "ejs": "^2.4.1",
     "markdown": "^0.5.0",
     "org": "^0.2.0"
   },
