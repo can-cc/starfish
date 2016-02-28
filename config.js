@@ -1,17 +1,21 @@
 'use strict';
 
-export let ignoreNames = [
+export const ignoreNames = [
         '.DS_Store',
         'tags',
         '.git'
 ];
 
-export let TMPDIR = '/tmp';
+export const TMPDIR = '/tmp';
 
-export let DEFAULT_PORT = '8080';
+export const DEFAULT_PORT = '8080';
 
-export let DEFAULT_HOST = '127.0.0.1';
+export const DEFAULT_HOST = '127.0.0.1';
 
-export let DEFAULT_THEME = 'white-card';
+export const DEFAULT_THEME = 'white-card';
 
-export let TMP_NAME = 'WingTmp';
+export const TMP_NAME = 'WingTmp';
+
+export const INDEX_ARTICLE_NUMBER = 20;
+
+export const ARTICLE_SUMMARY_CHAR_NUMBER = 100;
