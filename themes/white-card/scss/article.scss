@@ -1,0 +1,19 @@
+@import "./common.scss";
+@import "./variable.scss";
+
+html, body {
+    background-color: #999;
+    overflow: hidden;
+}
+
+.article {
+    display: block;
+    
+    min-width: 320px;
+    max-width: 300px;
+    background-color: white;
+    box-sizing: border-box;
+    border: 1px solid $article-border-color;
+    border-radius: 3px;
+}
+
