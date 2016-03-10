@@ -5,9 +5,16 @@ body, html {
 html, body {
   background-color: #fff; }
 
+::-webkit-scrollbar {
+  display: none; }
+
 a {
   text-decoration: none;
   color: blue; }
+
+.dash-bar {
+  height: 300px;
+  background-color: #999; }
 
 .article {
   display: block;
@@ -18,7 +25,9 @@ a {
   box-sizing: border-box;
   border: 1px solid #000;
   border-radius: 1px;
-  margin: auto;
+  margin-top: 50px;
+  margin-left: auto;
+  margin-right: auto;
   padding: 0 8px; }
   .article img {
     width: 100%;

@@ -5,9 +5,23 @@ html, body {
     background-color: #fff;
 }
 
+
+::-webkit-scrollbar {
+    display: none; 
+}
+
+
 a {
     text-decoration: none;
     color: $href-color;
+}
+
+.dash-bar {
+
+    height: $dash-bar-height;
+    background: {
+        color: $dash-bar-bg;
+    }
 }
 
 .article {
@@ -19,7 +33,11 @@ a {
     box-sizing: border-box;
     border: 1px solid $article-border-color;
     border-radius: 1px;
-    margin: auto;
+    margin: {
+        top: 50px;
+        left: auto;
+        right: auto;
+    }
     padding: 0 8px;
     
     img {
