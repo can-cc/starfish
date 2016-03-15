@@ -30,7 +30,7 @@ a {
   margin-right: auto;
   padding: 0 8px; }
   .article img {
-    width: 100%;
+    max-width: 80%;
     display: block;
     margin: auto auto;
     border-radius: 2px; }
