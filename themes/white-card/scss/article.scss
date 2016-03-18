@@ -5,7 +5,6 @@ html, body {
     background-color: #fff;
 }
 
-
 ::-webkit-scrollbar {
     display: none; 
 }
@@ -26,7 +25,6 @@ a {
 
 .article {
     display: block;
-    overflow: hidden;
     min-width: 320px;
     max-width: 400px;
     background-color: white;
@@ -40,14 +38,54 @@ a {
     }
     padding: 0 8px;
 
-    img {
-        max-width: 80%;
-        display: block;
-        margin: auto auto;
-        border: {
-            radius: 2px;
+    .img-wrapper {
+        position: relative;
+        z-index: 1;
+        
+        span.line {
+            position: absolute;
+            top: 50%;
+            height: 1px;
+            width: 100%;
+            background-color: black;
+            display: block;
+
+            &:before, &:after {
+                content: '';
+                display: block;
+                position: absolute;                
+                height: 20px;
+                width: 20px;
+                border: 1px solid #999;
+                border-radius: 50%;
+                top: -10px;
+                background-color: #bbb;
+            }
+
+            &:before {
+                left: -15px;
+            }
+
+            &:after {
+                right: -15px;
+            }
+        }
+
+        img {
+            position: relative;
+            z-index: 1;
+            max-width: 80%;
+            display: block;
+            margin: 15px auto 0;
+            border: {
+                radius: 2px;
+            }
+            
+            
         }
     }
+    
+    
     
     ul {
         li {
@@ -85,9 +123,19 @@ a {
        
 }
 
+#disqus_thread {
+    min-width: 320px;
+    max-width: 400px;
+    margin: auto;
+}
+
 @media (min-width: 768px) {
     .article { 
         max-width: 80%;
+    }
+
+    #disqus_thread {
+        max-width: 85%;
     }
 }
 
@@ -97,6 +145,10 @@ a {
         max-width: 1080px;
         
         
+    }
+
+    #disqus_thread {
+        max-width: 1020px;
     }
 }
 

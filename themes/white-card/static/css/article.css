@@ -1,4 +1,5 @@
-body, html {
+html, body, div {
+  padding: 0;
   margin: 0; }
 
 /* org */
@@ -18,7 +19,6 @@ a {
 
 .article {
   display: block;
-  overflow: hidden;
   min-width: 320px;
   max-width: 400px;
   background-color: white;
@@ -29,11 +29,37 @@ a {
   margin-left: auto;
   margin-right: auto;
   padding: 0 8px; }
-  .article img {
-    max-width: 80%;
-    display: block;
-    margin: auto auto;
-    border-radius: 2px; }
+  .article .img-wrapper {
+    position: relative;
+    z-index: 1; }
+    .article .img-wrapper span.line {
+      position: absolute;
+      top: 50%;
+      height: 1px;
+      width: 100%;
+      background-color: black;
+      display: block; }
+      .article .img-wrapper span.line:before, .article .img-wrapper span.line:after {
+        content: '';
+        display: block;
+        position: absolute;
+        height: 20px;
+        width: 20px;
+        border: 1px solid #999;
+        border-radius: 50%;
+        top: -10px;
+        background-color: #bbb; }
+      .article .img-wrapper span.line:before {
+        left: -15px; }
+      .article .img-wrapper span.line:after {
+        right: -15px; }
+    .article .img-wrapper img {
+      position: relative;
+      z-index: 1;
+      max-width: 80%;
+      display: block;
+      margin: 15px auto 0;
+      border-radius: 2px; }
   .article ul li {
     list-style: none;
     vertical-align: middle; }
@@ -53,10 +79,19 @@ a {
   .article.org .section-number {
     margin-right: 10px; }
 
+#disqus_thread {
+  min-width: 320px;
+  max-width: 400px;
+  margin: auto; }
+
 @media (min-width: 768px) {
   .article {
-    max-width: 80%; } }
+    max-width: 80%; }
+  #disqus_thread {
+    max-width: 85%; } }
 
 @media (min-width: 1080px) {
   .article {
-    max-width: 1080px; } }
+    max-width: 1080px; }
+  #disqus_thread {
+    max-width: 1020px; } }
