@@ -82,10 +82,11 @@
 
     
     var canvas = document.getElementById('dash-canvas'),
-        content = canvas.getContext('2d');
+       ctx = canvas.getContext('2d');
 
-
+    var img = document.getElementById('yin-img');
     
+    ctx.drawImage(img, 0, 0, 150, 150);
     
     
 })(window, jQuery);
