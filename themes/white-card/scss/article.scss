@@ -1,6 +1,10 @@
 @import "./common.scss";
 @import "./variable.scss";
 
+
+@import "./disqus.scss";
+@import "./footer.scss";
+
 html, body {
     background-color: #fff;
 }
@@ -9,17 +13,20 @@ html, body {
     display: none; 
 }
 
-
 a {
     text-decoration: none;
     color: $href-color;
 }
 
 .dash-bar {
-
     height: $dash-bar-height;
     background: {
         color: $dash-bar-bg;
+    }
+
+    canvas {
+        height: 100%;
+        width: 100%;
     }
 }
 
@@ -31,7 +38,7 @@ a {
     box-sizing: border-box;
     padding: 1.5rem 1rem 2rem;
     //border: 1px solid $article-border-color;
-    border-radius: 1px;
+    border-radius: 3px;
     margin: {
         top: 50px;
         left: auto;
@@ -39,7 +46,7 @@ a {
         bottom: 4rem;
     }
 
-    box-shadow: 0px 0px 60px #333;
+    box-shadow: 0px 0px 60px #bebebe;
 
     .img-wrapper {
         position: relative;
@@ -146,13 +153,10 @@ a {
 
 @media (min-width: 1080px) {
     .article { 
-        max-width: 1080px;
-        
-        
+        max-width: 1080px;        
     }
 
     #disqus_thread {
         max-width: 1020px;
     }
 }
-
