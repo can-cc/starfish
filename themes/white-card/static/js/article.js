@@ -12,9 +12,11 @@
 
 (function(window, $){
 
-    var Particle = function(x, y, canvasHeight, canvasWidth){
+    var Particle = function(x, y, canvasHeight, canvasWidth, red, green, blue){
         this.targetX = x;
         this.targetY = y;
+
+        this.color = 'rgba('+ red + ',' + green + ',' + blue + ', 1)';
 
         this.worldHeight = canvasHeight;
         this.worldWidht = canvasWidth;
@@ -52,28 +54,31 @@
     };
 
     Particle.prototype.render = function(ctx){
-        ctx.fillStyle = '#111';
-        ctx.fillRect(this.x, this.y, 2, 2);  
+        ctx.fillStyle = this.color;
+        ctx.fillRect(this.targetX, this.targetY, 1, 1);  
     };
 
     Particle.prototype.update = function(ctx){
-        this.move();
+        //this.move();
         this.render(ctx);
     };
     
-    var getCanvasData = (canvas) => {
+    var getCanvasData = function(canvas){
         var ctx = canvas.getContext('2d'),
         imageData = ctx.getImageData(0, 0, canvas.width, canvas.height),
         canvasHeight = canvas.height,
         canvasWidht = canvas.width;
         
         var particles = [];
+        var flag = 0;
         for (var x = 0, ii = 0; x < imageData.width; x++) {
+            flag = (flag + 1) % 2;
+
             for (var y = 0; y < imageData.height; y++) {
                 var i = 4 * (y * imageData.width + x);
                 if (imageData.data[i + 3] > 128) {
 		    ii++;
-                    (ii % 4 === 0) && particles.push(new Particle(x, y, canvasHeight, canvasWidht));
+                    (ii % 2 === flag) && particles.push(new Particle(x, y, canvasHeight, canvasWidht, imageData.data[i], imageData.data[i + 1], imageData.data[i + 2]));
                 }
             }
         }
@@ -82,11 +87,66 @@
 
     
     var canvas = document.getElementById('dash-canvas'),
-       ctx = canvas.getContext('2d');
+        ctx = canvas.getContext('2d');
 
-    var img = document.getElementById('yin-img');
+    var dashBar = document.querySelector('.dash-bar');
+
     
-    ctx.drawImage(img, 0, 0, 150, 150);
+    var winWidth = window.width,
+        winHeight = window.height;
+    
+    var mainImg = document.getElementById('yin-img');
+
+
+    canvas.width = dashBar.offsetWidth;
+    canvas.height = dashBar.offsetHeight;
+    
+    
+    ctx.drawImage(mainImg,
+                  0, 0,
+                  mainImg.width, mainImg.height,
+                  canvas.width / 2 - mainImg.width / 2, 25,
+                  mainImg.width, mainImg.height);
+
+
+    var mainParticles = getCanvasData(canvas);
+
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    var txtImg = document.getElementById('wing-img');
+
+    ctx.drawImage(txtImg,
+                  0, 0,
+                  txtImg.width, txtImg.height,
+                  canvas.width / 1.2 , 100,
+                  txtImg.width / 2, txtImg.height / 2);
+
+    
+    var txtParticles = getCanvasData(canvas);
+
+    var tick = function(){
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        txtParticles.map(function(particle){
+            particle.update(ctx);
+        });
+        mainParticles.map(function(particle){
+            particle.update(ctx);
+        });
+    };
+
+    var run = false;
+    var raf = null;
+    var start = function(){
+        tick();
+        //raf = requestAnimationFrame(start);
+    };
+
+    start();
+
+  
+    
+    
+    //ctx.drawImage(img, 50, 50, 100, 100, 100, 100);
     
     
 })(window, jQuery);

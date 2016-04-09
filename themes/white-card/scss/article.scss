@@ -160,3 +160,14 @@ a {
         max-width: 1020px;
     }
 }
+
+
+
+$footer-bg:rgba(139, 105, 86, 0.1);
+$footer-height: 10rem;
+
+
+#footer {
+    height: $footer-height;
+    background-color: $footer-bg;
+}

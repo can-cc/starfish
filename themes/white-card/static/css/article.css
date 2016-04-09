@@ -19,7 +19,7 @@ a {
   color: blue; }
 
 .dash-bar {
-  height: 300px;
+  height: 500px;
   background-color: #999; }
   .dash-bar canvas {
     height: 100%;
@@ -103,3 +103,7 @@ a {
     max-width: 1080px; }
   #disqus_thread {
     max-width: 1020px; } }
+
+#footer {
+  height: 10rem;
+  background-color: rgba(139, 105, 86, 0.1); }
