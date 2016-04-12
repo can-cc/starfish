@@ -12,18 +12,27 @@
     <link rel="stylesheet" href="/static/css/article.css">
     
   </head>
+
+
   <body>
 
     <div class="dash-bar">
-      
+      <img id="yin-img" src="/static/img/yy.png" style="display: none;"/>
+      <img id="wing-img" src="/static/img/wing.png" style="display: none;"/>
+      <canvas id="dash-canvas"></canvas>
     </div>
 
     <div class="article <%- type %>">
-
+      
       <%- content %>
     </div>
 
     <div id="disqus_thread"></div>
+
+    <div id="footer">
+      
+    </div>
+    
     <script>
       /**
       * RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
