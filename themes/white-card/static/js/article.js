@@ -42,17 +42,12 @@
         this.x += this.vx;
         this.y += this.vy;
 
-        this.vx *= 0.92;
-        this.vy *= 0.92;
+        
     };
 
     Particle.prototype.updateVecotr = function(base, xb, yb){
-        var v = base * 2 * this.vf;
-        
-        if( Math.abs(this.vx) < v ){
-            this.vx = v * this.xd * xb;
-            this.vy = v * this.yd * yb;
-        }
+        this.vx = this.xd * 0.1;
+        this.vy = this.yd * 0.1;
     };
 
     Particle.prototype.render = function(ctx){
@@ -95,8 +90,9 @@
                                      canvasHeight, canvasWidht,
                                      imageData.data[i], imageData.data[i + 1], imageData.data[i + 2],
                                      calcDis(x, y, halfCanvasWidth, halfCanvasHeight) / imageRadius,
-                                     x > halfCanvasWidth ? 1 : -1,
-                                     y > halfCanvasHeight ? 1 : -1));
+                                     x - halfCanvasWidth,
+                                     y - halfCanvasHeight)
+                    );
                 }
             }
         }
@@ -149,7 +145,7 @@
     var run = false;
 
     var tick = function(dis){
-        console.log('tick');
+
         
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         // txtParticles.map(function(particle){
@@ -162,8 +158,9 @@
 
     var addVector = function(mouseX, mouseY){
 
-        var dis = Math.sqrt((mouseX - canvas.width / 2) * (mouseX - canvas.width / 2) +
-                            (mouseY - canvas.height / 2) * (mouseY - canvas.height / 2));
+        var dis = Math.sqrt((mouseX - mainImg.width / 2) * (mouseX - mainImg.width / 2) +
+                            (mouseY - mainImg.height / 2) * (mouseY - mainImg.height / 2));
+        console.log(dis);
         var base = (mainImg.width / 2 - dis) / mainImg.width;
         var xb = mainImg.width / 2 / Math.abs(mouseX - mainImg.width / 2),
             yb = mainImg.height / 2 / Math.abs(mouseY - mainImg.height / 2);
