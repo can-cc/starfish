@@ -20,9 +20,9 @@ a {
 
 .dash-bar {
     height: $dash-bar-height;
-    background: {
-        color: $dash-bar-bg;
-    }
+    /* background: { */
+    /*     color: $dash-bar-bg; */
+    /* } */
 
     canvas {
         height: 100%;
@@ -116,7 +116,7 @@ a {
         
         ul {
             font-size: 90%;
-            
+
             li:before{
                 height: $section-ul-height * 0.9;
                 width: $section-ul-height * 0.9;
