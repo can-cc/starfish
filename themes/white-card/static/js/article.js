@@ -46,8 +46,8 @@
     };
 
     Particle.prototype.updateVecotr = function(base, xb, yb){
-        this.vx = this.xd * 0.1;
-        this.vy = this.yd * 0.1;
+        this.vx = this.xd * 0.05;
+        this.vy = this.yd * 0.05;
     };
 
     Particle.prototype.render = function(ctx){
