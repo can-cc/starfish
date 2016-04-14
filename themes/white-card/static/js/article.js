@@ -136,124 +136,132 @@
         return particles;
     };
 
-    
-    var canvas = document.getElementById('dash-canvas'),
-        ctx = canvas.getContext('2d');
-    
-    var mouseX, mouseY;
 
-    var dashBar = document.querySelector('.dash-bar');
-    
-    var mainImg = document.getElementById('foyin-img');
-    
-    canvas.width = dashBar.offsetWidth;
-    canvas.height = dashBar.offsetHeight;
-    
-    ctx.drawImage(mainImg,
-                  0, 0,
-                  mainImg.width, mainImg.height,
-                  canvas.width / 2 - mainImg.width / 2,
-                  canvas.height / 2 - mainImg.height / 2,                  
-                  mainImg.width, mainImg.height);
+    var main = function(){
+        var canvas = document.getElementById('dash-canvas'),
+            ctx = canvas.getContext('2d');
+        
+        var mouseX, mouseY;
 
-    var mainPicX1 = canvas.width / 2 - mainImg.width / 2,
+        var dashBar = document.querySelector('.dash-bar');
+        
+        var mainImg = document.getElementById('foyin-img');
+        
+        canvas.width = dashBar.offsetWidth;
+        canvas.height = dashBar.offsetHeight;
+        
+        ctx.drawImage(mainImg,
+                      0, 0,
+                      mainImg.width, mainImg.height,
+                      canvas.width / 2 - mainImg.width / 2,
+                      canvas.height / 2 - mainImg.height / 2,                  
+                      mainImg.width, mainImg.height);
+
+        var mainPicX1 = canvas.width / 2 - mainImg.width / 2,
         mainPicX2 = canvas.width / 2 + mainImg.width / 2,
         mainPicY1 = canvas.height / 2 - mainImg.height / 2,
         mainPicY2 = canvas.height / 2 + mainImg.height / 2;
-    
-    mainPicX = canvas.width / 2,
-    mainPicY = canvas.height / 2;
-
-    var mainParticles = getCanvasData(canvas, mainImg.width / 2);
-
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-    // var txtImg = document.getElementById('wing-img');
-
-    // ctx.drawImage(txtImg,
-    //               0, 0,
-    //               txtImg.width, txtImg.height,
-    //               canvas.width / 1.2, 100,
-    //               txtImg.width / 2, txtImg.height / 2);
-
-    
-    //var txtParticles = getCanvasData(canvas);
-    
-    var run = false;
-
-    var tick = function(dis){
-
         
+        mainPicX = canvas.width / 2,
+        mainPicY = canvas.height / 2;
+
+        var mainParticles = getCanvasData(canvas, mainImg.width / 2);
+
         ctx.clearRect(0, 0, canvas.width, canvas.height);
-        // txtParticles.map(function(particle){
-        //     particle.update(ctx);
-        // });
-        mainParticles.map(function(particle){
-            particle.update(ctx);
-        });
-    };
 
-    var addVector = function(mouseX, mouseY){
+        // var txtImg = document.getElementById('wing-img');
 
-        var dis = Math.sqrt((mouseX - mainImg.width / 2) * (mouseX - mainImg.width / 2) +
-                            (mouseY - mainImg.height / 2) * (mouseY - mainImg.height / 2));
+        // ctx.drawImage(txtImg,
+        //               0, 0,
+        //               txtImg.width, txtImg.height,
+        //               canvas.width / 1.2, 100,
+        //               txtImg.width / 2, txtImg.height / 2);
+
         
-        var base = (mainImg.width / 2 - dis) / mainImg.width;
-        var xb = mainImg.width / 2 / Math.abs(mouseX - mainImg.width / 2),
+        //var txtParticles = getCanvasData(canvas);
+        
+        var run = false;
+
+        var tick = function(dis){
+
+            console.log('t');
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            // txtParticles.map(function(particle){
+            //     particle.update(ctx);
+            // });
+            mainParticles.map(function(particle){
+                particle.update(ctx);
+            });
+        };
+
+        var addVector = function(mouseX, mouseY){
+
+            var dis = Math.sqrt((mouseX - mainImg.width / 2) * (mouseX - mainImg.width / 2) +
+                                (mouseY - mainImg.height / 2) * (mouseY - mainImg.height / 2));
+            
+            var base = (mainImg.width / 2 - dis) / mainImg.width;
+            var xb = mainImg.width / 2 / Math.abs(mouseX - mainImg.width / 2),
             yb = mainImg.height / 2 / Math.abs(mouseY - mainImg.height / 2);
+            
+            mainParticles.map(function(particle){
+                particle.updateVecotr(base);
+            });
+        };
+
+        var x;
+        var start = function(){
+            if( x ){
+                return;
+            }
+            x = true;
+            run = true;
+            frame();
+        };
+
+        var frame = function(){
+
+            if( !run ){
+                return;
+            }
+            console.log('f');
+            tick();
+            requestAnimationFrame(frame);
+        };
         
-        mainParticles.map(function(particle){
-            particle.updateVecotr(base);
+        var stop = function(){
+            console.log('stop');
+            run = false;
+        };
+
+        canvas.addEventListener('mouseout', function(){
+            //stop();
+            stop();
         });
-    };
-
-    var x;
-    var start = function(){
-        if( x ){
-            return;
-        }
-        x = true;
-        run = true;
-        frame();
-        // if( mouseX < mainPicX2 && mouseX > mainPicX1 &&
-        //     mouseY < mainPicY2 && mouseY > mainPicY1){
-        //     requestAnimationFrame(start);
-        // }
-    };
-
-    var frame = function(){
-        if( !run ){
-            return;
-        }
-        tick();
-        requestAnimationFrame(frame);
-    };
-    
-    var stop = function(){
-        console.log('stop');
-        run = false;
-    };
-
-    canvas.addEventListener('blur', function(){
-        //stop();
-    });
-    
-    window.addEventListener('blur', function(){
-        //stop();
-    });
-    
-    canvas.addEventListener('mousemove', function(e) {
-        mouseX = e.clientX;
-        mouseY = e.clientY;
         
-        if( mouseX < mainPicX2 && mouseX > mainPicX1 &&
-            mouseY < mainPicY2 && mouseY > mainPicY1){
-            start();
-            addVector(mouseX, mouseY);
-        }
+        window.addEventListener('blur', function(){
+            //stop();
+            console.log('window blur');
+        });
+        
+        canvas.addEventListener('mousemove', function(e) {
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+            
+            if( mouseX < mainPicX2 && mouseX > mainPicX1 &&
+                mouseY < mainPicY2 && mouseY > mainPicY1){
+                start();
+                addVector(mouseX, mouseY);
+            }
+        });
+
+        tick();
+
+    };
+    
+    document.addEventListener( 'DOMContentLoaded', function(){
+        main();
     });
 
-    start();
     //ctx.drawImage(img, 50, 50, 100, 100, 100, 100);
     
     

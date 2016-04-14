@@ -11,6 +11,9 @@ html, body, div {
 html, body {
   background-color: #fff; }
 
+body {
+  background-image: url(/static/img/body-navy.jpg); }
+
 ::-webkit-scrollbar {
   display: none; }
 
@@ -92,7 +95,7 @@ a {
 #disqus_thread {
   min-width: 320px;
   max-width: 400px;
-  margin: auto; }
+  margin: 2rem auto; }
 
 @media (min-width: 768px) {
   .article {
@@ -108,7 +111,7 @@ a {
 
 .footer {
   padding: 3rem 0 0;
-  background-color: rgba(139, 105, 86, 0.1); }
+  background-color: rgba(20, 25, 31, 0.9); }
   .footer:before, .footer:after {
     content: " ";
     display: table; }
@@ -117,14 +120,24 @@ a {
   .footer--icon img {
     width: 100px;
     display: block;
-    margin: auto; }
+    margin: auto;
+    border-radius: 50%;
+    box-shadow: 3px 3px 20px #999;
+    transition: transform 2000ms cubic-bezier(0.215, 0.61, 0.355, 1); }
+    .footer--icon img:hover {
+      transform: scale(1.1, 1.1) rotate(360deg);
+      box-shadow: 3px 3px 30px #eee; }
   .footer--txt {
-    text-align: center; }
+    text-align: center;
+    margin-top: 2rem;
+    color: white;
+    font-size: 110%;
+    font-weight: 700; }
   .footer--links {
     overflow: hidden; }
     .footer--links ul {
       width: 300px;
-      margin: 0 auto;
+      margin: 1rem auto;
       position: relative;
       padding: 0;
       display: flex; }
@@ -135,6 +148,11 @@ a {
         flex: 1;
         text-align: center; }
       .footer--links ul svg {
-        width: 30px; }
+        width: 30px;
+        fill: white; }
   .footer--licence {
-    text-align: center; }
+    margin-top: 1rem;
+    text-align: center;
+    color: white;
+    font-size: 90%;
+    font-width: 300; }
