@@ -14,56 +14,92 @@
 
     var mainPicX, mainPicY;
 
-    var Particle = function(x, y, canvasHeight, canvasWidth, red, green, blue, vf, xd, yd){
-        this.targetX = this.x = x;
-        this.targetY = this.y = y;
+    var Particle = function(x, y, canvasHeight, canvasWidth, red, green, blue, 
+                            xd, yd){
+        this.originX = this.x = x;
+        this.originY = this.y = y;
         
         this.color = 'rgba('+ red + ',' + green + ',' + blue + ', 1)';
         
         this.worldHeight = canvasHeight;
         this.worldWidht = canvasWidth;
-        
-        //this.gotoStart();
-        
+        //this.gotoStart();    
         this.vx = 0;
         this.vy = 0;
 
         this.xd = xd;
         this.yd = yd;
+        
+        this.xfd = xd < 0;
+        this.yfd = yd < 0;
 
-        this.vf = vf;
+        //this.vf = vf;
 
-        this.r = 0.92;
+        // this.r = 0.92;
+
+        this.reverseFlag = false;
     };
 
-    
+    Particle.prototype.reverse = function(){
+        this.reverseFlag = true;
+        this.vx = - this.vx;
+        this.vy = - this.vy;
+    };    
 
     Particle.prototype.move = function(){
         this.x += this.vx;
         this.y += this.vy;
 
+        if( this.reverseFlag ){
+            if( this.x > this.originX * this.xfd  ){
+                this.x = this.originX;
+                this.y = this.originY;
+                this.reverseFlag = false;
+                return;
+            } 
+        } else {
+            
+            var dx = this.x - this.originX,
+                dy = this.y - this.originY;
+
+            if( Math.pow(dx, 2) + Math.pow(dy, 2) > 1000000 ){ 
+                this.reverse();
+            }
+        }
+        
+        this.vx *= 0.999;
+        this.vy *= 0.999;
+        
         
     };
 
     Particle.prototype.updateVecotr = function(base, xb, yb){
-        this.vx = this.xd * 0.05;
-        this.vy = this.yd * 0.05;
+        if( !this.reverseFlag ){
+            this.vx = this.xd * 0.05 * base;
+            this.vy = this.yd * 0.05 * base;
+        }
+
+        
     };
 
+
+    
     Particle.prototype.render = function(ctx){
         ctx.fillStyle = this.color;
-        ctx.fillRect(this.x, this.y, 3, 3);  
+        //ctx.fillRect(this.x, this.y, 4, 4);
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, 4, 0, 2 * Math.PI, false);
+        ctx.fill();
     };
-
+    
     Particle.prototype.update = function(ctx){
         this.move();
         this.render(ctx);
     };
-
-    // var Radiation = function(x, y, canvasHeight, canvasWidth, red, green, blue){
-        
+    
+    // var Radiation = function(x, y, canvasHeight, canvasWidth, red, green, blue){    
     // };
-
+    
     var calcDis = function(x1, y1, x2, y2) {
         return Math.sqrt((x1 - x2) * (x1 - x2) + (y1 - y2) * (y1 - y2));
     };
@@ -89,7 +125,8 @@
                         new Particle(x, y,
                                      canvasHeight, canvasWidht,
                                      imageData.data[i], imageData.data[i + 1], imageData.data[i + 2],
-                                     calcDis(x, y, halfCanvasWidth, halfCanvasHeight) / imageRadius,
+                                     // calcDis(x, y, halfCanvasWidth, halfCanvasHeight) / imageRadius,
+                                     
                                      x - halfCanvasWidth,
                                      y - halfCanvasHeight)
                     );
@@ -160,13 +197,13 @@
 
         var dis = Math.sqrt((mouseX - mainImg.width / 2) * (mouseX - mainImg.width / 2) +
                             (mouseY - mainImg.height / 2) * (mouseY - mainImg.height / 2));
-        console.log(dis);
+        
         var base = (mainImg.width / 2 - dis) / mainImg.width;
         var xb = mainImg.width / 2 / Math.abs(mouseX - mainImg.width / 2),
             yb = mainImg.height / 2 / Math.abs(mouseY - mainImg.height / 2);
         
         mainParticles.map(function(particle){
-            particle.updateVecotr(base, xb, yb);
+            particle.updateVecotr(base);
         });
     };
 
