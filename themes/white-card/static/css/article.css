@@ -19,8 +19,10 @@ a {
   color: blue; }
 
 .dash-bar {
-  height: 500px;
-  background-color: #999; }
+  height: 280px;
+  /* background: { */
+  /*     color: $dash-bar-bg; */
+  /* } */ }
   .dash-bar canvas {
     height: 100%;
     width: 100%; }
