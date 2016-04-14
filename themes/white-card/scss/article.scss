@@ -5,6 +5,19 @@
 @import "./disqus.scss";
 @import "./footer.scss";
 
+
+@mixin clearfix() {
+    &:before,
+    &:after {
+        content: " "; // 1
+                      display: table; // 2
+    }
+    &:after {
+        clear: both;
+    }
+}
+
+
 html, body {
     background-color: #fff;
 }
@@ -144,7 +157,7 @@ a {
     .article { 
         max-width: 80%;
     }
-
+    
     #disqus_thread {
         max-width: 85%;
     }
@@ -155,19 +168,55 @@ a {
     .article { 
         max-width: 1080px;        
     }
-
+    
     #disqus_thread {
         max-width: 1020px;
     }
 }
 
+$footer-bg: rgba(139, 105, 86, 0.1);
 
-
-$footer-bg:rgba(139, 105, 86, 0.1);
-$footer-height: 10rem;
-
-
-#footer {
-    height: $footer-height;
+.footer {
+    @include clearfix;
+    padding: 3rem 0 0;
     background-color: $footer-bg;
+    
+    &--icon {
+        img {
+            width: 100px;
+            display: block;
+            margin: auto;
+        }
+    }
+    
+    &--txt {
+        text-align: center;
+    }
+    
+    &--links {
+        overflow: hidden;
+        ul {
+            width: 300px;
+            margin: 0 auto;
+            position: relative;
+            padding: 0;
+            display: flex;
+            
+            li {
+                padding: 0;
+                margin: 0;
+                display: inline-block;
+                flex: 1;
+                text-align: center;
+            }
+            
+            svg {
+                width: 30px;
+            }
+        }
+    }
+    
+    &--licence {
+        text-align: center;
+    }
 }
