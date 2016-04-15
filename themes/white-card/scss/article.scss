@@ -18,8 +18,8 @@
 }
 
 
-html, body {
-    background-color: #fff;
+html {
+    background-color: #3B3E43;
 }
 
 body {
@@ -196,11 +196,11 @@ $footer-bg: rgba(20, 25, 31, 0.9);
             margin: auto;
             border-radius: 50%;
             box-shadow: 3px 3px 20px #999;
-            transition: transform 2000ms cubic-bezier(0.215, 0.61, 0.355, 1);
+            transition: transform 2000ms cubic-bezier(0.215, 0.61, 0.355, 1), box-shadow 1200ms;
             
             &:hover {
                 transform: scale(1.1, 1.1) rotate(360deg);
-                box-shadow: 3px 3px 30px #eee;
+                box-shadow: 0px 0px 50px #fff;
             }
         }
     }
