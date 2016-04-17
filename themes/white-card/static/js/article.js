@@ -12,10 +12,10 @@
 
 (function(window, $){
 
-    var mainPicX, mainPicY;
-
+    var mainPicX, mainPicY, spriteImg, spriteImgWidth, spriteImgHeight;
+    
     var Particle = function(x, y, canvasHeight, canvasWidth, red, green, blue, 
-                            xd, yd){
+                            xd, yd, spriteIndex){
         this.originX = this.x = x;
         this.originY = this.y = y;
         
@@ -33,8 +33,11 @@
         this.xfd = xd < 0;
         this.yfd = yd < 0;
 
+        this.spriteIndex = spriteIndex;
 
         this.run = false;
+
+        this.size = 2;
         //this.vf = vf;
 
         // this.r = 0.92;
@@ -55,6 +58,19 @@
 
         this.x += this.vx;
         this.y += this.vy;
+
+        var dx = this.x - this.originX,
+            dy = this.y - this.originY;
+
+        var dis = Math.sqrt(Math.pow(dx, 2) + Math.pow(dy, 2)),
+            size = dis / 10;
+
+        if( size < 2 ){
+            this.size = 2;
+        } else {
+            this.size = size;
+        }
+
         
         if( this.reverseFlag ){
             if( this.xfd ){
@@ -82,24 +98,22 @@
                 } 
             } 
         } else {
-            var dx = this.x - this.originX,
-                dy = this.y - this.originY;
-
-            if( Math.pow(dx, 2) + Math.pow(dy, 2) > 1000000 ){ 
+            
+            if( dis > 1000 ){ 
                 this.reverse();
             }
         }
         
-        this.vx *= 0.999;
-        this.vy *= 0.999;
+        this.vx *= 0.995;
+        this.vy *= 0.995;
     };
 
     Particle.prototype.updateVecotr = function(base, xb, yb){
         this.run = true;
         this.toOrigin = false;
         if( !this.reverseFlag ){
-            this.vx = - this.xd * 0.05 * base;
-            this.vy = - this.yd * 0.05 * base;
+            this.vx = - this.xd * 0.05 * base * Math.random() * 3;
+            this.vy = - this.yd * 0.05 * base * Math.random() * 3;
         }
     };
 
@@ -115,11 +129,33 @@
     };
     
     Particle.prototype.render = function(ctx){
-        ctx.fillStyle = this.color;
-        //ctx.fillRect(this.x, this.y, 4, 4);
+        // var grd = ctx.createRadialGradient(this.x, this.y,
+        //                                    0,
+        //                                    this.x,
+        //                                    this.y,
+        //                                    this.size * 2);
+        // grd.addColorStop(0, this.color);
+        // grd.addColorStop(1, 'rgba(0, 0, 0, 0)');
+        
         ctx.beginPath();
-        ctx.arc(this.x, this.y, 4, 0, 2 * Math.PI, false);
-        ctx.fill();
+        ctx.fillStyle = this.color;
+        if( this.spriteIndex >=0 && this.size > 10 ){
+            ctx.drawImage(spriteImg,
+                          4,
+                          this.spriteIndex * spriteImgWidth + 4,
+                          spriteImgWidth - 8,
+                          spriteImgWidth - 8,
+                          this.x, this.y,
+                          this.size, this.size);
+        } else {
+            ctx.fillRect(this.x, this.y, this.size, this.size);
+        }
+
+        
+        
+        
+        // ctx.arc(this.x, this.y, this.size, 0, 2 * Math.PI, false);
+        // ctx.fill();
     };
     
     Particle.prototype.update = function(ctx){
@@ -134,7 +170,7 @@
         return Math.sqrt((x1 - x2) * (x1 - x2) + (y1 - y2) * (y1 - y2));
     };
     
-    var getCanvasData = function(canvas, imageRadius){
+    var getCanvasData = function(canvas, imageRadius, spriteImgN){
         var ctx = canvas.getContext('2d'),
             imageData = ctx.getImageData(0, 0, canvas.width, canvas.height),
             canvasHeight = canvas.height - 300,
@@ -158,7 +194,8 @@
                                      // calcDis(x, y, halfCanvasWidth, halfCanvasHeight) / imageRadius,
                                      
                                      x - halfCanvasWidth,
-                                     y - halfCanvasHeight)
+                                     y - halfCanvasHeight,
+                                     Math.floor(Math.random() * 2 * spriteImgN - spriteImgN))
                     );
                 }
             }
@@ -177,6 +214,13 @@
         
         var mainImg = document.getElementById('foyin-img');
 
+        spriteImg  = document.getElementById('sprite-img');
+        spriteImgHeight = spriteImg.height;
+        spriteImgWidth = spriteImg.width;
+        var spriteN = spriteImg.height / spriteImg.width;
+
+            
+        
         
         canvas.width = dashBar.offsetWidth;
         canvas.height = dashBar.offsetHeight + 300;
@@ -197,8 +241,8 @@
         mainPicX = canvas.width / 2,
         mainPicY = vCanvasHeight / 2;
         
-        var mainParticles = getCanvasData(canvas, mainImg.width / 2);
-
+        var mainParticles = getCanvasData(canvas, mainImg.width / 2, spriteN);
+        
         ctx.clearRect(0, 0, canvas.width, canvas.height);
 
         // var txtImg = document.getElementById('wing-img');
@@ -216,6 +260,8 @@
 
         var tick = function(dis){
             ctx.clearRect(0, 0, canvas.width, canvas.height);
+            //ctx.globalCompositeOperation = 'source-over';
+            //ctx.globalCompositeOperation = 'lighter';
             // txtParticles.map(function(particle){
             //     particle.update(ctx);
             // });
