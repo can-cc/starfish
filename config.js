@@ -6,6 +6,8 @@ export const ignoreNames = [
         '.git'
 ];
 
+export const BLOG_NAME = '陳放為的博客';
+
 export const TMPDIR = '/tmp';
 
 export const DEFAULT_PORT = '8080';
