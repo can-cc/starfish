@@ -1,73 +1,10 @@
-@import "./common.scss";
 @import "./variable.scss";
-
+@import "./common.scss";
 
 @import "./disqus.scss";
 @import "./footer.scss";
 
 
-@mixin clearfix() {
-    &:before,
-    &:after {
-        content: " "; // 1
-                      display: table; // 2
-    }
-    &:after {
-        clear: both;
-    }
-}
-
-
-html {
-    background-color: #3B3E43;
-}
-
-body {
-    background: {
-        image: url(/static/img/body-navy.jpg);
-    }
-}
-
-
-
-::-webkit-scrollbar {
-    display: none; 
-}
-
-a {
-    text-decoration: none;
-    color: $href-color;
-}
-
-.dash-bar {
-    height: $dash-bar-height;
-    /* background: { */
-    /*     color: $dash-bar-bg; */
-    /* } */
-    width: 100%;
-    position: relative;
-    z-index: 1;
-    
-    canvas {
-        height: $dash-bar-height + 300;
-        width: 100%;
-        position: relative;
-        z-index: 10;
-    }
-
-    div {
-        position: absolute;
-        top: 0;
-        left: 0;
-        z-index: 1;
-        height: 100%;
-        width: 100%;
-        overflow: hidden;
-        img {
-            height: 100%;
-        }
-    }
-}
 
 .article {
     position: relative;
@@ -202,70 +139,3 @@ a {
     }
 }
 
-$footer-bg: rgba(20, 25, 31, 0.9);
-
-.footer {
-    @include clearfix;
-    padding: 3rem 0 0;
-    background-color: $footer-bg;
-    
-    &--icon {
-        img {
-            width: 100px;
-            display: block;
-            margin: auto;
-            border-radius: 50%;
-            box-shadow: 3px 3px 20px #999;
-            transition: transform 2000ms cubic-bezier(0.215, 0.61, 0.355, 1), box-shadow 1200ms;
-            
-            &:hover {
-                transform: scale(1.1, 1.1) rotate(360deg);
-                box-shadow: 0px 0px 50px #fff;
-            }
-        }
-    }
-    
-    &--txt {
-        text-align: center;
-        margin-top: 2rem;
-        color: white;
-        font: {
-            size: 110%;
-            weight: 700;
-        }
-    }
-    
-    &--links {
-        overflow: hidden;
-        ul {
-            width: 300px;
-            margin: 1rem auto;
-            position: relative;
-            padding: 0;
-            display: flex;
-            
-            li {
-                padding: 0;
-                margin: 0;
-                display: inline-block;
-                flex: 1;
-                text-align: center;
-            }
-            
-            svg {
-                width: 30px;
-                fill: white;
-            }
-        }
-    }
-    
-    &--licence {
-        margin-top: 1rem;
-        text-align: center;
-        color: white;
-        font: {
-            size: 90%;
-            width: 300;
-        }
-    }
-}

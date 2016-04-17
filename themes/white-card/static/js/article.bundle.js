@@ -57,6 +57,10 @@
 	    });
 	};
 
+	var init = function init() {
+	    addPicLine();
+	};
+
 /***/ },
 /* 1 */
 /***/ function(module, exports, __webpack_require__) {

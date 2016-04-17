@@ -10,3 +10,9 @@ var addPicLine = () => {
         $(e).append('<span class="line"></span>');
     });
 };
+
+
+var init = () => {
+    addPicLine();
+};
+

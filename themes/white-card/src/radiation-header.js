@@ -4,6 +4,7 @@ let $ = require('jquery');
 
 var mainPicX, mainPicY, spriteImg, spriteImgWidth, spriteImgHeight;
 
+
 var Particle = function(x, y, canvasHeight, canvasWidth, red, green, blue, 
                         xd, yd, spriteIndex){
     this.originX = this.x = x;
