@@ -33,6 +33,8 @@
         this.xfd = xd < 0;
         this.yfd = yd < 0;
 
+
+        this.run = false;
         //this.vf = vf;
 
         // this.r = 0.92;
@@ -41,24 +43,45 @@
     };
 
     Particle.prototype.reverse = function(){
-        this.reverseFlag = true;
+        this.reverseFlag = !this.reverseFlag;
         this.vx = - this.vx;
         this.vy = - this.vy;
     };    
 
     Particle.prototype.move = function(){
+        if( !this.run ){
+            return;
+        }
+
         this.x += this.vx;
         this.y += this.vy;
-
+        
         if( this.reverseFlag ){
-            if( this.x > this.originX * this.xfd  ){
-                this.x = this.originX;
-                this.y = this.originY;
-                this.reverseFlag = false;
-                return;
+            if( this.xfd ){
+                if( this.x > this.originX  ){
+                    this.x = this.originX;
+                    this.y = this.originY;
+                    if( this.toOrigin ){
+                        this.run = false;
+                        return;
+                    }
+
+                    this.reverse();
+                    return;
+                } 
+            } else {
+                if( this.x < this.originX  ){
+                    this.x = this.originX;
+                    this.y = this.originY;
+                    if( this.toOrigin ){
+                        this.run = false;
+                        return;
+                    }
+                    this.reverse();
+                    return;
+                } 
             } 
         } else {
-            
             var dx = this.x - this.originX,
                 dy = this.y - this.originY;
 
@@ -69,20 +92,27 @@
         
         this.vx *= 0.999;
         this.vy *= 0.999;
-        
-        
     };
 
     Particle.prototype.updateVecotr = function(base, xb, yb){
+        this.run = true;
+        this.toOrigin = false;
         if( !this.reverseFlag ){
-            this.vx = this.xd * 0.05 * base;
-            this.vy = this.yd * 0.05 * base;
+            this.vx = - this.xd * 0.05 * base;
+            this.vy = - this.yd * 0.05 * base;
         }
-
-        
     };
 
+    Particle.prototype.updateVecotrToOrigin = function(){
+        this.toOrigin = true;
+        var dx = this.x - this.originX,
+            dy = this.y - this.originY;
 
+        this.reverseFlag = true;
+
+        this.vx = - dx * 0.1;
+        this.vy = - dy * 0.1;
+    };
     
     Particle.prototype.render = function(ctx){
         ctx.fillStyle = this.color;
@@ -107,10 +137,10 @@
     var getCanvasData = function(canvas, imageRadius){
         var ctx = canvas.getContext('2d'),
             imageData = ctx.getImageData(0, 0, canvas.width, canvas.height),
-            canvasHeight = canvas.height,
+            canvasHeight = canvas.height - 300,
             canvasWidht = canvas.width,
-            halfCanvasHeight = canvas.height / 2,
-            halfCanvasWidth = canvas.width / 2;
+            halfCanvasHeight = canvasHeight / 2,
+            halfCanvasWidth = canvasWidht / 2;
         
         var particles = [];
         var flag = 0;
@@ -146,25 +176,27 @@
         var dashBar = document.querySelector('.dash-bar');
         
         var mainImg = document.getElementById('foyin-img');
+
         
         canvas.width = dashBar.offsetWidth;
-        canvas.height = dashBar.offsetHeight;
+        canvas.height = dashBar.offsetHeight + 300;
+        var vCanvasHeight = canvas.height - 300; 
         
         ctx.drawImage(mainImg,
                       0, 0,
                       mainImg.width, mainImg.height,
                       canvas.width / 2 - mainImg.width / 2,
-                      canvas.height / 2 - mainImg.height / 2,                  
+                      vCanvasHeight  / 2 - mainImg.height / 2,                  
                       mainImg.width, mainImg.height);
 
         var mainPicX1 = canvas.width / 2 - mainImg.width / 2,
-        mainPicX2 = canvas.width / 2 + mainImg.width / 2,
-        mainPicY1 = canvas.height / 2 - mainImg.height / 2,
-        mainPicY2 = canvas.height / 2 + mainImg.height / 2;
+            mainPicX2 = canvas.width / 2 + mainImg.width / 2,
+            mainPicY1 = vCanvasHeight / 2 - mainImg.height / 2,
+            mainPicY2 = vCanvasHeight / 2 + mainImg.height / 2;
         
         mainPicX = canvas.width / 2,
-        mainPicY = canvas.height / 2;
-
+        mainPicY = vCanvasHeight / 2;
+        
         var mainParticles = getCanvasData(canvas, mainImg.width / 2);
 
         ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -183,8 +215,6 @@
         var run = false;
 
         var tick = function(dis){
-
-            console.log('t');
             ctx.clearRect(0, 0, canvas.width, canvas.height);
             // txtParticles.map(function(particle){
             //     particle.update(ctx);
@@ -200,19 +230,25 @@
                                 (mouseY - mainImg.height / 2) * (mouseY - mainImg.height / 2));
             
             var base = (mainImg.width / 2 - dis) / mainImg.width;
+            
             var xb = mainImg.width / 2 / Math.abs(mouseX - mainImg.width / 2),
-            yb = mainImg.height / 2 / Math.abs(mouseY - mainImg.height / 2);
+                yb = mainImg.height / 2 / Math.abs(mouseY - mainImg.height / 2);
             
             mainParticles.map(function(particle){
                 particle.updateVecotr(base);
             });
         };
 
-        var x;
+        var x, stoptimer;
         var start = function(){
             if( x ){
                 return;
             }
+
+            if( stoptimer ){
+                clearTimeout(stoptimer);
+            }
+
             x = true;
             run = true;
             frame();
@@ -223,24 +259,35 @@
             if( !run ){
                 return;
             }
-            console.log('f');
+
             tick();
             requestAnimationFrame(frame);
         };
         
         var stop = function(){
-            console.log('stop');
-            run = false;
+            
+
+            mainParticles.map(function(particle){
+                particle.updateVecotrToOrigin();
+            });
+
+            if( stoptimer ){
+                return;
+            }
+
+            stoptimer = setTimeout(function(){
+                run = false;
+                x = false;
+                stoptimer = null;
+            }, 2000);
         };
 
         canvas.addEventListener('mouseout', function(){
-            //stop();
             stop();
         });
         
         window.addEventListener('blur', function(){
-            //stop();
-            console.log('window blur');
+            stop();
         });
         
         canvas.addEventListener('mousemove', function(e) {

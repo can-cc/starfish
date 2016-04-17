@@ -44,14 +44,34 @@ a {
     /* background: { */
     /*     color: $dash-bar-bg; */
     /* } */
-
+    width: 100%;
+    position: relative;
+    z-index: 1;
+    
     canvas {
+        height: $dash-bar-height + 300;
+        width: 100%;
+        position: relative;
+        z-index: 10;
+    }
+
+    div {
+        position: absolute;
+        top: 0;
+        left: 0;
+        z-index: 1;
         height: 100%;
         width: 100%;
+        overflow: hidden;
+        img {
+            height: 100%;
+        }
     }
 }
 
 .article {
+    position: relative;
+    z-index: 10;
     display: block;
     min-width: 320px;
     max-width: 400px;

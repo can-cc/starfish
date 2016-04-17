@@ -22,15 +22,32 @@ a {
   color: blue; }
 
 .dash-bar {
-  height: 280px;
+  height: 320px;
   /* background: { */
   /*     color: $dash-bar-bg; */
-  /* } */ }
+  /* } */
+  width: 100%;
+  position: relative;
+  z-index: 1; }
   .dash-bar canvas {
+    height: 620px;
+    width: 100%;
+    position: relative;
+    z-index: 10; }
+  .dash-bar div {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1;
     height: 100%;
-    width: 100%; }
+    width: 100%;
+    overflow: hidden; }
+    .dash-bar div img {
+      height: 100%; }
 
 .article {
+  position: relative;
+  z-index: 10;
   display: block;
   min-width: 320px;
   max-width: 400px;
