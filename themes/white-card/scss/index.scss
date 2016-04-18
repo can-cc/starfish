@@ -5,6 +5,11 @@
 
 $article-bg: white;
 
+.main {
+    width: 960px;
+    margin: auto auto;
+}
+
 .article-list {
     .article {
         background-color: $article-bg;
