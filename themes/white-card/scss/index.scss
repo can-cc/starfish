@@ -3,3 +3,10 @@
 @import './common.scss';
 
 
+$article-bg: white;
+
+.article-list {
+    .article {
+        background-color: $article-bg;
+    }
+}

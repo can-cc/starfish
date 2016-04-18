@@ -13,7 +13,7 @@
     
   </head>
   <body>
-
+    
     <div class="dash-bar">
       <img id="foyin-img" src="/static/img/foyin.png" style="display: none;"/>
       <img id="wing-img" src="/static/img/wing.png" style="display: none;"/>
@@ -23,10 +23,18 @@
         <img alt="" src="/static/img/dash-bg.jpg"/>
       </div>
     </div>
-    
-    <% articles.forEach(function(article){ %>
-    <h5><a href='/<%- article.outputfilename %>'><%= article.title %></a></h5>
-    <% }); %>
+
+    <div class="main">
+      <div class="article-list">
+        <% articles.forEach(function(article){ %>
+        <div class="article">
+          <h5><a href='/<%- article.outputfilename %>'><%= article.title %></a></h5>
+        </div>
+        <% }); %>        
+      </div>
+
+    </div>
+        
     
     
     <script src="/static/js/index.bundle.js"></script>
