@@ -43,7 +43,9 @@ html, body, div {
 
 .main {
   width: 960px;
-  margin: auto auto; }
+  margin: auto auto;
+  position: relative;
+  z-index: 100; }
 
 .article-list .article {
   background-color: white; }
