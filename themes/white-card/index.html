@@ -29,7 +29,7 @@
                 <% articles.forEach(function(article){ %>
                 <div class="article">
                     <h5 class="article--title"><a href='/<%- article.outputfilename %>'><%= article.title %></a></h5>
-                    <p class="article--create-date"><%- article.dateInfo.create %></p>
+                    <p class="article--create-date"><%- article.showTime %></p>
                     <div class="article--content-part"><%= article.contentPart  %></div>
                 </div>
                 <% }); %>        

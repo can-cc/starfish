@@ -25,3 +25,7 @@ export const ARTICLE_SUMMARY_CHAR_NUMBER = 200;
 export const SORT_ARTICLE_BY = 'create';
 
 export const SERVER_WATCH_IGNORE = ['.*'];
+
+export const DEPLOY = {
+    rep: 'git@github.com:AbyChan/experience.git'
+};

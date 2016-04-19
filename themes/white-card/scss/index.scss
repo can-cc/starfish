@@ -5,11 +5,11 @@
 
 $article-bg: white;
 
-$main-bg: #999;
+$main-bg: rgba(0, 72, 131, 0.5);
 
 $paging-number-size: 30px;
 $paging-number-bg: white;
-$paging-number-active-bg: #999;
+$paging-number-active-bg: #ee5b33;
 
 .main {
     width: 960px;
@@ -19,6 +19,7 @@ $paging-number-active-bg: #999;
     z-index: 100;
 
     background-color: $main-bg;
+    box-shadow: 0px 0px 100px $main-bg;
 
     border-radius: 2px;
     padding: 12px 18px;
@@ -47,13 +48,12 @@ $paging-number-active-bg: #999;
     text-align: center;
     
     &--number {
-        
         display: inline-block;
         text-align: center;
         height: $paging-number-size;
         width: $paging-number-size;
         line-height: $paging-number-size;
-        border: 1px solid black;
+        box-shadow: 0px 0px 10px $paging-number-bg;
         background: {
             color: $paging-number-bg;
         }
@@ -62,6 +62,7 @@ $paging-number-active-bg: #999;
             background: {
                 color: $paging-number-active-bg;
             }
+            box-shadow: 0px 0px 10px $paging-number-active-bg;
         }
     }
 }
