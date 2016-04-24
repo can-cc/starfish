@@ -16,3 +16,8 @@ var init = () => {
     addPicLine();
 };
 
+$(document).ready(function(){
+    init();
+});
+
+

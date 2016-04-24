@@ -61,6 +61,10 @@
 	    addPicLine();
 	};
 
+	$(document).ready(function () {
+	    init();
+	});
+
 /***/ },
 /* 1 */
 /***/ function(module, exports, __webpack_require__) {
