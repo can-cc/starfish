@@ -23,6 +23,7 @@
     "ejs": "^2.4.1",
     "express": "^4.13.4",
     "fs-extra": "^0.26.5",
+    "fs-watch-tree": "^0.2.5",
     "fw-ramda": "^0.1.1",
     "html-to-text": "^2.1.0",
     "http-server": "^0.9.0",
