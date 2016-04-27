@@ -1,5 +1,24 @@
 * Wing
 
+* Target
+ 成为像 Hexo 一样的静态博客生成系统，目前还在开发中。
+
+* Usage
+** new 
+#+begin_src sh
+wing new <name>
+#+end_src
+
+** render
+#+begin_src sh
+wing render [blog-path]
+#+end_src
+
+** serve
+#+begin_src sh
+wing serve [blog-path]
+#+end_src
+
 
 ** TODO:
 *** bug:
