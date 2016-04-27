@@ -163,11 +163,11 @@ var calcDis = function(x1, y1, x2, y2) {
 
 var getCanvasData = function(canvas, imageRadius, spriteImgN){
     var ctx = canvas.getContext('2d'),
-    imageData = ctx.getImageData(0, 0, canvas.width, canvas.height),
-    canvasHeight = canvas.height - 300,
-    canvasWidht = canvas.width,
-    halfCanvasHeight = canvasHeight / 2,
-    halfCanvasWidth = canvasWidht / 2;
+        imageData = ctx.getImageData(0, 0, canvas.width, canvas.height),
+        canvasHeight = canvas.height - 300,
+        canvasWidht = canvas.width,
+        halfCanvasHeight = canvasHeight / 2,
+        halfCanvasWidth = canvasWidht / 2;
     
     var particles = [];
     var flag = 0;
