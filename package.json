@@ -17,7 +17,9 @@
   },
   "homepage": "https://github.com/A-Horse/Wing#readme",
   "dependencies": {
+    "async": "^2.0.0-rc.3",
     "bluebird": "^3.3.5",
+    "cheerio": "^0.20.0",
     "cross-spawn": "^2.2.3",
     "dateformat": "^1.0.12",
     "ejs": "^2.4.1",

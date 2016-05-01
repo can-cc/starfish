@@ -127,9 +127,7 @@ html, body, div {
     padding: 2rem; }
     .slide-bar .avator img {
       width: 100%;
-      border-radius: 50%;
-      -webkit-filter: blur(1px);
-              filter: blur(1px); }
+      border-radius: 50%; }
   .slide-bar .author-name {
     text-align: center; }
 
