@@ -1,0 +1,68 @@
+@import "./variable.scss";
+
+@import './common.scss';
+@import './footer.scss';
+
+$article-bg: white;
+
+$main-bg: rgba(0, 72, 131, 0.5);
+
+$paging-number-size: 30px;
+$paging-number-bg: white;
+$paging-number-active-bg: #ee5b33;
+
+.main {
+    width: 960px;
+    
+    margin: 18px auto;
+    position: relative;
+    z-index: 100;
+
+    background-color: $main-bg;
+    box-shadow: 0px 0px 100px $main-bg;
+
+    border-radius: 2px;
+    padding: 12px 18px;
+
+}
+
+.article-list {
+
+    .article {
+        background-color: $article-bg;
+        padding: 8px;
+        margin-bottom: 10px;
+
+        &:last-child {
+            margin-bottom: auto; 
+        }
+    }
+}
+
+.paging {
+    @include clearfix;
+    list-style: none;
+    position: relative;
+    padding: 0;
+    margin: 5px auto 15px;
+    text-align: center;
+    
+    &--number {
+        display: inline-block;
+        text-align: center;
+        height: $paging-number-size;
+        width: $paging-number-size;
+        line-height: $paging-number-size;
+        box-shadow: 0px 0px 10px $paging-number-bg;
+        background: {
+            color: $paging-number-bg;
+        }
+
+        &.active {
+            background: {
+                color: $paging-number-active-bg;
+            }
+            box-shadow: 0px 0px 10px $paging-number-active-bg;
+        }
+    }
+}
