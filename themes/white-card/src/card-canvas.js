@@ -18,6 +18,12 @@ window.addEventListener('load', function(){
         rotation = 270 * (Math.PI / 180),
         speed = 6;
 
+    let bigCardHeight = document.querySelector('.articles').offsetHeight,
+        lastOffsetTop = canvas.parentElement.parentElement.offsetTop;
+    
+
+    let [centerX, centerY] = [canvas.width / 2, (bigCardHeight - lastOffsetTop) / 2];
+
 
     let updateLoader = function(){
         rotation += speed / 100;									
@@ -26,7 +32,7 @@ window.addEventListener('load', function(){
     let renderLoader = function(){							
         ctx.save();
         ctx.globalCompositeOperation = 'source-over';
-        ctx.translate(canvas.width / 2, 250);
+        ctx.translate(centerX, centerY);
         ctx.rotate(rotation);	
         var i = count;
         while(i--){								
@@ -41,7 +47,7 @@ window.addEventListener('load', function(){
         requestAnimationFrame(canvasLoop, canvas);			
         ctx.globalCompositeOperation = 'destination-out';
         ctx.fillStyle = 'rgba(0, 0, 0, 0.03)';
-        ctx.fillRect((canvas.width - 250) / 2, 125, 250, 375);
+        ctx.fillRect(centerX - 125, centerY - 125, centerX + 125, centerY + 125);
         updateLoader();
         renderLoader();
     };
