@@ -1,0 +1,41 @@
+/* org */
+html {
+  background-color: #3B3E43; }
+
+body {
+  background-image: url(/static/img/body-navy.jpg); }
+
+::-webkit-scrollbar {
+  display: none; }
+
+a {
+  text-decoration: none;
+  color: #0974ae; }
+
+.dash-bar {
+  height: 320px;
+  /* background: { */
+  /*     color: $dash-bar-bg; */
+  /* } */
+  width: 100%;
+  position: relative;
+  z-index: 1; }
+  .dash-bar canvas {
+    height: 620px;
+    width: 100%;
+    position: relative;
+    z-index: 10; }
+  .dash-bar div {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1;
+    height: 100%;
+    width: 100%;
+    overflow: hidden; }
+    .dash-bar div img {
+      height: 100%; }
+
+html, body, div {
+  padding: 0;
+  margin: 0; }

@@ -6,7 +6,7 @@ export const ignoreNames = [
     '.git'
 ];
 
-export const BLOG_NAME = '陳放為的博客';
+export const BLOG_NAME = 'BlOG';
 
 export const TMPDIR = '/tmp';
 
@@ -29,3 +29,7 @@ export const SERVER_WATCH_IGNORE = ['.*'];
 export const DEPLOY = {
     rep: 'git@github.com:AbyChan/experience.git'
 };
+
+export const DEFAULT_ROOT_ASSERT = '@root-assert';
+
+export const DEFAULT_CONFIG_FILE = 'config.yaml';

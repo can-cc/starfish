@@ -6,12 +6,49 @@
 
 
 
+.main {
+    @include clearfix;
+    position: relative;
+    max-width: 1420px;
+    margin: 0 auto;
+    
+    .slide-bar, .article {
+        position: relative;
+        display: inline-block;
+        float: left;
+    }
+
+    
+}
+
+.slide-bar {
+    background: {
+        color: white;
+    }
+    width: 20%;
+    height: 100%;
+    margin-top: 50px;
+    border-radius: 3px;
+    .avator {
+        padding: 2rem;
+        img {
+            width: 100%;
+            border: {
+                radius: 50%;
+            }
+        }
+    }
+
+    .author-name {
+        text-align: center;
+    }
+}
+
+
 .article {
     position: relative;
     z-index: 10;
-    display: block;
-    min-width: 320px;
-    max-width: 400px;
+    width: 75%;
     background-color: white;
     box-sizing: border-box;
     padding: 1.5rem 1rem 2rem;
@@ -19,7 +56,7 @@
     border-radius: 3px;
     margin: {
         top: 50px;
-        left: auto;
+        left: 5%;
         right: auto;
         bottom: 4rem;
     }
@@ -116,31 +153,3 @@
     }
        
 }
-
-#disqus_thread {
-    min-width: 320px;
-    max-width: 400px;
-    margin: 2rem auto;
-}
-
-@media (min-width: 768px) {
-    .article { 
-        max-width: 80%;
-    }
-    
-    #disqus_thread {
-        max-width: 85%;
-    }
-}
-
-
-@media (min-width: 1080px) {
-    .article { 
-        max-width: 1080px;        
-    }
-    
-    #disqus_thread {
-        max-width: 1020px;
-    }
-}
-

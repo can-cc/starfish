@@ -1,0 +1,11 @@
+
+$disqus-padding: 32px 20px;
+$disqus-bg: rgba(236, 223, 191, 0.1);
+
+#disqus_thread {
+    //border: 1px solid #bebebe;
+    padding: $disqus-padding;
+    border-radius: 3px;
+    background-color: $disqus-bg; 
+}
+

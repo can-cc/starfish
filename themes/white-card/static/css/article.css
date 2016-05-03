@@ -35,7 +35,9 @@ a {
     width: 100%;
     overflow: hidden; }
     .dash-bar div img {
-      height: 100%; }
+      height: 100%;
+      display: block;
+      margin: 0 auto; }
 
 html, body, div {
   padding: 0;
@@ -101,18 +103,44 @@ html, body, div {
     font-size: 90%;
     font-width: 300; }
 
+.main {
+  position: relative;
+  max-width: 1420px;
+  margin: 0 auto; }
+  .main:before, .main:after {
+    content: " ";
+    display: table; }
+  .main:after {
+    clear: both; }
+  .main .slide-bar, .main .article {
+    position: relative;
+    display: inline-block;
+    float: left; }
+
+.slide-bar {
+  background-color: white;
+  width: 20%;
+  height: 100%;
+  margin-top: 50px;
+  border-radius: 3px; }
+  .slide-bar .avator {
+    padding: 2rem; }
+    .slide-bar .avator img {
+      width: 100%;
+      border-radius: 50%; }
+  .slide-bar .author-name {
+    text-align: center; }
+
 .article {
   position: relative;
   z-index: 10;
-  display: block;
-  min-width: 320px;
-  max-width: 400px;
+  width: 75%;
   background-color: white;
   box-sizing: border-box;
   padding: 1.5rem 1rem 2rem;
   border-radius: 3px;
   margin-top: 50px;
-  margin-left: auto;
+  margin-left: 5%;
   margin-right: auto;
   margin-bottom: 4rem;
   box-shadow: 0px 0px 60px #bebebe; }
@@ -164,20 +192,3 @@ html, body, div {
       width: 19.8px; }
   .article.org .section-number {
     margin-right: 10px; }
-
-#disqus_thread {
-  min-width: 320px;
-  max-width: 400px;
-  margin: 2rem auto; }
-
-@media (min-width: 768px) {
-  .article {
-    max-width: 80%; }
-  #disqus_thread {
-    max-width: 85%; } }
-
-@media (min-width: 1080px) {
-  .article {
-    max-width: 1080px; }
-  #disqus_thread {
-    max-width: 1020px; } }
