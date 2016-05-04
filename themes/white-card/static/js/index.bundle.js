@@ -77,10 +77,11 @@
 	        $('.article-wrapper').map(function () {
 	            var ee = $(this);
 	            ee.css('top', ee.data('top'));
-
+	            //ee.find('.article').css('overflow', 'hidden');
+	            ee[0].scrollTop = 0;
 	            setTimeout(function () {
 	                ee.removeClass('blur');
-	            }, 300);
+	            }, 1000);
 	        });
 
 	        setTimeout(function () {
@@ -93,12 +94,14 @@
 	        setTimeout(function () {
 	            e.removeClass('c');
 
-	            $('.article-wrapper').map(function () {
-	                var ee = $(this);
-	                if (ee[0] !== e[0]) {
-	                    ee.addClass('blur');
-	                }
-	            });
+	            setTimeout(function () {
+	                $('.article-wrapper').map(function () {
+	                    var ee = $(this);
+	                    if (ee[0] !== e[0]) {
+	                        ee.addClass('blur');
+	                    }
+	                });
+	            }, 700);
 	        }, 500);
 	    }
 	});
@@ -11149,7 +11152,7 @@
 	        lastOffsetTop = canvas.parentElement.parentElement.offsetTop;
 
 	    var centerX = canvas.width / 2;
-	    var centerY = (bigCardHeight - lastOffsetTop) / 2;
+	    var centerY = canvas.height / 2;
 
 
 	    var updateLoader = function updateLoader() {

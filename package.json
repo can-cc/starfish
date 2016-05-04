@@ -1,5 +1,5 @@
 {
-  "name": "wing",
+  "name": "nobb",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -23,7 +23,7 @@
     "cross-spawn": "^2.2.3",
     "dateformat": "^1.0.12",
     "ejs": "^2.4.1",
-    "express": "^4.13.4",
+      "express": "^4.13.4",
     "fs-extra": "^0.26.5",
     "fs-watch-tree": "^0.2.5",
     "fw-ramda": "^0.1.1",

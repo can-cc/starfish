@@ -192,7 +192,7 @@ nav {
   left: 50%;
   margin-left: -620px;
   width: 1240px;
-  border-radius: 0.5rem;
+  border-radius: 0.1rem;
   box-sizing: border-box;
   background-color: #eaeae7;
   box-shadow: 6px 3px 0 #a33e24; }
@@ -217,10 +217,21 @@ nav {
             filter: blur(3px); }
     .article-wrapper.blur .article {
       box-shadow: none; }
-  .article-wrapper.active .article {
-    box-shadow: 0 0 20px black; }
-    .article-wrapper.active .article:before, .article-wrapper.active .article:after {
-      display: none; }
+  .article-wrapper.active {
+    z-index: 150; }
+    .article-wrapper.active .article {
+      box-shadow: 0 0 20px black; }
+      .article-wrapper.active .article:before, .article-wrapper.active .article:after {
+        display: none; }
+  .article-wrapper.cover {
+    will-change: transform;
+    -webkit-transform: translateZ(0);
+            transform: translateZ(0); }
+    .article-wrapper.cover .article {
+      background-image: url(/static/img/fish.jpg);
+      background-size: cover;
+      background-repeat: no-repeat;
+      background-position: center center; }
 
 .articles {
   -webkit-backface-visibility: hidden;

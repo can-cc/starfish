@@ -21,8 +21,8 @@ window.addEventListener('load', function(){
     let bigCardHeight = document.querySelector('.articles').offsetHeight,
         lastOffsetTop = canvas.parentElement.parentElement.offsetTop;
     
-
-    let [centerX, centerY] = [canvas.width / 2, (bigCardHeight - lastOffsetTop) / 2];
+    
+    let [centerX, centerY] = [canvas.width / 2, canvas.height / 2];
 
 
     let updateLoader = function(){

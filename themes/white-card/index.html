@@ -48,6 +48,7 @@
           
           <!-- articles -->
           <div class="articles">
+
             <% articles.forEach(function(article, i){ %>
             <div class="article-wrapper" style="top: <%= i * 2.5 %>rem" data-top="<%= i  * 2.5 %>rem">
             <div class="article" >
@@ -57,11 +58,12 @@
             </div>
             </div>
           <% }); %>     
-          <div class="article-wrapper"  style="top: <%= articles.length * 2.5 %>rem" data-top="<%= articles.length  * 2.5 %>rem">
+          <div class="article-wrapper cover"  style="top: <%= articles.length * 2.5 %>rem" data-top="<%= articles.length  * 2.5 %>rem">
             <div class="article">
               <canvas id="article-canvas"></canvas>
             </div>
           </div>
+          
             <!-- <ul class="paging"> -->
             <!--   <% for(var i = 0; i < pageN; i++) { %> -->
             <!--      <% var href = i === 0 ? '/' : '/page/' + i %> -->

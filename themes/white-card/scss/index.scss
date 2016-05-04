@@ -128,7 +128,7 @@ $main-bg: #eaeae7;
     left: 50%;
     margin-left: -620px;
     width: 1240px;
-    border-radius: 0.5rem;
+    border-radius: 0.1rem;
     box-sizing: border-box;
     background: {
         color: $main-bg;
@@ -160,6 +160,7 @@ $main-bg: #eaeae7;
     }
 
     &.active {
+        z-index: 150;
         .article {
             box-shadow: 0 0 20px black;
             &:before, &:after {
@@ -167,7 +168,21 @@ $main-bg: #eaeae7;
             }
         }
     }
+
+    &.cover {
+        will-change: transform;
+        transform: translateZ(0);
+        .article {
+            background: {
+                image: url(/static/img/fish.jpg);
+                size: cover;
+                repeat: no-repeat;
+                position: center center;
+            }
+        }
+    }
 }
+
 
 .articles {
     @include clearfix;
