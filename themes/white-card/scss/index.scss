@@ -13,7 +13,7 @@ $paging-number-size: 30px;
 $paging-number-bg: white;
 $paging-number-active-bg: #ee5b33;
 
-$header-height: 10rem;
+$header-height: 0rem;
 $footer-height: 2rem;
 
 html, body {
@@ -24,7 +24,7 @@ html, body {
     font-family: YueSong;
     src: url('/static/font/yuesong.TTF');
 }
-
+3
 
 header {
     position: absolute;
@@ -99,7 +99,7 @@ nav {
 
 .main {
     position: absolute;
-    padding: ($header-height + 1rem) 0 ($footer-height + 1rem);
+    padding: 2.5rem 3rem 2rem;
     height: 100%;
     width: 100%;
     top: 0;
@@ -112,28 +112,28 @@ nav {
 .paper-clip {
     position: absolute;
     width: 100px;
-    top: 6rem;
+    top: -2rem;
     left: 30%;
     margin-left: -50px;
     z-index: 1260;
 }
 
-$main-bg: #eaeae7;
+$main-bg: #8e3c32;
 
 .main-wrapper {
+    
     height: 100%;
     overflow: hidden;
     position: relative;
     top: 0;
-    left: 50%;
-    margin-left: -620px;
-    width: 1240px;
+    margin: auto;
+    width: 80%;
     border-radius: 0.1rem;
     box-sizing: border-box;
     background: {
         color: $main-bg;
     }
-    box-shadow: 6px 3px 0 #a33e24;
+    border: 5px solid #662a24;
 }
 
 .article-wrapper {
@@ -144,7 +144,7 @@ $main-bg: #eaeae7;
     transform: translate(0, 0);
     transition: all 700ms;
     padding: 0 1rem;
-    backface-visibility: hidden;
+
 
     &.c {
         transform: translate(0, -100%);
@@ -170,8 +170,7 @@ $main-bg: #eaeae7;
     }
 
     &.cover {
-        will-change: transform;
-        transform: translateZ(0);
+        height: 80%;
         .article {
             background: {
                 image: url(/static/img/fish.jpg);
@@ -186,7 +185,6 @@ $main-bg: #eaeae7;
 
 .articles {
     @include clearfix;
-    backface-visibility: hidden;
     width: 70%;
     display: inline-block;
     position: relative;
@@ -259,13 +257,29 @@ $main-bg: #eaeae7;
     float: left;
 
     .avator {
-        
+        margin-top: 3rem;
         box-sizing: border-box;
 
         img {
             width: 80%;
             display: block;
             margin: 0 auto;
+        }
+    }
+
+    li {
+        margin-top: 5px;
+        display: block;
+        
+
+        a {
+            display: inline-block;
+            background-color: white;
+
+            &:after {
+                content: '';
+                
+            }
         }
     }
 }

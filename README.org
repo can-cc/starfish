@@ -6,6 +6,7 @@
 
 * Usage
 ** new 
+创建一个目录，用来放置博客，此为博客根目录，亦可自己创建，文章可以用 markdown 或者 org， 再或者其他 plugin，文章建议分类放置，即是放在各个文件夹里面，
 #+begin_src sh
 wing new <name>
 #+end_src

@@ -24,21 +24,21 @@
       <!--       </div> -->
       <!--   </div> -->
 
-      <header>
+      <!-- <header> -->
         
-        <div class="header-text">
-          <img alt="" src="/static/img/dash-raw.png"/>
-          <h1 class="title"><%= title %></h1>
-        </div>
+      <!--   <div class="header-text"> -->
+      <!--     <img alt="" src="/static/img/dash-raw.png"/> -->
+      <!--     <h1 class="title"><%= title %></h1> -->
+      <!--   </div> -->
         
-        <nav>
-          <ul>
-            <li><a href="/">主页</a></li>
-            <li><a href="/allarticle.html">所有文章</a></li>
-            <li><input type="text"><span>搜索</span></li>
-          </ul>
-        </nav>
-      </header>
+      <!--   <nav> -->
+      <!--     <ul> -->
+      <!--       <li><a href="/">主页</a></li> -->
+      <!--       <li><a href="/allarticle.html">所有文章</a></li> -->
+      <!--       <li><input type="text"><span>搜索</span></li> -->
+      <!--     </ul> -->
+      <!--   </nav> -->
+      <!-- </header> -->
 
       
       <img alt="" class="paper-clip" src="static/img/clip.png"/>
@@ -83,7 +83,17 @@
             <div class="avator">
               <img alt="" src="/static/image/avator.png"/>
             </div>
-            
+
+            <ul>
+              
+              <% categorys.forEach(function(category, i){ %>
+              <li>
+                <a href="<%= category.indexUrl %>"><%= category.name %></a>
+              </li>
+                <% }); %>     
+              
+              
+            </ul>
             
           </div>
         
@@ -92,10 +102,10 @@
         
 
         
-        <footer>
+      <!-- <footer> -->
 
           
-        </footer>
+      <!--   </footer> -->
         
 
         
