@@ -24,21 +24,21 @@
       <!--       </div> -->
       <!--   </div> -->
 
-      <header>
+      <!-- <header> -->
         
-        <div class="header-text">
-          <img alt="" src="/static/img/dash-raw.png"/>
-          <h1 class="title"><%= title %></h1>
-        </div>
+      <!--   <div class="header-text"> -->
+      <!--     <img alt="" src="/static/img/dash-raw.png"/> -->
+      <!--     <h1 class="title"><%= title %></h1> -->
+      <!--   </div> -->
         
-        <nav>
-          <ul>
-            <li><a href="/">主页</a></li>
-            <li><a href="/allarticle.html">所有文章</a></li>
-            <li><input type="text"><span>搜索</span></li>
-          </ul>
-        </nav>
-      </header>
+      <!--   <nav> -->
+      <!--     <ul> -->
+      <!--       <li><a href="/">主页</a></li> -->
+      <!--       <li><a href="/allarticle.html">所有文章</a></li> -->
+      <!--       <li><input type="text"><span>搜索</span></li> -->
+      <!--     </ul> -->
+      <!--   </nav> -->
+      <!-- </header> -->
 
       
       <img alt="" class="paper-clip" src="static/img/clip.png"/>
@@ -48,6 +48,7 @@
           
           <!-- articles -->
           <div class="articles">
+
             <% articles.forEach(function(article, i){ %>
             <div class="article-wrapper" style="top: <%= i * 2.5 %>rem" data-top="<%= i  * 2.5 %>rem">
             <div class="article" >
@@ -57,11 +58,12 @@
             </div>
             </div>
           <% }); %>     
-          <div class="article-wrapper"  style="top: <%= articles.length * 2.5 %>rem" data-top="<%= articles.length  * 2.5 %>rem">
+          <div class="article-wrapper cover"  style="top: <%= articles.length * 2.5 %>rem" data-top="<%= articles.length  * 2.5 %>rem">
             <div class="article">
               <canvas id="article-canvas"></canvas>
             </div>
           </div>
+          
             <!-- <ul class="paging"> -->
             <!--   <% for(var i = 0; i < pageN; i++) { %> -->
             <!--      <% var href = i === 0 ? '/' : '/page/' + i %> -->
@@ -81,7 +83,17 @@
             <div class="avator">
               <img alt="" src="/static/image/avator.png"/>
             </div>
-            
+
+            <ul>
+              
+              <% categorys.forEach(function(category, i){ %>
+              <li>
+                <a href="<%= category.indexUrl %>"><%= category.name %></a>
+              </li>
+                <% }); %>     
+              
+              
+            </ul>
             
           </div>
         
@@ -90,10 +102,10 @@
         
 
         
-        <footer>
+      <!-- <footer> -->
 
           
-        </footer>
+      <!--   </footer> -->
         
 
         
