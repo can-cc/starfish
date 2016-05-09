@@ -1,0 +1,120 @@
+0 info it worked if it ends with ok
+1 verbose cli [ '/Users/soul/.nvm/versions/node/v5.3.0/bin/node',
+1 verbose cli   '/Users/soul/.nvm/versions/node/v5.3.0/bin/npm',
+1 verbose cli   'update',
+1 verbose cli   'nobbb-parse-md' ]
+2 info using npm@3.7.1
+3 info using node@v5.3.0
+4 info outdated updating [ { dep:
+4 info outdated      Link {
+4 info outdated        id: 340,
+4 info outdated        path: '/Users/soul/PROJECT/Wing/node_modules/nobbb-parse-md',
+4 info outdated        realpath: '/Users/soul/PROJECT/nobbb-parse-md',
+4 info outdated        package: [Object],
+4 info outdated        parent: [Object],
+4 info outdated        target: [Object],
+4 info outdated        isLink: true,
+4 info outdated        children: [Object],
+4 info outdated        error: null,
+4 info outdated        loaded: false,
+4 info outdated        requiredBy: [Object],
+4 info outdated        requires: [Object],
+4 info outdated        missingDeps: {},
+4 info outdated        missingDevDeps: {},
+4 info outdated        userRequired: false,
+4 info outdated        existing: false },
+4 info outdated     depname: 'nobbb-parse-md',
+4 info outdated     current: '1.0.7',
+4 info outdated     wanted: 'linked',
+4 info outdated     latest: 'linked',
+4 info outdated     req: '^1.0.1',
+4 info outdated     what: 'nobbb-parse-md@linked' } ]
+5 silly loadCurrentTree Starting
+6 silly install loadCurrentTree
+7 silly install readLocalPackageData
+8 silly fetchPackageMetaData nobbb-parse-md@linked
+9 silly fetchNamedPackageData nobbb-parse-md
+10 silly mapToRegistry name nobbb-parse-md
+11 silly mapToRegistry using default registry
+12 silly mapToRegistry registry https://registry.npmjs.org/
+13 silly mapToRegistry uri https://registry.npmjs.org/nobbb-parse-md
+14 verbose request uri https://registry.npmjs.org/nobbb-parse-md
+15 verbose request no auth needed
+16 info attempt registry request try #1 at 22:03:15
+17 verbose request using bearer token for auth
+18 verbose request id 79c1141a6304cab8
+19 http request GET https://registry.npmjs.org/nobbb-parse-md
+20 http 200 https://registry.npmjs.org/nobbb-parse-md
+21 verbose headers { server: 'CouchDB/1.5.0 (Erlang OTP/R16B03)',
+21 verbose headers   etag: '"DM4YHQ8D0FQHSXXQ0VWPMXH5X"',
+21 verbose headers   'content-type': 'application/json',
+21 verbose headers   'content-encoding': 'gzip',
+21 verbose headers   'cache-control': 'max-age=300',
+21 verbose headers   'transfer-encoding': 'chunked',
+21 verbose headers   'accept-ranges': 'bytes',
+21 verbose headers   date: 'Mon, 09 May 2016 14:03:17 GMT',
+21 verbose headers   via: '1.1 varnish',
+21 verbose headers   connection: 'keep-alive',
+21 verbose headers   'x-served-by': 'cache-nrt6127-NRT',
+21 verbose headers   'x-cache': 'MISS',
+21 verbose headers   'x-cache-hits': '0',
+21 verbose headers   'x-timer': 'S1462802597.805679,VS0,VE147',
+21 verbose headers   vary: 'Accept-Encoding' }
+22 silly get cb [ 200,
+22 silly get   { server: 'CouchDB/1.5.0 (Erlang OTP/R16B03)',
+22 silly get     etag: '"DM4YHQ8D0FQHSXXQ0VWPMXH5X"',
+22 silly get     'content-type': 'application/json',
+22 silly get     'content-encoding': 'gzip',
+22 silly get     'cache-control': 'max-age=300',
+22 silly get     'transfer-encoding': 'chunked',
+22 silly get     'accept-ranges': 'bytes',
+22 silly get     date: 'Mon, 09 May 2016 14:03:17 GMT',
+22 silly get     via: '1.1 varnish',
+22 silly get     connection: 'keep-alive',
+22 silly get     'x-served-by': 'cache-nrt6127-NRT',
+22 silly get     'x-cache': 'MISS',
+22 silly get     'x-cache-hits': '0',
+22 silly get     'x-timer': 'S1462802597.805679,VS0,VE147',
+22 silly get     vary: 'Accept-Encoding' } ]
+23 verbose get saving nobbb-parse-md to /Users/soul/.npm/registry.npmjs.org/nobbb-parse-md/.cache.json
+24 verbose correctMkdir /Users/soul/.npm correctMkdir not in flight; initializing
+25 silly fetchPackageMetaData Error: No compatible version found: nobbb-parse-md@linked
+25 silly fetchPackageMetaData Valid install targets:
+25 silly fetchPackageMetaData 1.0.7, 1.0.6, 1.0.5, 1.0.4, 1.0.2, 1.0.1, 1.0.0
+25 silly fetchPackageMetaData
+25 silly fetchPackageMetaData     at pickVersionFromRegistryDocument (/Users/soul/.nvm/versions/node/v5.3.0/lib/node_modules/npm/lib/fetch-package-metadata.js:156:16)
+25 silly fetchPackageMetaData     at /Users/soul/.nvm/versions/node/v5.3.0/lib/node_modules/npm/node_modules/iferr/index.js:13:50
+25 silly fetchPackageMetaData     at /Users/soul/.nvm/versions/node/v5.3.0/lib/node_modules/npm/lib/utils/pulse-till-done.js:19:8
+25 silly fetchPackageMetaData     at saved (/Users/soul/.nvm/versions/node/v5.3.0/lib/node_modules/npm/lib/cache/caching-client.js:168:7)
+25 silly fetchPackageMetaData     at /Users/soul/.nvm/versions/node/v5.3.0/lib/node_modules/npm/node_modules/graceful-fs/polyfills.js:210:7
+25 silly fetchPackageMetaData     at FSReqWrap.oncomplete (fs.js:82:15)
+25 silly fetchPackageMetaData  error for nobbb-parse-md@linked [Error: No compatible version found: nobbb-parse-md@linked
+25 silly fetchPackageMetaData Valid install targets:
+25 silly fetchPackageMetaData 1.0.7, 1.0.6, 1.0.5, 1.0.4, 1.0.2, 1.0.1, 1.0.0
+25 silly fetchPackageMetaData ]
+26 silly rollbackFailedOptional Starting
+27 silly rollbackFailedOptional Finishing
+28 silly runTopLevelLifecycles Starting
+29 silly runTopLevelLifecycles Finishing
+30 silly install printInstalled
+31 verbose stack Error: No compatible version found: nobbb-parse-md@linked
+31 verbose stack Valid install targets:
+31 verbose stack 1.0.7, 1.0.6, 1.0.5, 1.0.4, 1.0.2, 1.0.1, 1.0.0
+31 verbose stack
+31 verbose stack     at pickVersionFromRegistryDocument (/Users/soul/.nvm/versions/node/v5.3.0/lib/node_modules/npm/lib/fetch-package-metadata.js:156:16)
+31 verbose stack     at /Users/soul/.nvm/versions/node/v5.3.0/lib/node_modules/npm/node_modules/iferr/index.js:13:50
+31 verbose stack     at /Users/soul/.nvm/versions/node/v5.3.0/lib/node_modules/npm/lib/utils/pulse-till-done.js:19:8
+31 verbose stack     at saved (/Users/soul/.nvm/versions/node/v5.3.0/lib/node_modules/npm/lib/cache/caching-client.js:168:7)
+31 verbose stack     at /Users/soul/.nvm/versions/node/v5.3.0/lib/node_modules/npm/node_modules/graceful-fs/polyfills.js:210:7
+31 verbose stack     at FSReqWrap.oncomplete (fs.js:82:15)
+32 verbose cwd /Users/soul/PROJECT/Wing
+33 error Darwin 15.4.0
+34 error argv "/Users/soul/.nvm/versions/node/v5.3.0/bin/node" "/Users/soul/.nvm/versions/node/v5.3.0/bin/npm" "update" "nobbb-parse-md"
+35 error node v5.3.0
+36 error npm  v3.7.1
+37 error No compatible version found: nobbb-parse-md@linked
+37 error Valid install targets:
+37 error 1.0.7, 1.0.6, 1.0.5, 1.0.4, 1.0.2, 1.0.1, 1.0.0
+38 error If you need help, you may report this error at:
+38 error     <https://github.com/npm/npm/issues>
+39 verbose exit [ 1, true ]
