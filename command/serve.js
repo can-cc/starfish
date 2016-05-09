@@ -9,7 +9,7 @@ import {output, error, log} from '../lib/message';
 import {isFile, isDir, logCurrentTime, injectGlobal, filterDotFiles} from '../lib/util';
 import {renderFile, RenderController, renderDir, writeFile, joinPwd} from '../lib/render';
 
-export default class Serve {
+export default class ServeCommand {
     constructor() {
         this.name = 'serve';
     }
@@ -27,9 +27,11 @@ export default class Serve {
 
         let options = readConfigure(inputPath);
         
-        let outputTmpPath = path.join(options.BLOG.TMPDIR, options.BLOG.TMPNAME),
-            // TODO themes paths
-            themePath = path.join('themes', options.STYLE.THEME);
+        let outputTmpPath = path.join(options.BLOG.TMPDIR, options.BLOG.TMPNAME);
+        
+        let themePath = options.STYLE.THEMEDIR[0] === '/' ? options.STYLE.THEMEDIR :
+            path.resolve(inputPath, options.STYLE.THEMEDIR);
+        //themePath = path.join('themes', options.STYLE.THEME);
         
         let tickProcess = new TickProcess();
         tickProcess.start();

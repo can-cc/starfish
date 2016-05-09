@@ -1,0 +1,25 @@
+AUTHOR:
+  NAME: 'Hacker'
+  GITHUB: 'torvalds'
+
+BLOG:
+  NAME: 'Hacker Blog'
+  TMPDIR: '/tmp'
+  TMPNAME: 'WIngTmp'
+  PORT: 8080
+  HOST: '127.0.0.1'
+  INDEX_ARTICLE_NUMBER: 7
+  SORT_ARTICLE_BY: 'create'
+
+STYLE:
+  THEMEDIR: '@themes'
+  THEME: 'white-card'
+
+SERVE:
+  HOST: '0.0.0.0'
+  PORT: '8080'
+
+MAPPING:
+  image: '/static/img/'
+  root-assert: '/'
+  demo: '/demo/'
