@@ -1,9 +1,4 @@
 'use strict';
-
-
-
-
-
 window.addEventListener('load', function(){
     let canvas = document.getElementById('article-canvas'),
         ctx = canvas.getContext('2d');
@@ -21,9 +16,7 @@ window.addEventListener('load', function(){
     let bigCardHeight = document.querySelector('.articles').offsetHeight,
         lastOffsetTop = canvas.parentElement.parentElement.offsetTop;
     
-    
     let [centerX, centerY] = [canvas.width / 2, canvas.height / 2];
-
 
     let updateLoader = function(){
         rotation += speed / 100;									

@@ -4,6 +4,7 @@
 @import './dash-bg.scss';
 @import './footer.scss';
 @import './header.scss';
+@import './slide-tag.scss';
 
 $article-bg: white;
 
@@ -99,7 +100,7 @@ nav {
 
 .main {
     position: absolute;
-    padding: 2.5rem 3rem 2rem;
+    padding: 1rem 3rem 1rem;
     height: 100%;
     width: 100%;
     top: 0;
@@ -123,7 +124,7 @@ $main-bg: #8e3c32;
 .main-wrapper {
     
     height: 100%;
-    overflow: hidden;
+    z-index: 20;
     position: relative;
     top: 0;
     margin: auto;
@@ -133,7 +134,7 @@ $main-bg: #8e3c32;
     background: {
         color: $main-bg;
     }
-    border: 5px solid #662a24;
+    border: 1rem solid #662a24;
 }
 
 .article-wrapper {
@@ -170,7 +171,7 @@ $main-bg: #8e3c32;
     }
 
     &.cover {
-        height: 80%;
+        height: 90%;
         .article {
             background: {
                 image: url(/static/img/fish.jpg);
@@ -185,7 +186,7 @@ $main-bg: #8e3c32;
 
 .articles {
     @include clearfix;
-    width: 70%;
+    width: 65%;
     display: inline-block;
     position: relative;
     z-index: 100;
@@ -200,7 +201,7 @@ $main-bg: #8e3c32;
         padding: 8px;
         margin-bottom: 10px;
         position: relative;
-        width: 90%;
+        width: 97%;
         margin-top: 1rem;
         border-radius: 0.5rem;
         box-shadow: 3px 0 10px rgba(100, 100, 100, 1);
@@ -252,33 +253,66 @@ $main-bg: #8e3c32;
     }
 }
 
+$category-tag-height: 1.4rem;
+$category-tag-color: white;
 .slide {
     display: inline-block;
     float: left;
-
+    width: 35%;
     .avator {
-        margin-top: 3rem;
+        margin-top: 1.5rem;
         box-sizing: border-box;
 
+        &:hover {
+            img {
+                transform: scale(0.8, 0.8);
+            }
+        }
+        
         img {
             width: 80%;
             display: block;
             margin: 0 auto;
+            transition: transform 300ms ease-in;
+            transform: scale(1, 1);
+            
+            
         }
     }
 
+    ul {
+        @include clearfix;
+        margin: 1rem 0;
+        padding: 0;
+    }
+
     li {
-        margin-top: 5px;
+        margin: 5px 10px;
         display: block;
-        
+        float: left;
 
         a {
             display: inline-block;
-            background-color: white;
-
+            background-color: $category-tag-color;
+            height: $category-tag-height;
+            line-height: $category-tag-height;
+            position: relative;
+            padding-left: 0.4rem;
+            
             &:after {
+                position: absolute;
+                left: 100%;
+                top: 0;
                 content: '';
-                
+                width: 0;
+                height: 0;
+                display: block;
+                border: {
+                    style: solid;
+                    width: $category-tag-height / 1.9 0 $category-tag-height / 1.9 $category-tag-height / 1.90;
+                    color: transparent transparent transparent $category-tag-color;
+                }
+
             }
         }
     }

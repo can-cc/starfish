@@ -103,6 +103,9 @@ html, body, div {
     font-size: 90%;
     font-width: 300; }
 
+h1, h2, h3, h4, h5, h6 {
+  font-weight: bold; }
+
 .main {
   position: relative;
   max-width: 1420px;
@@ -112,24 +115,6 @@ html, body, div {
     display: table; }
   .main:after {
     clear: both; }
-  .main .slide-bar, .main .article {
-    position: relative;
-    display: inline-block;
-    float: left; }
-
-.slide-bar {
-  background-color: white;
-  width: 20%;
-  height: 100%;
-  margin-top: 50px;
-  border-radius: 3px; }
-  .slide-bar .avator {
-    padding: 2rem; }
-    .slide-bar .avator img {
-      width: 100%;
-      border-radius: 50%; }
-  .slide-bar .author-name {
-    text-align: center; }
 
 .article {
   position: relative;
@@ -139,10 +124,7 @@ html, body, div {
   box-sizing: border-box;
   padding: 1.5rem 1rem 2rem;
   border-radius: 3px;
-  margin-top: 50px;
-  margin-left: 5%;
-  margin-right: auto;
-  margin-bottom: 4rem;
+  margin: 50px auto 4rem;
   box-shadow: 0px 0px 60px #bebebe; }
   .article .img-wrapper {
     position: relative;

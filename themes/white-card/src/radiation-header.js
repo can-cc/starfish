@@ -342,7 +342,7 @@ var main = function(){
 
 };
 
-document.addEventListener( 'DOMContentLoaded', function(){
+document.addEventListener('DOMContentLoaded', function(){
     main();
 });
 

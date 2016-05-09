@@ -28,22 +28,10 @@
     </div>
 
     <div class="main">
-      <div class="slide-bar">
-        <div class="author">
-          <div class="avator">
-            <img alt="avator" src="/static/image/avator.png"/>
-            <p class="author-name"><%= author %></p>
-          </div>
-        </div>
-
-        <div class="other-articles">
-          <ul>
-            <li></li>
-          </ul>
-        </div>
-      </div>
       
-      <div class="article <%- type %>">      
+      
+      <div class="article <%- type %>">
+        <h1><%= title %></h1>
         <%- content %>
       </div>
 

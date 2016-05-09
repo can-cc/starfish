@@ -17,19 +17,31 @@
       
       <img alt="" class="paper-clip" src="static/img/clip.png"/>
       <div class="main">
+        
+        
 
+        <div class="slide-tag">
+          <ul>
+            <li><a href="">所有文章</a></li>
+          </ul>
+        </div>
+        
         <div class="main-wrapper">
-          
+
           <!-- articles -->
           <div class="articles">
 
             <% articles.forEach(function(article, i){ %>
             <div class="article-wrapper" style="top: <%= i * 2.5 %>rem" data-top="<%= i  * 2.5 %>rem">
-            <div class="article" >
+              <article class="article <%= article.type %>" >
+                
+                <h1><%= article.title %></h1>
+                <span><%= article.showTime %></span>
+                <p><a href="<%= article.outputfilename %>">Readme More</a></p>
               <!-- <h5 class="article--title"><a href='/<%- article.outputfilename %>'><%= article.title %></a></h5> -->
               <!-- <p class="article--create-date"><%- article.showTime %></p> -->
               <div class="article--content-part"><%- article.contentPart  %></div>
-            </div>
+            </article>
             </div>
           <% }); %>     
           <div class="article-wrapper cover"  style="top: <%= articles.length * 2.5 %>rem" data-top="<%= articles.length  * 2.5 %>rem">
@@ -62,9 +74,9 @@
               
               <% categorys.forEach(function(category, i){ %>
               <li>
-                <a href="<%= category.indexUrl %>"><%= category.name %></a>
+                <a href="<%= category.indexUrl %>"><%= category.name %>(<%= category.number %>)</a>
               </li>
-                <% }); %>     
+              <% }); %>     
               
               
             </ul>

@@ -1,9 +1,9 @@
 'use strict';
 
 export const ignoreNames = [
-        '.DS_Store',
-        'tags',
-        '.git'
+    '.DS_Store',
+    'tags',
+    '.git'
 ];
 
 export const BLOG_NAME = 'BlOG';

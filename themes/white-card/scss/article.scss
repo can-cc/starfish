@@ -5,44 +5,19 @@
 @import "./footer.scss";
 
 
+h1, h2, h3, h4, h5, h6 {
+    font: {
+        weight: bold;
+    }
+}
 
 .main {
     @include clearfix;
     position: relative;
     max-width: 1420px;
     margin: 0 auto;
-    
-    .slide-bar, .article {
-        position: relative;
-        display: inline-block;
-        float: left;
-    }
-
-    
 }
 
-.slide-bar {
-    background: {
-        color: white;
-    }
-    width: 20%;
-    height: 100%;
-    margin-top: 50px;
-    border-radius: 3px;
-    .avator {
-        padding: 2rem;
-        img {
-            width: 100%;
-            border: {
-                radius: 50%;
-            }
-        }
-    }
-
-    .author-name {
-        text-align: center;
-    }
-}
 
 
 .article {
@@ -54,12 +29,7 @@
     padding: 1.5rem 1rem 2rem;
     //border: 1px solid $article-border-color;
     border-radius: 3px;
-    margin: {
-        top: 50px;
-        left: 5%;
-        right: auto;
-        bottom: 4rem;
-    }
+    margin: 50px auto 4rem;
 
     box-shadow: 0px 0px 60px #bebebe;
 
