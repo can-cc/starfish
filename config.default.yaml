@@ -13,6 +13,7 @@ BLOG:
 
 CONFIG:
   CONFIG_FILE: 'wing.config.yaml'
+  DIR_CONFIG_FILE: '.wdconfig.yaml'
 
 STYLE:
   THEMEDIR: '@themes'

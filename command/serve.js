@@ -31,6 +31,7 @@ export default class ServeCommand {
         
         let themeDir = options.STYLE.THEMEDIR[0] === '/' ? options.STYLE.THEMEDIR :
             path.resolve(inputPath, options.STYLE.THEMEDIR),
+            
             themePath = path.join(themeDir, options.STYLE.THEME);
         
         let tickProcess = new TickProcess();
