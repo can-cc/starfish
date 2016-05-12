@@ -14,6 +14,7 @@ BLOG:
 CONFIG:
   CONFIG_FILE: 'wing.config.yaml'
   DIR_CONFIG_FILE: '.wdconfig.yaml'
+  IGNORE_FILE: '.nobbbignore'
 
 STYLE:
   THEMEDIR: '@themes'

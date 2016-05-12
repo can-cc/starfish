@@ -4,7 +4,6 @@ import * as path from 'path';
 import {server} from '../lib/server';
 import {TickProcess} from '../lib/tickProcess';
 import {loadConfig, readConfigure} from '../lib/loadConfig';
-import {DEFAULT_CONFIG_FILE} from '../config';
 import {output, error, log} from '../lib/message';
 import {isFile, isDir, logCurrentTime, injectGlobal, filterDotFiles} from '../lib/util';
 import {renderFile, RenderController, renderDir, writeFile, joinPwd} from '../lib/render';
@@ -49,12 +48,13 @@ export default class ServeCommand {
             server(outputTmpPath, themePath, inputPath, () => {
                 let tickProcess = new TickProcess();
                 tickProcess.start();
+                
                 renderControl.render(() => {
                     tickProcess.stop();
                     logCurrentTime();
                     log('Render completion!');
                 });
-            }, port, host);
+            }, port || options.SERVE.PORT, host || options.SERVE.HOST);
         });
 
     }
