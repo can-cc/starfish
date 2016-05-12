@@ -54,7 +54,7 @@ export default class ServeCommand {
                     logCurrentTime();
                     log('Render completion!');
                 });
-            }, '8080', '127.0.0.1');
+            }, port, host);
         });
 
     }
