@@ -21,6 +21,7 @@ wing render [blog-path]
 wing serve [blog-path]
 #+end_src
 
+** init
 
 ** TODO:
 *** bug:
