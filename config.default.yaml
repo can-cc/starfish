@@ -11,6 +11,7 @@ BLOG:
   INDEX_ARTICLE_NUMBER: 7
   SORT_ARTICLE_BY: 'create'
 
+  
 CONFIG:
   CONFIG_FILE: 'wing.config.yaml'
   DIR_CONFIG_FILE: '.wdconfig.yaml'
