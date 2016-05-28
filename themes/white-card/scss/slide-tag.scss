@@ -21,12 +21,15 @@ $tag-bg: white;
     left: 10%;
     z-index: 1;
     margin-top: 2rem;
+    
     ul {
         margin: 0;
         padding: 0;
         list-style: none;
 
         li {
+            
+            
             a {
                 animation: left-right 3s cubic-bezier(0.23, 1, 0.32, 1) infinite alternate;
                 background-color: $tag-bg;

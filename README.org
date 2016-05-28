@@ -27,3 +27,6 @@ wing serve [blog-path]
 ** TODO:
 *** bug:
  -   date sort not correctly sometimes.
+
+* TODO
+  ** 读取 theme configure 的配置指定 type 渲染 template
