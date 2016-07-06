@@ -36,7 +36,6 @@
     "markdown": "^0.5.0",
     "nobbb-parse-md": "^1.0.1",
     "nobbb-parse-org": "^1.0.1",
-    "nodejieba": "^2.2.1",
     "org": "^0.2.0",
     "ramda": "^0.21.0",
     "sugar": "^1.4.1"
