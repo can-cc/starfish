@@ -19,6 +19,7 @@
   "dependencies": {
     "async": "^2.0.0-rc.4",
     "bluebird": "^3.3.5",
+    "blueimp-md5": "^2.3.0",
     "cheerio": "^0.20.0",
     "cross-spawn": "^2.2.3",
     "dateformat": "^1.0.12",
