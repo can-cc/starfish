@@ -26,8 +26,8 @@ SERVE:
   PORT: '8080'
 
 MAPPING:
-  image: '/static/img/'
-  root-assert: '/'
-  demo: '/demo/'
+  '@imag': '/static/img/'
+  '@root-asser': '/'
+  '@dem': '/demo/'
 
 LANG: 'zh-CN'

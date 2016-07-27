@@ -27,7 +27,7 @@
     "express": "^4.13.4",
     "fs-extra": "^0.26.5",
     "fs-watch-tree": "^0.2.5",
-    "fw-ramda": "^0.1.1",
+    "fw-ramda": "^0.1.2",
     "glob": "^7.0.3",
     "glob-to-regexp": "^0.1.0",
     "html-to-text": "^2.1.0",
