@@ -1,5 +1,3 @@
-'use strict';
-
 import {server} from '../lib/server';
 import {TickProcess} from '../lib/tickProcess';
 import {loadConfig, readConfigure} from '../lib/loadConfig';
@@ -7,8 +5,8 @@ import {output, error, log} from '../lib/message';
 import {isFile, isDir, logCurrentTime, injectGlobal, filterDotFiles} from '../lib/util';
 import {renderFile, RenderController, renderDir, writeFile, joinPwd} from '../lib/render';
 
-const fs = require('fs');
-const path = require('path');
+import fs from 'fs';
+import path from 'path';
 
 export default class RenderCommand {
   constructor() {
@@ -20,7 +18,7 @@ export default class RenderCommand {
   }
   
   run(inputs, flags) {
-    let inputPath = inputs[0];
+    const inputPath = inputs[0];
     if( isDir(inputPath) ) {
       let outputPath = outputPath || 'build';
 
