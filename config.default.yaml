@@ -24,10 +24,10 @@ STYLE:
 SERVE:
   HOST: '0.0.0.0'
   PORT: '8080'
-
+  
 MAPPING:
-  '@imag': '/static/img/'
+  '@image': '/static/image/'
   '@root-asset': '/'
-  '@dem': '/demo/'
+  '@demo': '/demo/'
 
 LANG: 'zh-CN'
