@@ -26,7 +26,7 @@ export default class RenderCommand {
       tickProcess.start();
 
       let options = readConfigure(inputPath);
-      let renderControl = new RenderController(inputPath,
+      const renderControl = new RenderController(inputPath,
                                                outputPath,
                                                options);
       
