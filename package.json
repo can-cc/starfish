@@ -18,7 +18,10 @@
   "homepage": "https://github.com/A-Horse/Wing#readme",
   "dependencies": {
     "async": "^2.0.0-rc.4",
+    "babel-core": "^6.21.0",
     "babel-plugin-transform-async-to-generator": "^6.8.0",
+    "babel-preset-stage-3": "^6.17.0",
+    "babel-types": "^6.21.0",
     "bluebird": "^3.3.5",
     "blueimp-md5": "^2.3.0",
     "cheerio": "^0.20.0",
