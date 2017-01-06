@@ -17,7 +17,7 @@ export default class RenderCommand {
     return this.name;
   }
   
-  run(inputs, flags) {
+  async run(inputs, flags) {
     const inputPath = inputs[0];
     if( isDir(inputPath) ) {
       let outputPath = outputPath || 'build';
@@ -26,15 +26,12 @@ export default class RenderCommand {
       tickProcess.start();
 
       let options = readConfigure(inputPath);
-      const renderControl = new RenderController(inputPath,
-                                               outputPath,
-                                               options);
+      const renderControl = new RenderController(inputPath, outputPath, options);
       
-      renderControl.render(() => {
-        tickProcess.stop();
-        logCurrentTime();
-        log('Render completion!');
-      });
+      await renderControl.render();
+      tickProcess.stop();
+      logCurrentTime();
+      log('Render completion!');
     } else {
       error('Invalid input!');
     }
