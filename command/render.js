@@ -27,7 +27,6 @@ export default class RenderCommand {
 
       let options = readConfigure(inputPath);
       const renderControl = new RenderController(inputPath, outputPath, options);
-      
       await renderControl.render();
       tickProcess.stop();
       logCurrentTime();
