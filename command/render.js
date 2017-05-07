@@ -23,13 +23,16 @@ export default class RenderCommand {
     if( isDir(inputPath) ) {
       let outputPath = outputPath || 'build';
 
-
       const spinner = ora('Start render...').start();
       const options = readConfigure(inputPath);
       const renderControl = new RenderController(inputPath, outputPath, options);
-      await renderControl.render();
-
-      spinner.succeed('Build success...');
+      try {
+        await renderControl.render();
+        spinner.succeed('Render completion...');
+      } catch(error) {
+        console.error(error);
+        spinner.fail('Build Fail...');
+      }
       logCurrentTime();
       log('Render completion!');
     } else {
