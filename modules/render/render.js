@@ -5,11 +5,14 @@ import _ from 'lodash';
 import ejs from 'ejs';
 import fsExtra from 'fs-extra';
 import moment from 'moment';
+import md5 from 'blueimp-md5';
+import R from 'fw-ramda';
 
-import {parseOrg, parseMarkDown} from './render-parse.js';
-import {isFile, isDir, takeFileName, takeFileNameWithoutSuffix,
-        getRelativePath, filterDotFiles, isSuffix, mergeForce} from '../../lib/util';
-import {warning, error} from '../../lib/message';
+import { parseOrg, parseMarkDown } from './render-parse.js';
+import { isFile, isDir, takeFileName, takeFileNameWithoutSuffix,
+         getRelativePath, filterDotFiles, isSuffix, mergeForce } from '../../lib/util';
+import { syncMappingDirs, fixArticleUrlAndCut, getParsersFromModules, makeDocumentParserFn, getPlugin } from './render-util';
+import { warning, error } from '../../lib/message';
 import { loadConfig } from '../../lib/loadConfig.js';
 import { getModifyDates } from '../../util/git-date';
 import { RenderLoader } from './render-loader';
@@ -18,11 +21,7 @@ const pfs = bluebird.promisifyAll(fs);
 
 const HashNum = 7;
 
-import R from 'fw-ramda';
 const globToRegExp = require('glob-to-regexp');
-const md5 = require('blueimp-md5');
-
-import { syncMappingDirs, fixArticleUrlAndCut, getParsersFromModules, makeDocumentParserFn, getPlugin } from './render-util';
 
 let htmlToText = require('html-to-text');
 let dateFormat = require('dateformat');
@@ -40,7 +39,7 @@ export class RenderController {
     this.categorys = {};
     this.theme = options.STYLE.THEME;
     this.options = options;
-    this.rendering = false;
+
 
     this.pluginType = 'render';
     this.plugins = getPlugin(this.pluginType);
@@ -48,7 +47,6 @@ export class RenderController {
     // TODO remove
     const themeDir = path.isAbsolute(options.STYLE.THEMEDIR) ? options.STYLE.THEMEDIR : path.resolve(inputPath, options.STYLE.THEMEDIR);
     this.themePath = path.join(themeDir, this.theme);
-
 
     // methods
     this.loadRootIgnore();
@@ -60,25 +58,18 @@ export class RenderController {
   }
 
   async render() {
-    if (this.rendering) {
-      return;
-    }
-    this.rendering = true;
+
     this.clearData();
 
-    await this.loadDir(this.inputPath, this.outputRoot, 'index');
+    await this.load(this.inputPath, this.outputRoot, 'index');
     // TODO rename
     await this.copyStatic();
     await this.renderCategorys();
 
-    // await Promise.all([this.copyStatic(), this.renderCategorys()]);
-
-    // TODO check the f*ck
-    this.rendering = false;
-    this.runPluinAfter();
+    this.runPluinAfterRender();
   }
 
-  async loadDir(dirPath, outputPath, category) {
+  async load(dirPath, outputPath, category) {
     const paths = await pfs.readdirAsync(dirPath).filter(this.filterIgnores.bind(this));
 
     if (!fs.existsSync(outputPath)) {
@@ -105,16 +96,11 @@ export class RenderController {
     syncMappingDirs(needMapping, mappingRules, dirPath, outputPath)
 
     await Promise.all(subCateDirs.map(async (subDir) => {
-      await this.loadDir(path.join(dirPath, subDir), path.join(outputPath, subDir), subDir);
+      await this.load(path.join(dirPath, subDir), path.join(outputPath, subDir), subDir);
     }));
   }
 
-
-  // TODO check options valid and dir valid
-  checkVaild() {
-
-  }
-
+  // TODO move
   loadRootIgnore() {
     this.rootIgnoreRegs = [];
     let self = this;
@@ -140,19 +126,6 @@ export class RenderController {
     R.values(this.plugins).forEach(plugin => plugin.afterRender())
   }
 
-  runPluinAfter() {
-
-  }
-
-  // exec when before render
-  renderBefore() {
-
-  }
-
-  checkIgnore() {
-
-  }
-
   filterIgnores(name) {
     return this.rootIgnoreRegs.every(reg => !reg.test(name));
   }
@@ -170,7 +143,6 @@ export class RenderController {
     this.categorys = [];
   }
 
-  // init category data
   addCategory(name, inputPath, outputPath) {
     const configFilePath = path.join(inputPath, this.options.CONFIG.DIR_CONFIG_FILE);
 
