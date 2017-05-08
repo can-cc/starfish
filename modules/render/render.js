@@ -4,13 +4,15 @@ import path from 'path';
 import _ from 'lodash';
 import ejs from 'ejs';
 import fsExtra from 'fs-extra';
+import moment from 'moment';
 
 import {parseOrg, parseMarkDown} from './render-parse.js';
 import {isFile, isDir, takeFileName, takeFileNameWithoutSuffix,
         getRelativePath, filterDotFiles, isSuffix, mergeForce} from '../../lib/util';
 import {warning, error} from '../../lib/message';
-import {loadConfig} from '../../lib/loadConfig.js';
-import {getModifyDates} from '../../util/git-date';
+import { loadConfig } from '../../lib/loadConfig.js';
+import { getModifyDates } from '../../util/git-date';
+import { RenderLoader } from './render-loader';
 
 const pfs = bluebird.promisifyAll(fs);
 
@@ -20,22 +22,16 @@ import R from 'fw-ramda';
 const globToRegExp = require('glob-to-regexp');
 const md5 = require('blueimp-md5');
 
-import {syncMappingDirs, fixArticleUrlAndCut, getParsersFromModules, makeDocumentParserFn, getPlugin} from './render-util';
-
-// for date util
-require('sugar');
+import { syncMappingDirs, fixArticleUrlAndCut, getParsersFromModules, makeDocumentParserFn, getPlugin } from './render-util';
 
 let htmlToText = require('html-to-text');
 let dateFormat = require('dateformat');
-
-
-
 
 const isOrg = R.curry(isSuffix)('org');
 const isMd = R.curry(isSuffix)('md');
 const isYaml = R.curry(isSuffix)('yaml');
 
-import {RenderManager} from './render-manager';
+
 
 export class RenderController {
   constructor(inputPath, outputRoot, options) { // TODO merge inputPath, outputRoot
@@ -57,7 +53,7 @@ export class RenderController {
     // methods
     this.loadRootIgnore();
 
-    this.renderManager = new RenderManager(inputPath, outputRoot, options);
+    this.renderManager = new RenderLoader(inputPath, outputRoot, options);
 
     this.parsers = getParsersFromModules();
     this.documentParserFn = makeDocumentParserFn(this.parsers);
@@ -134,17 +130,17 @@ export class RenderController {
     await fsExtra.copy(path.join(this.themePath, 'static'), path.join(this.outputRoot, 'static'));
   }
 
-  runPluinEachArticle(rawDocument, articleInfo, cb) {
+  runPluinAfterArticleRender(rawDocument, articleInfo, cb) {
     R.values(this.plugins).forEach(plugin => {
-      plugin.eachArticle(rawDocument, articleInfo, cb);
+      plugin.afterArticleRender(rawDocument, articleInfo, cb);
     });
   }
 
-  runPluinAfter() {
-    R.values(this.plugins).forEach(plugin => plugin.after())
+  runPluinAfterRender() {
+    R.values(this.plugins).forEach(plugin => plugin.afterRender())
   }
-  // exec when after render
-  renderAfter() {
+
+  runPluinAfter() {
 
   }
 
@@ -160,8 +156,6 @@ export class RenderController {
   filterIgnores(name) {
     return this.rootIgnoreRegs.every(reg => !reg.test(name));
   }
-
-
 
   // add article info to category.articles array
   async addArticle(fileName, category) {
@@ -310,12 +304,15 @@ export class RenderController {
         outputFilePath,
         outputDirPath,
         type: articleDoc.type,
-        showTime: articleInfo.dateInfo.create.format('long', this.options.LANG || this.renderManager.getThemeConfigure.LANG)
+        showTime: moment(articleInfo.dateInfo.create).format('dddd, MMMM Do YYYY, h:mm:ss a')
+        // TODO change locate global
+        //locate(this.options.LANG || this.renderManager.getThemeConfigure.LANG)
       });
       const result = this.renderTemp('article', articleInfo);
-      this.runPluinEachArticle(articleRawData, articleInfo);
+
       // await pfs.writeFile(outputFilePath, result);
       fs.writeFileSync(outputFilePath, result);
+      this.runPluinAfterArticleRender(articleRawData, articleInfo);
       return articleInfo;
     }));
 
@@ -337,15 +334,19 @@ export class RenderController {
     const categorys = R.values(this.categorys).map(category => ({name: category.aliasName || category.name, indexUrl: path.join('/', category.relativeOutputPath, 'index.html'), number: category.articles.length}))
           .filter((category) => category.number > 0);
 
-    const html = this.renderTemp('index', {
+    const indexData = {
       title: this.options.BLOG.NAME,
       blogDesc: this.options.BLOG.DESC,
       articles: R.take(this.options.BLOG.INDEX_ARTICLE_NUMBER, allarticles),
       categorys: categorys
-    });
+    };
+
+    const html = this.renderTemp('index', indexData);
 
     const outputFilePath = path.join(this.outputRoot, 'index.html');
     await pfs.writeFileAsync(outputFilePath, html);
+
+
   }
 
   async renderAllArticles(cb) {

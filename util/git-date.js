@@ -1,5 +1,4 @@
 import _ from 'lodash';
-require('sugar');
 
 var exec = require('child_process').exec;
 export const getModifyDates = (filePath, rootInputPath, cb) => {

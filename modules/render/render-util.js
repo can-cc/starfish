@@ -2,8 +2,8 @@ import path from 'path';
 import fs from 'fs';
 import fsExtra from 'fs-extra';
 import cheerio from 'cheerio';
-import {isFile, isDir, takeFileName, takeFileNameWithoutSuffix,
-        getRelativePath, filterDotFiles, isSuffix, mergeForce} from '../../lib/util';
+import { isFile, isDir, takeFileName, takeFileNameWithoutSuffix,
+         getRelativePath, filterDotFiles, isSuffix, mergeForce } from '../../lib/util';
 
 export async function syncMappingDirs(needMapping, mappingRules, dirPath, outputPath) {
   needMapping.map(async (subDir) => {
@@ -82,7 +82,6 @@ export function getParsersFromModules() {
     .filter((moduleName) => /^nobbb-parse/.test(moduleName))
     .map((moduleName) => (new (require(moduleName).default)()));
 };
-
 
 // MOVE
 export function getPlugin(type) {
