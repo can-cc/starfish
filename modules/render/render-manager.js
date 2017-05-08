@@ -1,8 +1,8 @@
-import {loadConfig} from './loadConfig';
+import {loadConfig} from '../../lib/loadConfig';
 import fs from 'fs';
 import path from 'path';
 import R from 'fw-ramda';
-import {isFile, isDir, takeFileName, takeFileNameWithoutSuffix, getRelativePath, filterDotFiles, isSuffix, mergeForce} from './util';
+import {isFile, isDir, takeFileName, takeFileNameWithoutSuffix, getRelativePath, filterDotFiles, isSuffix, mergeForce} from '../../lib/util';
 
 const isYaml = R.curry(isSuffix)('yaml');
 

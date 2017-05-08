@@ -1,7 +1,7 @@
 const org = require('org');
 const markdown = require('markdown').markdown;
 
-let parser = new org.Parser();
+const parser = new org.Parser();
 
 export function parseOrg(orgCode) {
     let orgDocument = parser.parse(orgCode);

@@ -1,4 +1,4 @@
-import bluebird from "bluebird";
+import bluebird from 'bluebird';
 import fs from 'fs';
 import path from 'path';
 import _ from 'lodash';
@@ -10,6 +10,7 @@ import {isFile, isDir, takeFileName, takeFileNameWithoutSuffix,
         getRelativePath, filterDotFiles, isSuffix, mergeForce} from '../../lib/util';
 import {warning, error} from '../../lib/message';
 import {loadConfig} from '../../lib/loadConfig.js';
+import {getModifyDates} from '../../util/git-date';
 
 const pfs = bluebird.promisifyAll(fs);
 
@@ -28,7 +29,7 @@ let htmlToText = require('html-to-text');
 let dateFormat = require('dateformat');
 
 
-import {getModifyDates} from '../util/git-date';
+
 
 const isOrg = R.curry(isSuffix)('org');
 const isMd = R.curry(isSuffix)('md');

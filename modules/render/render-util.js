@@ -3,7 +3,7 @@ import fs from 'fs';
 import fsExtra from 'fs-extra';
 import cheerio from 'cheerio';
 import {isFile, isDir, takeFileName, takeFileNameWithoutSuffix,
-        getRelativePath, filterDotFiles, isSuffix, mergeForce} from './util';
+        getRelativePath, filterDotFiles, isSuffix, mergeForce} from '../../lib/util';
 
 export async function syncMappingDirs(needMapping, mappingRules, dirPath, outputPath) {
   needMapping.map(async (subDir) => {
@@ -78,7 +78,7 @@ export function makeDocumentParserFn(parsers) {
 }
 
 export function getParsersFromModules() {
-  return fs.readdirSync(path.resolve(__dirname, '../node_modules'))
+  return fs.readdirSync(path.resolve(__dirname, '../../node_modules'))
     .filter((moduleName) => /^nobbb-parse/.test(moduleName))
     .map((moduleName) => (new (require(moduleName).default)()));
 };
@@ -87,12 +87,12 @@ export function getParsersFromModules() {
 // MOVE
 export function getPlugin(type) {
   const plugins = [];
-  fs.readdirSync(path.resolve(__dirname, '../node_modules'))
+  fs.readdirSync(path.resolve(__dirname, '../../node_modules'))
     .filter(filterDotFiles)
     .filter(name => new RegExp(`^nobbb-${type}`).test(name))
     .forEach((name) => {
       if( !plugins[name] ){
-        const plugin = new (require(path.resolve(__dirname, '../node_modules/', name)).default)();
+        const plugin = new (require(path.resolve(__dirname, '../../node_modules/', name)).default)();
         if( plugin.type === type ){
           plugins[plugin.getName()] = plugin;
         }
