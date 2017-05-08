@@ -5,12 +5,11 @@ import _ from 'lodash';
 import ejs from 'ejs';
 import fsExtra from 'fs-extra';
 
-import {parseOrg, parseMarkDown} from './parse.js';
+import {parseOrg, parseMarkDown} from './render-parse.js';
 import {isFile, isDir, takeFileName, takeFileNameWithoutSuffix,
-        getRelativePath, filterDotFiles, isSuffix, mergeForce} from './util';
-import {warning, error} from './message';
-import {MapDone} from './mapdone';
-import {loadConfig} from './loadConfig.js';
+        getRelativePath, filterDotFiles, isSuffix, mergeForce} from '../../lib/util';
+import {warning, error} from '../../lib/message';
+import {loadConfig} from '../../lib/loadConfig.js';
 
 const pfs = bluebird.promisifyAll(fs);
 
@@ -322,7 +321,6 @@ export class RenderController {
     await this.renderCategoryIndex(category.name, outputDirPath, category.articles);
   }
 
-
   async renderIndex() {
     // TODO refactor function
     if (this.renderManager.getThemeConfigure().INDEX_TYPE !== 'one') {
@@ -334,7 +332,6 @@ export class RenderController {
     }, []).sort((a, b) => {
       return b.dateInfo[this.options.BLOG.SORT_ARTICLE_BY].getTime() - a.dateInfo[this.options.BLOG.SORT_ARTICLE_BY].getTime();
     });
-
 
     const categorys = R.values(this.categorys).map(category => ({name: category.aliasName || category.name, indexUrl: path.join('/', category.relativeOutputPath, 'index.html'), number: category.articles.length}))
           .filter((category) => category.number > 0);

@@ -1,7 +1,5 @@
-'use strict';
-
-let org = require('org');
-let markdown = require('markdown').markdown;
+const org = require('org');
+const markdown = require('markdown').markdown;
 
 let parser = new org.Parser();
 
@@ -15,8 +13,6 @@ export function parseOrg(orgCode) {
     });
     return orgHTMLDocument;
 }
-// console.dir(orgHTMLDocument); // => { title, contentHTML, tocHTML, toc }
-// console.log(orgHTMLDocument.toString()) // => Rendered HTML
 
 export function parseMarkDown(mdCode) {
     return markdown.toHTML(mdCode);

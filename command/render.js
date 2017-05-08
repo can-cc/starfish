@@ -3,7 +3,7 @@ import {TickProcess} from '../lib/tickProcess';
 import {loadConfig, readConfigure} from '../lib/loadConfig';
 import {output, error, log} from '../lib/message';
 import {isFile, isDir, logCurrentTime, injectGlobal, filterDotFiles} from '../lib/util';
-import {renderFile, RenderController, renderDir, writeFile, joinPwd} from '../lib/render';
+import {renderFile, RenderController, renderDir, writeFile, joinPwd} from '../modules/render/render';
 import ora from 'ora';
 
 import fs from 'fs';
