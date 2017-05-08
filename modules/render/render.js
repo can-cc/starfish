@@ -53,7 +53,7 @@ export class RenderController {
     // methods
     this.loadRootIgnore();
 
-    this.renderManager = new RenderLoader(inputPath, outputRoot, options);
+    this.renderLoader = new RenderLoader(inputPath, outputRoot, options);
 
     this.parsers = getParsersFromModules();
     this.documentParserFn = makeDocumentParserFn(this.parsers);
@@ -212,8 +212,8 @@ export class RenderController {
   }
 
   renderTemp(key, data) {
-    const mergedTemplateData = this.renderManager.mergeTemplateData(data);
-    return ejs.render(this.renderManager.getTemplate(key), mergedTemplateData, {filename: path.join(this.renderManager.getThemeTemplateRootPath(), key + '.html')});
+    const mergedTemplateData = this.renderLoader.mergeTemplateData(data);
+    return ejs.render(this.renderLoader.getTemplate(key), mergedTemplateData, {filename: path.join(this.renderLoader.getThemeTemplateRootPath(), key + '.html')});
   }
 
   async renderCategoryList() {
@@ -306,7 +306,7 @@ export class RenderController {
         type: articleDoc.type,
         showTime: moment(articleInfo.dateInfo.create).format('dddd, MMMM Do YYYY, h:mm:ss a')
         // TODO change locate global
-        //locate(this.options.LANG || this.renderManager.getThemeConfigure.LANG)
+        //locate(this.options.LANG || this.renderLoader.getThemeConfigure.LANG)
       });
       const result = this.renderTemp('article', articleInfo);
 
@@ -321,7 +321,7 @@ export class RenderController {
 
   async renderIndex() {
     // TODO refactor function
-    if (this.renderManager.getThemeConfigure().INDEX_TYPE !== 'one') {
+    if (this.renderLoader.getThemeConfigure().INDEX_TYPE !== 'one') {
       return;
     }
 
@@ -350,7 +350,7 @@ export class RenderController {
   }
 
   async renderAllArticles(cb) {
-    if (this.renderManager.hasAllArticles()) {
+    if (this.renderLoader.hasAllArticles()) {
       const allarticles = Object.keys(this.categorys).reduce((result, categoryName) => {
         return result.concat(this.categorys[categoryName].articles);
       }, []).sort((a, b) => {
@@ -376,14 +376,14 @@ export class RenderController {
           categorys: categorys,
           currentPageN: i,
           pageN: pageN,
-          type: this.renderManager.getThemeConfigure.INDEX_TYPE
+          type: this.renderLoader.getThemeConfigure.INDEX_TYPE
         });
 
         // TODO 优化
         let outputPath;
         if (i === 0) {
           // TODO refactor function
-          if (this.renderManager.getThemeConfigure.INDEX_TYPE === 'one') { //TODO one 是什么鬼
+          if (this.renderLoader.getThemeConfigure.INDEX_TYPE === 'one') { //TODO one 是什么鬼
             // 如果是 one 代表首页就是所有文章的第一页
             outputPath = this.outputRoot + '/page/' + (i + 1);
           } else {
