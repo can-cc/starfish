@@ -183,7 +183,7 @@ export class RenderController {
     await this.renderCategoryList();
   }
 
-  renderTemp(key, data) {
+  renderTemplate(key, data) {
     const mergedTemplateData = this.renderLoader.mergeTemplateData(data);
     return ejs.render(this.renderLoader.getTemplate(key), mergedTemplateData, {filename: path.join(this.renderLoader.getThemeTemplateRootPath(), key + '.html')});
   }
@@ -195,7 +195,7 @@ export class RenderController {
       number: category.articles.length
     })).filter((category) => category.number > 0);
 
-    const html = this.renderTemp('categorylist', {
+    const html = this.renderTemplate('categorylist', {
       title: this.options.BLOG.NAME,
       categorys: categorys
     });
@@ -225,7 +225,7 @@ export class RenderController {
         type: 'category'
       };
 
-      const html = this.renderTemp('category', data);
+      const html = this.renderTemplate('category', data);
       const outputDir = i === 0 ? outputPath : path.join(outputPath, 'page', i + 1 + '/');
 
       await fsExtra.mkdirs(outputDir);
@@ -280,7 +280,7 @@ export class RenderController {
         // TODO change locate global
         //locate(this.options.LANG || this.renderLoader.getThemeConfigure.LANG)
       });
-      const result = this.renderTemp('article', articleInfo);
+      const result = this.renderTemplate('article', articleInfo);
 
       // await pfs.writeFile(outputFilePath, result);
       fs.writeFileSync(outputFilePath, result);
@@ -313,7 +313,7 @@ export class RenderController {
       categorys: categorys
     };
 
-    const html = this.renderTemp('index', indexData);
+    const html = this.renderTemplate('index', indexData);
 
     const outputFilePath = path.join(this.outputRoot, 'index.html');
     await pfs.writeFileAsync(outputFilePath, html);
@@ -342,7 +342,7 @@ export class RenderController {
       }
 
       await Promise.all(_.chunk(allarticles, this.options.BLOG.ALL_PAGE_ARTICLE_NUMBER).map(async (articles, i) => {
-        const html = this.renderTemp('allarticles', {
+        const html = this.renderTemplate('allarticles', {
           title: this.options.BLOG.NAME,
           articles: articles,
           categorys: categorys,
