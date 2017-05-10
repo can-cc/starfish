@@ -145,7 +145,6 @@ export class RenderController {
 
   addCategory(name, inputPath, outputPath) {
     const configFilePath = path.join(inputPath, this.options.CONFIG.DIR_CONFIG_FILE);
-
     this.categorys[name] = {
       name: name,
       outputPath: outputPath,
@@ -224,10 +223,8 @@ export class RenderController {
         // FIXME
         type: 'category'
       };
-
       const html = this.renderTemplate('category', data);
       const outputDir = i === 0 ? outputPath : path.join(outputPath, 'page', i + 1 + '/');
-
       await fsExtra.mkdirs(outputDir);
       const outputFilePath = path.join(outputDir, 'index.html');
       await fs.writeFileAsync(outputFilePath, html);
@@ -314,11 +311,8 @@ export class RenderController {
     };
 
     const html = this.renderTemplate('index', indexData);
-
     const outputFilePath = path.join(this.outputRoot, 'index.html');
     await pfs.writeFileAsync(outputFilePath, html);
-
-
   }
 
   async renderAllArticles(cb) {
