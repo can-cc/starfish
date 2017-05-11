@@ -91,7 +91,7 @@ export function getPlugin(type, congfiure) {
     .filter(name => new RegExp(`^nobbb-${type}`).test(name))
     .forEach((name) => {
       if( !plugins[name] ){
-        const plugin = new (require(path.resolve(__dirname, '../../node_modules/', name)).default)();
+        const plugin = new (require(path.resolve(__dirname, '../../node_modules/', name)).default)(congfiure);
         if( plugin.type === type ){
           plugins[plugin.getName()] = plugin;
         }

@@ -30,6 +30,7 @@ const isOrg = R.curry(isSuffix)('org');
 const isMd = R.curry(isSuffix)('md');
 const isYaml = R.curry(isSuffix)('yaml');
 
+import Index from './Index';
 
 
 export class RenderController {
@@ -76,6 +77,16 @@ export class RenderController {
   }
 
   async load(dirPath, outputPath, category) {
+
+    const index = new Index({
+      dirPath,
+      outputPath
+    });
+
+    // index.addCategory()
+
+
+
     const paths = await pfs.readdirAsync(dirPath).filter(this.filterIgnores.bind(this));
 
     if (!fs.existsSync(outputPath)) {
