@@ -36,19 +36,13 @@ export class RenderController {
   constructor(inputPath, outputRoot, options) { // TODO merge inputPath, outputRoot
     this.inputPath = inputPath;
     this.outputRoot = outputRoot;
-
+    this.categorys = {};
     this.theme = options.STYLE.THEME;
     this.options = options;
 
-    this.categorys = {};
-
 
     this.pluginType = 'render';
-    this.plugins = getPlugin(this.pluginType, {
-      inputPath,
-      outputRoot,
-      options
-    });
+    this.plugins = getPlugin(this.pluginType);
 
     // TODO remove
     const themeDir = path.isAbsolute(options.STYLE.THEMEDIR) ? options.STYLE.THEMEDIR : path.resolve(inputPath, options.STYLE.THEMEDIR);

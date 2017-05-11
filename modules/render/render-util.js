@@ -84,7 +84,7 @@ export function getParsersFromModules() {
 };
 
 // MOVE
-export function getPlugin(type) {
+export function getPlugin(type, congfiure) {
   const plugins = [];
   fs.readdirSync(path.resolve(__dirname, '../../node_modules'))
     .filter(filterDotFiles)
