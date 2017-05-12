@@ -42,7 +42,10 @@ export default class Index {
     categoryPaths.map(categoryName => this.addCategory(
       path.join(this.inputPath, categoryName),
       path.join(this.outputPath, categoryName),
-      {name: categoryName}
+      {
+        name: categoryName,
+        parsers: this.meta.parsers
+      }
     ));
   }
 

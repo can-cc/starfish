@@ -86,8 +86,6 @@ export class RenderController {
 
     // const paths = await pfs.readdirAsync(dirPath).filter(this.filterIgnores.bind(this));
 
-
-
     // this.addCategory(category, dirPath, outputPath);
 
     // const [files, dirs] = _.partition(paths, pathName => isFile(path.resolve(dirPath, pathName)));
@@ -107,7 +105,11 @@ export class RenderController {
     // const [needMapping, subCateDirs] = R.splitIf(dir => Object.keys(mappingRules).indexOf(dir) >= 0, subDirs);
     // syncMappingDirs(needMapping, mappingRules, dirPath, outputPath)
 
-    const index = new Index({inputPath: dirPath, outputPath}, this);
+    const index = new Index({
+      inputPath: dirPath,
+      outputPath,
+      parsers: this.parsers
+    }, this);
 
     await index.loadRootDir();
     await index.loadCategoryDir();
