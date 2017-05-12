@@ -68,53 +68,80 @@ export class RenderController {
 
     this.clearData();
 
+    if (!fs.existsSync(this.outputRoot)) {
+      fs.mkdirSync(this.outputRoot);
+    }
+
     await this.load(this.inputPath, this.outputRoot, 'index');
     // TODO rename
-    await this.copyStatic();
-    await this.renderCategorys();
+    // await this.copyStatic();
+    // await this.renderCategorys();
 
-    this.runPluinAfterRender();
+    // this.runPluinAfterRender();
   }
+
+
 
   async load(dirPath, outputPath, category) {
 
-    const index = new Index({
-      dirPath,
-      outputPath
-    });
-
-    // index.addCategory()
+    // const paths = await pfs.readdirAsync(dirPath).filter(this.filterIgnores.bind(this));
 
 
 
-    const paths = await pfs.readdirAsync(dirPath).filter(this.filterIgnores.bind(this));
+    // this.addCategory(category, dirPath, outputPath);
 
-    if (!fs.existsSync(outputPath)) {
-      fs.mkdirSync(outputPath);
-    }
+    // const [files, dirs] = _.partition(paths, pathName => isFile(path.resolve(dirPath, pathName)));
+    // const fileNames = files.filter(file => filterDotFiles(file) && R.values(this.parsers).some(parser => parser.check(file)));
 
-    this.addCategory(category, dirPath, outputPath);
+    // // await Promise.all(fileNames.map(async (fileName) => await this.addArticle(fileName, category)));
 
-    const [files, dirs] = _.partition(paths, pathName => isFile(path.resolve(dirPath, pathName)));
-    const fileNames = files.filter(file => filterDotFiles(file) && R.values(this.parsers).some(parser => parser.check(file)));
+    // const fileNameWithoutSuffixs = fileNames.map(file => takeFileNameWithoutSuffix(file));
+    // const [articleAsserts, subDirs] = _.partition(dirs, (dir) => fileNameWithoutSuffixs.indexOf(dir) >= 0);
+    // const shouldCopyArticleAssertNames = articleAsserts.filter((articleAssert) => fileNameWithoutSuffixs.indexOf(articleAssert) >= 0);
 
-    await Promise.all(fileNames.map(async (fileName) => await this.addArticle(fileName, category)));
+    // // await Promise.all(shouldCopyArticleAssertNames.map(async (shouldCopyArticleAssertName) => {
+    // //   await fsExtra.copy(path.join(dirPath, shouldCopyArticleAssertName), path.join(outputPath, shouldCopyArticleAssertName));
+    // // }));
 
-    const fileNameWithoutSuffixs = fileNames.map(file => takeFileNameWithoutSuffix(file));
-    const [articleAsserts, subDirs] = _.partition(dirs, (dir) => fileNameWithoutSuffixs.indexOf(dir) >= 0);
-    const shouldCopyArticleAssertNames = articleAsserts.filter((articleAssert) => fileNameWithoutSuffixs.indexOf(articleAssert) >= 0);
+    // const mappingRules = this.options.MAPPING || {};
+    // const [needMapping, subCateDirs] = R.splitIf(dir => Object.keys(mappingRules).indexOf(dir) >= 0, subDirs);
+    // syncMappingDirs(needMapping, mappingRules, dirPath, outputPath)
 
-    await Promise.all(shouldCopyArticleAssertNames.map(async (shouldCopyArticleAssertName) => {
-      await fsExtra.copy(path.join(dirPath, shouldCopyArticleAssertName), path.join(outputPath, shouldCopyArticleAssertName));
-    }));
+    const index = new Index({inputPath: dirPath, outputPath}, this);
 
-    const mappingRules = this.options.MAPPING || {};
-    const [needMapping, subCateDirs] = R.splitIf(dir => Object.keys(mappingRules).indexOf(dir) >= 0, subDirs);
-    syncMappingDirs(needMapping, mappingRules, dirPath, outputPath)
+    await index.loadRootDir();
+    await index.loadCategoryDir();
 
-    await Promise.all(subCateDirs.map(async (subDir) => {
-      await this.load(path.join(dirPath, subDir), path.join(outputPath, subDir), subDir);
-    }));
+
+
+    // const paths = await pfs.readdirAsync(dirPath).filter(this.filterIgnores.bind(this));
+
+    // if (!fs.existsSync(outputPath)) {
+    //   fs.mkdirSync(outputPath);
+    // }
+
+    // this.addCategory(category, dirPath, outputPath);
+
+    // const [files, dirs] = _.partition(paths, pathName => isFile(path.resolve(dirPath, pathName)));
+    // const fileNames = files.filter(file => filterDotFiles(file) && R.values(this.parsers).some(parser => parser.check(file)));
+
+    // await Promise.all(fileNames.map(async (fileName) => await this.addArticle(fileName, category)));
+
+    // const fileNameWithoutSuffixs = fileNames.map(file => takeFileNameWithoutSuffix(file));
+    // const [articleAsserts, subDirs] = _.partition(dirs, (dir) => fileNameWithoutSuffixs.indexOf(dir) >= 0);
+    // const shouldCopyArticleAssertNames = articleAsserts.filter((articleAssert) => fileNameWithoutSuffixs.indexOf(articleAssert) >= 0);
+
+    // await Promise.all(shouldCopyArticleAssertNames.map(async (shouldCopyArticleAssertName) => {
+    //   await fsExtra.copy(path.join(dirPath, shouldCopyArticleAssertName), path.join(outputPath, shouldCopyArticleAssertName));
+    // }));
+
+    // const mappingRules = this.options.MAPPING || {};
+    // const [needMapping, subCateDirs] = R.splitIf(dir => Object.keys(mappingRules).indexOf(dir) >= 0, subDirs);
+    // syncMappingDirs(needMapping, mappingRules, dirPath, outputPath)
+
+    // await Promise.all(subCateDirs.map(async (subDir) => {
+    //   await this.load(path.join(dirPath, subDir), path.join(outputPath, subDir), subDir);
+    // }));
   }
 
   // TODO move
@@ -127,6 +154,8 @@ export class RenderController {
         self.rootIgnoreRegs.push(globToRegExp(globStr));
       });
     }
+    const mappingRules = this.options.MAPPING || {};
+    R.keys(mappingRules).forEach(toMapPath => this.rootIgnoreRegs.push(globToRegExp(toMapPath)));
   }
 
   async copyStatic() {
