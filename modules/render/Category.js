@@ -24,6 +24,7 @@ export default class Category {
     this.outputPath = outputPath;
 
     this.controller = controller;
+
   }
 
   async loadArticles() {
