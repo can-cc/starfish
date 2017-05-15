@@ -17,30 +17,37 @@ import { getModifyDates } from '../../util/git-date';
 import { RenderLoader } from './render-loader';
 const pfs = bluebird.promisifyAll(fs);
 
+const HashNum = 7;
 
 export default class Article {
   constructor(meta, controller) {
     this.inputPath = meta.inputPath;
     this.outputPath = meta.outputPath;
+    this.meta = meta;
     this.controller = controller;
 
   }
 
   load() {
-    const document = this.parseArticle(this.inputPath);
-
+    const parsed = this.parseArticle(this.inputPath);
+    const document = parsed.document;
     this.data = {
+      id: md5(document.content).substring(0, HashNum),
       document: document,
       title: document.title,
-      content: document.content
-    }
+      content: document.content,
+      type: parsed.type
+    };
   }
 
   parseArticle(inputPath) {
     for (const i in this.meta.parsers) {
       if (this.meta.parsers[i].check(inputPath)) {
         const articleRawData = fs.readFileSync(inputPath, 'utf-8');
-        return this.meta.parsers[i].parse(articleRawData);
+        return {
+          document: this.meta.parsers[i].parse(articleRawData),
+          type: this.meta.parsers[i]
+        };
       }
     }
     throw new Error(`Not Parser for ${inputPath}`);
