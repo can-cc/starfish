@@ -17,40 +17,45 @@ import { getModifyDates } from '../../util/git-date';
 import { RenderLoader } from './render-loader';
 const pfs = bluebird.promisifyAll(fs);
 
-export default class Category {
-  constructor(inputPath, outputPath, meta, controller) {
-    this.name = meta.name;
-    this.inputPath = inputPath;
-    this.outputPath = outputPath;
+import Article from './Article';
 
+export default class Category {
+  constructor(meta, controller) {
+    this.name = meta.name;
+    this.meta = meta;
+    this.parsers = meta.parsers;
+    this.inputPath = meta.inputPath;
+    this.outputPath = meta.outputPath;
     this.controller = controller;
 
+    this.articles = [];
   }
 
   async loadArticles() {
-    const paths = await pfs.readdirAsync(this.inputPath).filter(this.filterIgnores.bind(this));
+    const paths = await pfs.readdirAsync(this.inputPath).filter(this.controller.filterIgnores.bind(this.controller));// TODO: filterIgnores 过滤了更多
 
     const [files, dirs] = _.partition(paths, pathName => isFile(path.resolve(this.inputPath, pathName)));
-    const fileNames = files.filter(file => filterDotFiles(file) && R.values(this.parsers).some(parser => parser.check(file)));
+    const articleFiles = files.filter(file => filterDotFiles(file) && R.values(this.parsers).some(parser => parser.check(file)));
 
-    await Promise.all(fileNames.map(async (fileName) => await this.addArticle(fileName, category)));
+    const articleFileNameWithoutSuffixs = articleFiles.map(file => takeFileNameWithoutSuffix(file));
+    const [articleAsserts, otherDirs] = _.partition(dirs, (dir) => articleFileNameWithoutSuffixs.indexOf(dir) >= 0);
+    const shouldCopyArticleAssertNames = articleAsserts.filter((articleAssert) => articleFileNameWithoutSuffixs.indexOf(articleAssert) >= 0);
 
-    const fileNameWithoutSuffixs = fileNames.map(file => takeFileNameWithoutSuffix(file));
-    const [articleAsserts, subDirs] = _.partition(dirs, (dir) => fileNameWithoutSuffixs.indexOf(dir) >= 0);
-    const shouldCopyArticleAssertNames = articleAsserts.filter((articleAssert) => fileNameWithoutSuffixs.indexOf(articleAssert) >= 0);
+    articleFiles.forEach((articleFile) => {
+      const articleFileNameWithoutSuffix = takeFileNameWithoutSuffix(articleFile);
+      const article = new Article({
+        inputPath: path.join(this.inputPath, articleFile),
+        outputPath: path.join(this.outputPath, articleFileNameWithoutSuffix + '.html'),
+        parsers: this.parsers
+      }, this.controller);
+      article.load();
+      this.addArticle(article);
+    });
 
-    await Promise.all(shouldCopyArticleAssertNames.map(async (shouldCopyArticleAssertName) => {
-      await fsExtra.copy(path.join(dirPath, shouldCopyArticleAssertName), path.join(outputPath, shouldCopyArticleAssertName));
-    }));
+  }
 
-    const mappingRules = this.options.MAPPING || {};
-    const [needMapping, subCateDirs] = R.splitIf(dir => Object.keys(mappingRules).indexOf(dir) >= 0, subDirs);
-    syncMappingDirs(needMapping, mappingRules, dirPath, outputPath)
-
-    await Promise.all(subCateDirs.map(async (subDir) => {
-      await this.load(path.join(dirPath, subDir), path.join(outputPath, subDir), subDir);
-    }));
-
+  addArticle(article) {
+    this.articles.push(article);
   }
 
   render() {

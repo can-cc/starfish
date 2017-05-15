@@ -25,28 +25,29 @@ export default class Index {
   constructor(meta, controller) {
     this.inputPath = meta.inputPath;
     this.outputPath = meta.outputPath;
-
+    this.meta = meta;
     this.controller = controller;
 
     this.categorys = [];
   }
 
-  addCategory(inputPath, outputPath, meta) {
-    this.categorys.push(new Category(inputPath, outputPath, meta, this.controller));
+  addCategory(category) {
+    this.categorys.push(category);
   }
 
   async loadRootDir() {
     const categoryPaths = await pfs.readdirAsync(this.inputPath)
           .filter(this.controller.filterIgnores.bind(this.controller))
           .filter(p => isDir(path.resolve(this.inputPath, p)));
-    categoryPaths.map(categoryName => this.addCategory(
-      path.join(this.inputPath, categoryName),
-      path.join(this.outputPath, categoryName),
+    categoryPaths.map(categoryName => this.addCategory(new Category(
       {
+        inputPath: path.join(this.inputPath, categoryName),
+        outputPath: path.join(this.outputPath, categoryName),
         name: categoryName,
         parsers: this.meta.parsers
-      }
-    ));
+      },
+      this.controller
+    )));
   }
 
   loadCategoryDir() {
