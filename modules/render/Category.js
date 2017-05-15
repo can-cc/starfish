@@ -46,6 +46,7 @@ export default class Category {
       const article = new Article({
         inputPath: path.join(this.inputPath, articleFile),
         outputPath: path.join(this.outputPath, articleFileNameWithoutSuffix + '.html'),
+        articleFileNameWithoutSuffix,
         parsers: this.parsers
       }, this.controller);
       article.load();

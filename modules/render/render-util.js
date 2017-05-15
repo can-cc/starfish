@@ -58,6 +58,7 @@ export function cutOffArticle(content, number) {
   return text.substring(0, number);
 }
 
+
 export function makeDocumentParserFn(parsers) {
   return (filePath, data) => {
     const fileName = takeFileName(filePath);

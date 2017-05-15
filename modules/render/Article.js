@@ -23,10 +23,27 @@ export default class Article {
     this.inputPath = meta.inputPath;
     this.outputPath = meta.outputPath;
     this.controller = controller;
+
   }
 
   load() {
+    const document = this.parseArticle(this.inputPath);
 
+    this.data = {
+      document: document,
+      title: document.title,
+      content: document.content
+    }
+  }
+
+  parseArticle(inputPath) {
+    for (const i in this.meta.parsers) {
+      if (this.meta.parsers[i].check(inputPath)) {
+        const articleRawData = fs.readFileSync(inputPath, 'utf-8');
+        return this.meta.parsers[i].parse(articleRawData);
+      }
+    }
+    throw new Error(`Not Parser for ${inputPath}`);
   }
 
   render(outputPath) {
