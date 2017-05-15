@@ -31,8 +31,8 @@ export default class Category {
     this.articles = [];
   }
 
-  async loadArticles() {
-    const paths = await pfs.readdirAsync(this.inputPath).filter(this.controller.filterIgnores.bind(this.controller));// TODO: filterIgnores 过滤了更多
+  loadArticles() {
+    const paths = fs.readdirSync(this.inputPath).filter(this.controller.filterIgnores.bind(this.controller));// TODO: filterIgnores 过滤了更多
 
     const [files, dirs] = _.partition(paths, pathName => isFile(path.resolve(this.inputPath, pathName)));
     const articleFiles = files.filter(file => filterDotFiles(file) && R.values(this.parsers).some(parser => parser.check(file)));
@@ -43,16 +43,16 @@ export default class Category {
 
     articleFiles.forEach((articleFile) => {
       const articleFileNameWithoutSuffix = takeFileNameWithoutSuffix(articleFile);
-      const article = new Article({
+      const article = new Article(Object.assign({}, this.meta, {
         inputPath: path.join(this.inputPath, articleFile),
         outputPath: path.join(this.outputPath, articleFileNameWithoutSuffix + '.html'),
         articleFileNameWithoutSuffix,
-        parsers: this.parsers
-      }, this.controller);
+        categoryPath: this.inputPath,
+        name: articleFileNameWithoutSuffix
+      }), this.controller);
       article.load();
-      this.addArticle(article);
+      this.addArticle.call(this, article);
     });
-
   }
 
   addArticle(article) {
@@ -63,5 +63,13 @@ export default class Category {
     if (!fs.existsSync(this.outputPath)) {
       fs.mkdirSync(this.outputPath);
     }
+  }
+
+  renderAllArticle() {
+    console.log(this);
+    this.articles.forEach(article => {
+      console.log('-');
+      article.render();
+    });
   }
 }

@@ -73,6 +73,8 @@ export class RenderController {
     }
 
     await this.load(this.inputPath, this.outputRoot, 'index');
+
+
     // TODO rename
     // await this.copyStatic();
     // await this.renderCategorys();
@@ -114,7 +116,7 @@ export class RenderController {
     await index.loadRootDir();
     await index.loadCategoryDir();
 
-
+    await index.renderAllCategory();
 
     // const paths = await pfs.readdirAsync(dirPath).filter(this.filterIgnores.bind(this));
 
@@ -260,6 +262,14 @@ export class RenderController {
     fs.writeFileSync(outputFilePath, html);
   }
 
+  getBlogInformation() {
+    return {
+      author: this.options.AUTHOR.NAME,
+      blogName: this.options.BLOG.NAME,
+      blogDesc: this.options.BLOG.DESC
+    };
+  }
+
   // dispatch category or index
   async renderCategoryIndex(name, outputPath, articles) {
     const sorted = this.sortArticles(articles);
@@ -283,8 +293,8 @@ export class RenderController {
     }));
   }
 
-  async renderArticle() {
-
+  renderArticle(data) {
+    return this.renderTemplate('article', data);
   }
 
   async renderCategory(category) {

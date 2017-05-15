@@ -44,6 +44,7 @@ export default class Index {
         inputPath: path.join(this.inputPath, categoryName),
         outputPath: path.join(this.outputPath, categoryName),
         name: categoryName,
+        outputRootPath: this.inputPath,
         parsers: this.meta.parsers
       },
       this.controller
@@ -52,5 +53,16 @@ export default class Index {
 
   loadCategoryDir() {
     this.categorys.forEach(category => category.loadArticles());
+  }
+
+  render() {
+
+  }
+
+  renderAllCategory() {
+    this.categorys.forEach(category => {
+      category.render();
+      category.renderAllArticle();
+    });
   }
 }

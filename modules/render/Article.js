@@ -25,19 +25,23 @@ export default class Article {
     this.outputPath = meta.outputPath;
     this.meta = meta;
     this.controller = controller;
-
   }
 
   load() {
     const parsed = this.parseArticle(this.inputPath);
     const document = parsed.document;
+    const relativeOutputPath = getRelativePath(this.meta.outputRootPath, this.meta.categoryPath);
+    const [content, contentPart] = fixArticleUrlAndCut(document.content, relativeOutputPath, 200);
     this.data = {
       id: md5(document.content).substring(0, HashNum),
       document: document,
       title: document.title,
-      content: document.content,
-      type: parsed.type
+      content: content,
+      summary: contentPart,
+      type: parsed.type,
+      categoryPath: this.meta.categoryPath
     };
+    Object.assign(this.data, this.controller.getBlogInformation());
   }
 
   parseArticle(inputPath) {
@@ -46,14 +50,15 @@ export default class Article {
         const articleRawData = fs.readFileSync(inputPath, 'utf-8');
         return {
           document: this.meta.parsers[i].parse(articleRawData),
-          type: this.meta.parsers[i]
+          type: this.meta.parsers[i].name
         };
       }
     }
     throw new Error(`Not Parser for ${inputPath}`);
   }
 
-  render(outputPath) {
+  render() {
+    const rendered = this.controller.renderArticle(this.data);
 
   }
 }
