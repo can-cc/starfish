@@ -55,7 +55,36 @@ export default class Index {
     this.categorys.forEach(category => category.loadArticles());
   }
 
+  concatAllArticle() {
+    return R.concat(...this.categorys.map(c => c.getAllArticles()));
+  }
+
   render() {
+    // TODO refactor function
+    if (this.controller.renderLoader.getThemeConfigure().INDEX_TYPE !== 'one') {
+      return;
+    }
+
+    const allarticles = this.concatAllArticle().sort((a, b) => {
+      return b.data.createTime.getTime() - a.data.createTime.getTime();
+    });
+
+    const indexData = {
+      ...this.controller.getBlogInformation(),
+      title: this.controller.options.BLOG.NAME,
+      blogDesc: this.controller.options.BLOG.DESC,
+      articles: R.take(10, allarticles)
+      // categorys: categorys
+    };
+
+    // this.controller.runPluginAfterIndexRender(indexData);
+
+    const html = this.controller.renderTemplate('index', indexData);
+    const outputFilePath = path.join(this.outputPath, 'index.html');
+    fs.writeFileSync(outputFilePath, html);
+  }
+
+  renderAllArticles() {
 
   }
 

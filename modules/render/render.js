@@ -115,7 +115,7 @@ export class RenderController {
 
     await index.loadRootDir();
     await index.loadCategoryDir();
-
+    await index.render();
     await index.renderAllCategory();
 
     // const paths = await pfs.readdirAsync(dirPath).filter(this.filterIgnores.bind(this));
@@ -349,34 +349,34 @@ export class RenderController {
   //   await this.renderCategoryIndex(category.name, outputDirPath, category.articles);
   // }
 
-  async renderIndex() {
-    // TODO refactor function
-    if (this.renderLoader.getThemeConfigure().INDEX_TYPE !== 'one') {
-      return;
-    }
+  // async renderIndex() {
+  //   // TODO refactor function
+  //   if (this.renderLoader.getThemeConfigure().INDEX_TYPE !== 'one') {
+  //     return;
+  //   }
 
-    const allarticles = Object.keys(this.categorys).reduce((result, categoryName) => {
-      return result.concat(this.categorys[categoryName].articles);
-    }, []).sort((a, b) => {
-      return b.dateInfo[this.options.BLOG.SORT_ARTICLE_BY].getTime() - a.dateInfo[this.options.BLOG.SORT_ARTICLE_BY].getTime();
-    });
+  //   const allarticles = Object.keys(this.categorys).reduce((result, categoryName) => {
+  //     return result.concat(this.categorys[categoryName].articles);
+  //   }, []).sort((a, b) => {
+  //     return b.dateInfo[this.options.BLOG.SORT_ARTICLE_BY].getTime() - a.dateInfo[this.options.BLOG.SORT_ARTICLE_BY].getTime();
+  //   });
 
-    const categorys = R.values(this.categorys).map(category => ({name: category.aliasName || category.name, indexUrl: path.join('/', category.relativeOutputPath, 'index.html'), number: category.articles.length}))
-          .filter((category) => category.number > 0);
+  //   const categorys = R.values(this.categorys).map(category => ({name: category.aliasName || category.name, indexUrl: path.join('/', category.relativeOutputPath, 'index.html'), number: category.articles.length}))
+  //         .filter((category) => category.number > 0);
 
-    const indexData = {
-      title: this.options.BLOG.NAME,
-      blogDesc: this.options.BLOG.DESC,
-      articles: R.take(this.options.BLOG.INDEX_ARTICLE_NUMBER, allarticles),
-      categorys: categorys
-    };
+  //   const indexData = {
+  //     title: this.options.BLOG.NAME,
+  //     blogDesc: this.options.BLOG.DESC,
+  //     articles: R.take(this.options.BLOG.INDEX_ARTICLE_NUMBER, allarticles),
+  //     categorys: categorys
+  //   };
 
-    this.runPluginAfterIndexRender(indexData);
+  //   this.runPluginAfterIndexRender(indexData);
 
-    const html = this.renderTemplate('index', indexData);
-    const outputFilePath = path.join(this.outputRoot, 'index.html');
-    await pfs.writeFileAsync(outputFilePath, html);
-  }
+  //   const html = this.renderTemplate('index', indexData);
+  //   const outputFilePath = path.join(this.outputRoot, 'index.html');
+  //   await pfs.writeFileAsync(outputFilePath, html);
+  // }
 
   async renderAllArticles(cb) {
     if (this.renderLoader.hasAllArticles()) {

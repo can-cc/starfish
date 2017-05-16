@@ -40,11 +40,10 @@ export default class Article {
       content: content,
       summary: contentPart,
       type: parsed.type,
-      categoryPath: this.meta.categoryPath
+      categoryPath: this.meta.categoryPath,
+      ...this.controller.getBlogInformation(),
+      ...this.getArticleGitData(this.inputPath)
     };
-    Object.assign(this.data,
-                  this.controller.getBlogInformation(),
-                  this.getArticleGitData(this.inputPath));
   }
 
   getArticleGitData(filePath) {
