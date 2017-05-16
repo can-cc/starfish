@@ -31,6 +31,13 @@ export default class Category {
     this.articles = [];
 
     this.loadCategoryConfigure();
+
+  }
+
+  load() {
+    this.data = {
+      relativeOutputPath: getRelativePath(this.outputRootPath, this.outputPath)
+    }
   }
 
   loadCategoryConfigure() {

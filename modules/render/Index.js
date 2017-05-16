@@ -52,7 +52,10 @@ export default class Index {
   }
 
   loadCategoryDir() {
-    this.categorys.forEach(category => category.loadArticles());
+    this.categorys.forEach(category => {
+      category.load();
+      category.loadArticles()
+    });
   }
 
   concatAllArticle() {
@@ -69,12 +72,20 @@ export default class Index {
       return b.data.createTime.getTime() - a.data.createTime.getTime();
     });
 
+    const categorys = this.categorys.map((category) => {
+      return {
+        name: category.name,
+        indexUrl: path.join('/', category.data.relativeOutputPath, 'index.html'),
+        number: category.articles.length
+      }
+    })
+
     const indexData = {
       ...this.controller.getBlogInformation(),
       title: this.controller.options.BLOG.NAME,
       blogDesc: this.controller.options.BLOG.DESC,
-      articles: R.take(10, allarticles)
-      // categorys: categorys
+      articles: R.take(10, allarticles),
+      categorys: categorys
     };
 
     // this.controller.runPluginAfterIndexRender(indexData);
