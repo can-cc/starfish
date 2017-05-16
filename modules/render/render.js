@@ -82,31 +82,7 @@ export class RenderController {
     // this.runPluinAfterRender();
   }
 
-
-
   async load(dirPath, outputPath, category) {
-
-    // const paths = await pfs.readdirAsync(dirPath).filter(this.filterIgnores.bind(this));
-
-    // this.addCategory(category, dirPath, outputPath);
-
-    // const [files, dirs] = _.partition(paths, pathName => isFile(path.resolve(dirPath, pathName)));
-    // const fileNames = files.filter(file => filterDotFiles(file) && R.values(this.parsers).some(parser => parser.check(file)));
-
-    // // await Promise.all(fileNames.map(async (fileName) => await this.addArticle(fileName, category)));
-
-    // const fileNameWithoutSuffixs = fileNames.map(file => takeFileNameWithoutSuffix(file));
-    // const [articleAsserts, subDirs] = _.partition(dirs, (dir) => fileNameWithoutSuffixs.indexOf(dir) >= 0);
-    // const shouldCopyArticleAssertNames = articleAsserts.filter((articleAssert) => fileNameWithoutSuffixs.indexOf(articleAssert) >= 0);
-
-    // // await Promise.all(shouldCopyArticleAssertNames.map(async (shouldCopyArticleAssertName) => {
-    // //   await fsExtra.copy(path.join(dirPath, shouldCopyArticleAssertName), path.join(outputPath, shouldCopyArticleAssertName));
-    // // }));
-
-    // const mappingRules = this.options.MAPPING || {};
-    // const [needMapping, subCateDirs] = R.splitIf(dir => Object.keys(mappingRules).indexOf(dir) >= 0, subDirs);
-    // syncMappingDirs(needMapping, mappingRules, dirPath, outputPath)
-
     const index = new Index({
       inputPath: dirPath,
       outputPath,
@@ -117,35 +93,6 @@ export class RenderController {
     await index.loadCategoryDir();
     await index.render();
     await index.renderAllCategory();
-
-    // const paths = await pfs.readdirAsync(dirPath).filter(this.filterIgnores.bind(this));
-
-    // if (!fs.existsSync(outputPath)) {
-    //   fs.mkdirSync(outputPath);
-    // }
-
-    // this.addCategory(category, dirPath, outputPath);
-
-    // const [files, dirs] = _.partition(paths, pathName => isFile(path.resolve(dirPath, pathName)));
-    // const fileNames = files.filter(file => filterDotFiles(file) && R.values(this.parsers).some(parser => parser.check(file)));
-
-    // await Promise.all(fileNames.map(async (fileName) => await this.addArticle(fileName, category)));
-
-    // const fileNameWithoutSuffixs = fileNames.map(file => takeFileNameWithoutSuffix(file));
-    // const [articleAsserts, subDirs] = _.partition(dirs, (dir) => fileNameWithoutSuffixs.indexOf(dir) >= 0);
-    // const shouldCopyArticleAssertNames = articleAsserts.filter((articleAssert) => fileNameWithoutSuffixs.indexOf(articleAssert) >= 0);
-
-    // await Promise.all(shouldCopyArticleAssertNames.map(async (shouldCopyArticleAssertName) => {
-    //   await fsExtra.copy(path.join(dirPath, shouldCopyArticleAssertName), path.join(outputPath, shouldCopyArticleAssertName));
-    // }));
-
-    // const mappingRules = this.options.MAPPING || {};
-    // const [needMapping, subCateDirs] = R.splitIf(dir => Object.keys(mappingRules).indexOf(dir) >= 0, subDirs);
-    // syncMappingDirs(needMapping, mappingRules, dirPath, outputPath)
-
-    // await Promise.all(subCateDirs.map(async (subDir) => {
-    //   await this.load(path.join(dirPath, subDir), path.join(outputPath, subDir), subDir);
-    // }));
   }
 
   // TODO move
@@ -270,113 +217,10 @@ export class RenderController {
     };
   }
 
-  // dispatch category or index
-  async renderCategoryIndex(name, outputPath, articles) {
-    const sorted = this.sortArticles(articles);
-    const pageN = Math.ceil(sorted.length / this.options.BLOG.CATEGORY_ARTICLE_NUMBER);
-
-    await Promise.all(_.chunk(sorted, this.options.BLOG.CATEGORY_ARTICLE_NUMBER).map(async (articleChunk, i) => {
-      const data = {
-        title: this.categorys[name].aliasName || name,
-        articles: articleChunk,
-        currentPageN: i,
-        pageN: pageN,
-        // FIXME
-        type: 'category'
-      };
-      const html = this.renderTemplate('category', data);
-      const outputDir = i === 0 ? outputPath : path.join(outputPath, 'page', i + 1 + '/');
-      await fsExtra.mkdirs(outputDir);
-      const outputFilePath = path.join(outputDir, 'index.html');
-      await fs.writeFileAsync(outputFilePath, html);
-    }));
-  }
-
   renderArticle(data) {
     return this.renderTemplate('article', data);
   }
 
-  // async renderCategory(category) {
-  //   const outputDirPath = category.outputPath; //TODO: change name
-  //   const inputPath = category.inputPath;
-
-  //   await Promise.all(category.articles.map(async (articleInfo) => {
-  //     const filePath = path.join(inputPath, articleInfo.fileName);
-  //     const articleRawData = await pfs.readFileAsync(filePath, 'utf-8');
-  //     const articleDoc = this.documentParserFn(filePath, articleRawData);
-  //     if (!articleDoc) {
-  //       throw new Error('can not parse this document', filePath);
-  //     }
-
-  //     const fileNameWithoutSuffix = takeFileNameWithoutSuffix(articleInfo.fileName);
-  //     const outputFilePath = path.join(outputDirPath, fileNameWithoutSuffix + '.html');
-  //     const outputUrl = path.join('/', category.relativeOutputPath, fileNameWithoutSuffix + '.html');
-  //     const relativeOutputPath = getRelativePath(this.outputRoot, outputDirPath);
-  //     const [content, contentPart] = fixArticleUrlAndCut(articleDoc.content, relativeOutputPath, this.options.BLOG.ARTICLE_SUMMARY_CHAR_NUMBER);
-
-  //     // // FIXME: BUG
-  //     // articles: [ [Object], [Circular], [Object], [Object] ] },
-  //     mergeForce(articleInfo, {
-  //       id: md5(filePath).substring(0, HashNum),
-  //       title: articleDoc.title,
-  //       content: content,
-  //       summary: contentPart, // rename
-  //       contentPart, // remove
-  //       category: category,
-  //       createDate: articleInfo.dateInfo.create,
-  //       author: this.options.AUTHOR.NAME,
-  //       blogName: this.options.BLOG.NAME,
-  //       blogDesc: this.options.BLOG.DESC,
-  //       fileNameWithoutSuffix,
-  //       relativeOutputPath: relativeOutputPath,
-  //       outputfilename: fileNameWithoutSuffix + '.html',
-  //       outputUrl,
-  //       outputFilePath,
-  //       outputDirPath,
-  //       type: articleDoc.type,
-  //       showTime: moment(articleInfo.dateInfo.create).format('dddd, MMMM Do YYYY, h:mm:ss a')
-  //       // TODO change locate global
-  //       //locate(this.options.LANG || this.renderLoader.getThemeConfigure.LANG)
-  //     });
-  //     const result = this.renderTemplate('article', articleInfo);
-
-  //     // await pfs.writeFile(outputFilePath, result);
-  //     fs.writeFileSync(outputFilePath, result);
-  //     this.runPluinAfterArticleRender(articleRawData, articleInfo);
-  //     return articleInfo;
-  //   }));
-
-  //   await this.renderCategoryIndex(category.name, outputDirPath, category.articles);
-  // }
-
-  // async renderIndex() {
-  //   // TODO refactor function
-  //   if (this.renderLoader.getThemeConfigure().INDEX_TYPE !== 'one') {
-  //     return;
-  //   }
-
-  //   const allarticles = Object.keys(this.categorys).reduce((result, categoryName) => {
-  //     return result.concat(this.categorys[categoryName].articles);
-  //   }, []).sort((a, b) => {
-  //     return b.dateInfo[this.options.BLOG.SORT_ARTICLE_BY].getTime() - a.dateInfo[this.options.BLOG.SORT_ARTICLE_BY].getTime();
-  //   });
-
-  //   const categorys = R.values(this.categorys).map(category => ({name: category.aliasName || category.name, indexUrl: path.join('/', category.relativeOutputPath, 'index.html'), number: category.articles.length}))
-  //         .filter((category) => category.number > 0);
-
-  //   const indexData = {
-  //     title: this.options.BLOG.NAME,
-  //     blogDesc: this.options.BLOG.DESC,
-  //     articles: R.take(this.options.BLOG.INDEX_ARTICLE_NUMBER, allarticles),
-  //     categorys: categorys
-  //   };
-
-  //   this.runPluginAfterIndexRender(indexData);
-
-  //   const html = this.renderTemplate('index', indexData);
-  //   const outputFilePath = path.join(this.outputRoot, 'index.html');
-  //   await pfs.writeFileAsync(outputFilePath, html);
-  // }
 
   async renderAllArticles(cb) {
     if (this.renderLoader.hasAllArticles()) {

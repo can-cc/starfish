@@ -44,9 +44,7 @@ export default class Category {
     this.categoryConfigure = {};
     const categoryConfigureFilePath = path.join(this.inputPath, '.wdconfig.yaml');
 
-    // fs.readFileSync(
 
-    // )
   }
 
   loadArticles() {
