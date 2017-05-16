@@ -29,6 +29,17 @@ export default class Category {
     this.controller = controller;
 
     this.articles = [];
+
+    this.loadCategoryConfigure();
+  }
+
+  loadCategoryConfigure() {
+    this.categoryConfigure = {};
+    const categoryConfigureFilePath = path.join(this.inputPath, '.wdconfig.yaml');
+
+    // fs.readFileSync(
+
+    // )
   }
 
   loadArticles() {
@@ -55,6 +66,10 @@ export default class Category {
     });
   }
 
+  getAllArticles() {
+    return this.articles;
+  }
+
   addArticle(article) {
     this.articles.push(article);
   }
@@ -63,12 +78,23 @@ export default class Category {
     if (!fs.existsSync(this.outputPath)) {
       fs.mkdirSync(this.outputPath);
     }
+
+    const sortedArticles = this.articles;
+
+    const pageN = Math.ceil(sortedArticles.length / 10);
+    _.chunk(sortedArticles, 10).forEach((articleChunk, i) => {
+      const data = {
+        title: this.name,
+        articles: articleChunk,
+        pageN: i,
+        currentPageN: pageN
+      };
+      console.log(data);
+    });
   }
 
   renderAllArticle() {
-    console.log(this);
     this.articles.forEach(article => {
-      console.log('-');
       article.render();
     });
   }

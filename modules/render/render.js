@@ -276,7 +276,6 @@ export class RenderController {
     const pageN = Math.ceil(sorted.length / this.options.BLOG.CATEGORY_ARTICLE_NUMBER);
 
     await Promise.all(_.chunk(sorted, this.options.BLOG.CATEGORY_ARTICLE_NUMBER).map(async (articleChunk, i) => {
-
       const data = {
         title: this.categorys[name].aliasName || name,
         articles: articleChunk,
@@ -406,14 +405,14 @@ export class RenderController {
           categorys: categorys,
           currentPageN: i,
           pageN: pageN,
-          type: this.renderLoader.getThemeConfigure.INDEX_TYPE
+          type: this.renderLoader.getThemeConfigure().INDEX_TYPE
         });
 
         // TODO 优化
         let outputPath;
         if (i === 0) {
           // TODO refactor function
-          if (this.renderLoader.getThemeConfigure.INDEX_TYPE === 'one') { //TODO one 是什么鬼
+          if (this.renderLoader.getThemeConfigure().INDEX_TYPE === 'one') { //TODO one 是什么鬼
             // 如果是 one 代表首页就是所有文章的第一页
             outputPath = this.outputRoot + '/page/' + (i + 1);
           } else {

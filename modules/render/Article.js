@@ -15,6 +15,7 @@ import { warning, error } from '../../lib/message';
 import { loadConfig } from '../../lib/loadConfig.js';
 import { getModifyDates } from '../../util/git-date';
 import { RenderLoader } from './render-loader';
+var execSync = require('child_process').execSync;
 const pfs = bluebird.promisifyAll(fs);
 
 const HashNum = 7;
@@ -41,7 +42,22 @@ export default class Article {
       type: parsed.type,
       categoryPath: this.meta.categoryPath
     };
-    Object.assign(this.data, this.controller.getBlogInformation());
+    Object.assign(this.data,
+                  this.controller.getBlogInformation(),
+                  this.getArticleGitData(this.inputPath));
+  }
+
+  getArticleGitData(filePath) {
+    const stdout = execSync(`git log --pretty=format:\'%ad\' ${filePath} | cat`, {
+      cwd: this.meta.outputRootPath,
+      encoding: 'utf-8'
+    });
+    const dates =  stdout.split('\n');
+    return {
+      createTime: new Date(_.last(dates) || new Date()),
+      modifyTime: new Date(_.head(dates) || new Date()),
+      showTime: moment(new Date(_.last(dates) || new Date())).format('dddd, MMMM Do YYYY, h:mm:ss a')
+    };
   }
 
   parseArticle(inputPath) {
@@ -59,6 +75,6 @@ export default class Article {
 
   render() {
     const rendered = this.controller.renderArticle(this.data);
-
+    fs.writeFileSync(this.outputPath, rendered);
   }
 }
