@@ -79,7 +79,9 @@ export default class Category {
       fs.mkdirSync(this.outputPath);
     }
 
-    const sortedArticles = this.articles;
+    const sortedArticles = this.articles.sort((a, b) => {
+      return b.data.createTime.getTime() - a.data.createTime.getTime();
+    });
 
     const pageN = Math.ceil(sortedArticles.length / 10);
     _.chunk(sortedArticles, 10).forEach((articleChunk, i) => {
@@ -89,7 +91,14 @@ export default class Category {
         pageN: i,
         currentPageN: pageN
       };
-      console.log(data);
+
+      const html = this.controller.renderTemplate('category', data);
+      const outputDir = i === 0 ? this.outputPath : path.join(this.outputPath, 'page', i + 1 + '/');
+      if (!fs.existsSync(outputDir)) {
+        fs.mkdirSync(outputDir);
+      }
+      const outputFilePath = path.join(outputDir, 'index.html');
+      fs.writeFileSync(outputFilePath, html);
     });
   }
 

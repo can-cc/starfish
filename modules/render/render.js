@@ -296,58 +296,58 @@ export class RenderController {
     return this.renderTemplate('article', data);
   }
 
-  async renderCategory(category) {
-    const outputDirPath = category.outputPath; //TODO: change name
-    const inputPath = category.inputPath;
+  // async renderCategory(category) {
+  //   const outputDirPath = category.outputPath; //TODO: change name
+  //   const inputPath = category.inputPath;
 
-    await Promise.all(category.articles.map(async (articleInfo) => {
-      const filePath = path.join(inputPath, articleInfo.fileName);
-      const articleRawData = await pfs.readFileAsync(filePath, 'utf-8');
-      const articleDoc = this.documentParserFn(filePath, articleRawData);
-      if (!articleDoc) {
-        throw new Error('can not parse this document', filePath);
-      }
+  //   await Promise.all(category.articles.map(async (articleInfo) => {
+  //     const filePath = path.join(inputPath, articleInfo.fileName);
+  //     const articleRawData = await pfs.readFileAsync(filePath, 'utf-8');
+  //     const articleDoc = this.documentParserFn(filePath, articleRawData);
+  //     if (!articleDoc) {
+  //       throw new Error('can not parse this document', filePath);
+  //     }
 
-      const fileNameWithoutSuffix = takeFileNameWithoutSuffix(articleInfo.fileName);
-      const outputFilePath = path.join(outputDirPath, fileNameWithoutSuffix + '.html');
-      const outputUrl = path.join('/', category.relativeOutputPath, fileNameWithoutSuffix + '.html');
-      const relativeOutputPath = getRelativePath(this.outputRoot, outputDirPath);
-      const [content, contentPart] = fixArticleUrlAndCut(articleDoc.content, relativeOutputPath, this.options.BLOG.ARTICLE_SUMMARY_CHAR_NUMBER);
+  //     const fileNameWithoutSuffix = takeFileNameWithoutSuffix(articleInfo.fileName);
+  //     const outputFilePath = path.join(outputDirPath, fileNameWithoutSuffix + '.html');
+  //     const outputUrl = path.join('/', category.relativeOutputPath, fileNameWithoutSuffix + '.html');
+  //     const relativeOutputPath = getRelativePath(this.outputRoot, outputDirPath);
+  //     const [content, contentPart] = fixArticleUrlAndCut(articleDoc.content, relativeOutputPath, this.options.BLOG.ARTICLE_SUMMARY_CHAR_NUMBER);
 
-      // // FIXME: BUG
-      // articles: [ [Object], [Circular], [Object], [Object] ] },
-      mergeForce(articleInfo, {
-        id: md5(filePath).substring(0, HashNum),
-        title: articleDoc.title,
-        content: content,
-        summary: contentPart, // rename
-        contentPart, // remove
-        category: category,
-        createDate: articleInfo.dateInfo.create,
-        author: this.options.AUTHOR.NAME,
-        blogName: this.options.BLOG.NAME,
-        blogDesc: this.options.BLOG.DESC,
-        fileNameWithoutSuffix,
-        relativeOutputPath: relativeOutputPath,
-        outputfilename: fileNameWithoutSuffix + '.html',
-        outputUrl,
-        outputFilePath,
-        outputDirPath,
-        type: articleDoc.type,
-        showTime: moment(articleInfo.dateInfo.create).format('dddd, MMMM Do YYYY, h:mm:ss a')
-        // TODO change locate global
-        //locate(this.options.LANG || this.renderLoader.getThemeConfigure.LANG)
-      });
-      const result = this.renderTemplate('article', articleInfo);
+  //     // // FIXME: BUG
+  //     // articles: [ [Object], [Circular], [Object], [Object] ] },
+  //     mergeForce(articleInfo, {
+  //       id: md5(filePath).substring(0, HashNum),
+  //       title: articleDoc.title,
+  //       content: content,
+  //       summary: contentPart, // rename
+  //       contentPart, // remove
+  //       category: category,
+  //       createDate: articleInfo.dateInfo.create,
+  //       author: this.options.AUTHOR.NAME,
+  //       blogName: this.options.BLOG.NAME,
+  //       blogDesc: this.options.BLOG.DESC,
+  //       fileNameWithoutSuffix,
+  //       relativeOutputPath: relativeOutputPath,
+  //       outputfilename: fileNameWithoutSuffix + '.html',
+  //       outputUrl,
+  //       outputFilePath,
+  //       outputDirPath,
+  //       type: articleDoc.type,
+  //       showTime: moment(articleInfo.dateInfo.create).format('dddd, MMMM Do YYYY, h:mm:ss a')
+  //       // TODO change locate global
+  //       //locate(this.options.LANG || this.renderLoader.getThemeConfigure.LANG)
+  //     });
+  //     const result = this.renderTemplate('article', articleInfo);
 
-      // await pfs.writeFile(outputFilePath, result);
-      fs.writeFileSync(outputFilePath, result);
-      this.runPluinAfterArticleRender(articleRawData, articleInfo);
-      return articleInfo;
-    }));
+  //     // await pfs.writeFile(outputFilePath, result);
+  //     fs.writeFileSync(outputFilePath, result);
+  //     this.runPluinAfterArticleRender(articleRawData, articleInfo);
+  //     return articleInfo;
+  //   }));
 
-    await this.renderCategoryIndex(category.name, outputDirPath, category.articles);
-  }
+  //   await this.renderCategoryIndex(category.name, outputDirPath, category.articles);
+  // }
 
   async renderIndex() {
     // TODO refactor function
