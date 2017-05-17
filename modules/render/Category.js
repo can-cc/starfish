@@ -63,7 +63,8 @@ export default class Category {
         inputPath: path.join(this.inputPath, articleFile),
         outputPath: path.join(this.outputPath, articleFileNameWithoutSuffix + '.html'),
         articleFileNameWithoutSuffix,
-        categoryPath: this.inputPath,
+        categoryInputPath: this.inputPath,
+        categoryOutputPath: this.outputPath,
         name: articleFileNameWithoutSuffix
       }), this.controller);
       article.load();

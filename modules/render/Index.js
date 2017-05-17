@@ -99,6 +99,10 @@ export default class Index {
 
   }
 
+  renderCategoryList() {
+
+  }
+
   renderAllCategory() {
     this.categorys.forEach(category => {
       category.render();

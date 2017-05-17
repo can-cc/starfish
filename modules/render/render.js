@@ -32,6 +32,8 @@ const isYaml = R.curry(isSuffix)('yaml');
 
 import Index from './Index';
 
+import { RenderPluginManager } from './render-plugin';
+
 
 export class RenderController {
   constructor(inputPath, outputRoot, options) { // TODO merge inputPath, outputRoot
@@ -44,11 +46,7 @@ export class RenderController {
     this.categorys = {};
 
     this.pluginType = 'render';
-    this.plugins = getPlugin(this.pluginType, {
-      inputPath,
-      outputRoot,
-      options
-    });
+
 
     // TODO remove
     const themeDir = path.isAbsolute(options.STYLE.THEMEDIR) ? options.STYLE.THEMEDIR : path.resolve(inputPath, options.STYLE.THEMEDIR);
@@ -58,6 +56,7 @@ export class RenderController {
     this.loadRootIgnore();
 
     this.renderLoader = new RenderLoader(inputPath, outputRoot, options);
+    this.renderPluginManager = new RenderPluginManager();
 
     this.parsers = getParsersFromModules();
     this.documentParserFn = makeDocumentParserFn(this.parsers);
@@ -73,12 +72,6 @@ export class RenderController {
 
     await this.load(this.inputPath, this.outputRoot, 'index');
     await this.copyStatic();
-
-    // TODO rename
-    // await this.copyStatic();
-    // await this.renderCategorys();
-
-    // this.runPluinAfterRender();
   }
 
   async load(dirPath, outputPath, category) {
@@ -91,6 +84,7 @@ export class RenderController {
     await index.loadRootDir();
     await index.loadCategoryDir();
     await index.render();
+    await index.renderCategoryList();
     await index.renderAllCategory();
   }
 
@@ -112,52 +106,11 @@ export class RenderController {
     await fsExtra.copy(path.join(this.themePath, 'static'), path.join(this.outputRoot, 'static'));
   }
 
-  runPluinAfterArticleRender(rawDocument, articleInfo, cb) {
-    R.values(this.plugins).forEach(plugin => {
-      plugin.afterArticleRender(rawDocument, articleInfo, cb);
-    });
-  }
-
-  runPluinAfterRender() {
-    R.values(this.plugins).forEach(plugin => plugin.afterRender())
-  }
-
-  runPluginAfterIndexRender(indexData) {
-    R.values(this.plugins).forEach(plugin => plugin.afterIndexRender(indexData));
-  }
 
   filterIgnores(name) {
     return this.rootIgnoreRegs.every(reg => !reg.test(name));
   }
 
-  // add article info to category.articles array
-  async addArticle(fileName, category) {
-    const dateInfo = await getModifyDates(path.join(this.categorys[category].inputPath, fileName), this.inputPath);
-    this.categorys[category].articles.push({
-      fileName: fileName,
-      dateInfo: dateInfo
-    });
-  }
-
-  clearData() {
-    this.categorys = [];
-  }
-
-  addCategory(name, inputPath, outputPath) {
-    const configFilePath = path.join(inputPath, this.options.CONFIG.DIR_CONFIG_FILE);
-    this.categorys[name] = {
-      name: name,
-      outputPath: outputPath,
-      inputPath: inputPath,
-      relativeOutputPath: getRelativePath(this.outputRoot, outputPath),
-      articles: []
-    };
-
-    if (fs.existsSync(configFilePath)) {
-      const dirConfig = loadConfig(configFilePath);
-      mergeForce(this.categorys[name], dirConfig);
-    }
-  }
 
   sortArticles(articles) {
     return articles.sort((a, b) => {

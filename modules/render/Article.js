@@ -31,7 +31,7 @@ export default class Article {
   load() {
     const parsed = this.parseArticle(this.inputPath);
     const document = parsed.document;
-    const relativeOutputPath = getRelativePath(this.meta.outputRootPath, this.meta.categoryPath);
+    const relativeOutputPath = getRelativePath(this.meta.outputRootPath, this.meta.categoryOutputPath);
     const [content, contentPart] = fixArticleUrlAndCut(document.content, relativeOutputPath, 200);
     this.data = {
       inputPath: this.inputPath,
@@ -42,7 +42,8 @@ export default class Article {
       content: content,
       summary: contentPart,
       type: parsed.type,
-      categoryPath: this.meta.categoryPath,
+      categoryInputPath: this.meta.categoryInputPath,
+      categoryOutputPath: this.meta.categoryOutputPath,
       articleFileNameWithoutSuffix: this.meta.articleFileNameWithoutSuffix,
       ...this.controller.getBlogInformation(),
       ...this.getArticleGitData(this.inputPath)
@@ -75,10 +76,21 @@ export default class Article {
     throw new Error(`Not Parser for ${inputPath}`);
   }
 
+  copyArticleAsset() {
+    const assetPath = path.join(this.meta.categoryInputPath, this.meta.articleFileNameWithoutSuffix);
+    if (!fs.existsSync(assetPath)) {
+      return;
+    }
+    fsExtra.copySync(
+      assetPath,
+      path.join(this.meta.categoryOutputPath, this.meta.articleFileNameWithoutSuffix)
+    );
+  }
+
   render() {
     const rendered = this.controller.renderArticle(this.data);
     fs.writeFileSync(this.outputPath, rendered);
-
+    this.copyArticleAsset();
     this.controller.runPluinAfterArticleRender(rendered, this.data)
   }
 }
