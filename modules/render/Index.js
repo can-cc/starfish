@@ -100,7 +100,8 @@ export default class Index {
   }
 
   renderCategoryList() {
-
+    const categorysData = this.categorys.map(c => c.data);
+    this.controller.renderPluginManager.runPluinAfterwCategoryListRender(categorysData);
   }
 
   renderAllCategory() {

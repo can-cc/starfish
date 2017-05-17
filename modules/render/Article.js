@@ -91,6 +91,6 @@ export default class Article {
     const rendered = this.controller.renderArticle(this.data);
     fs.writeFileSync(this.outputPath, rendered);
     this.copyArticleAsset();
-    this.controller.runPluinAfterArticleRender(rendered, this.data)
+    this.controller.renderPluginManager.runPluinAfterArticleRender(rendered, this.data)
   }
 }

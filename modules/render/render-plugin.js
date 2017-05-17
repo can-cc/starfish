@@ -34,11 +34,16 @@ import Index from './Index';
 
 
 export class RenderPluginManager {
-  constructor() {
+  constructor(meta) {
 
     this.plugins = getPlugin('render', {
       // meta infomation
+      ...meta
     });
+  }
+
+  runPlugin() {
+
   }
 
   runPluinAfterArticleRender(rawDocument, articleData, cb) {
@@ -55,6 +60,8 @@ export class RenderPluginManager {
     R.values(this.plugins).forEach(plugin => plugin.afterIndexRender(indexData));
   }
 
-
+  runPluinAfterwCategoryListRender(data) {
+    R.values(this.plugins).forEach(plugin => plugin.afterwCategoryListRender(data));
+  }
 
 }

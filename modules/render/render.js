@@ -56,16 +56,16 @@ export class RenderController {
     this.loadRootIgnore();
 
     this.renderLoader = new RenderLoader(inputPath, outputRoot, options);
-    this.renderPluginManager = new RenderPluginManager();
+    this.renderPluginManager = new RenderPluginManager({
+      inputRootPath: inputPath,
+      outputRootPath: outputRoot
+    });
 
     this.parsers = getParsersFromModules();
     this.documentParserFn = makeDocumentParserFn(this.parsers);
   }
 
   async render() {
-
-    this.clearData();
-
     if (!fs.existsSync(this.outputRoot)) {
       fs.mkdirSync(this.outputRoot);
     }
@@ -112,28 +112,12 @@ export class RenderController {
   }
 
 
-  sortArticles(articles) {
-    return articles.sort((a, b) => {
-      return b.dateInfo[this.options.BLOG.SORT_ARTICLE_BY].getTime() -
-        a.dateInfo[this.options.BLOG.SORT_ARTICLE_BY].getTime();
-    });
-  }
-
-  // dispatch task for every dir
-  async renderCategorys() {
-    // TODO remove it
-    if (!this.categorys) {
-      return;
-    }
-    await Promise.all(Object.keys(this.categorys).map(async (name) => {
-      if (this.categorys[name].articles.length) {
-        await this.renderCategory(this.categorys[name]);
-      }
-    }));
-    await this.renderAllArticles();
-    await this.renderIndex();
-    await this.renderCategoryList();
-  }
+  // sortArticles(articles) {
+  //   return articles.sort((a, b) => {
+  //     return b.dateInfo[this.options.BLOG.SORT_ARTICLE_BY].getTime() -
+  //       a.dateInfo[this.options.BLOG.SORT_ARTICLE_BY].getTime();
+  //   });
+  // }
 
   renderTemplate(key, data) {
     const mergedTemplateData = this.renderLoader.mergeTemplateData(data);

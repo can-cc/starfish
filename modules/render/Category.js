@@ -31,12 +31,12 @@ export default class Category {
     this.articles = [];
 
     this.loadCategoryConfigure();
-
   }
 
   load() {
     this.data = {
-      relativeOutputPath: getRelativePath(this.outputRootPath, this.outputPath)
+      relativeOutputPath: getRelativePath(this.outputRootPath, this.outputPath),
+      name: this.name
     }
   }
 
@@ -70,6 +70,7 @@ export default class Category {
       article.load();
       this.addArticle.call(this, article);
     });
+    this.data.articleNumber = articleFiles.length;
   }
 
   getAllArticles() {
