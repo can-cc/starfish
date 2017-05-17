@@ -43,7 +43,6 @@ export class RenderController {
 
     this.categorys = {};
 
-
     this.pluginType = 'render';
     this.plugins = getPlugin(this.pluginType, {
       inputPath,
@@ -73,7 +72,7 @@ export class RenderController {
     }
 
     await this.load(this.inputPath, this.outputRoot, 'index');
-
+    await this.copyStatic();
 
     // TODO rename
     // await this.copyStatic();

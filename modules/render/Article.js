@@ -34,6 +34,8 @@ export default class Article {
     const relativeOutputPath = getRelativePath(this.meta.outputRootPath, this.meta.categoryPath);
     const [content, contentPart] = fixArticleUrlAndCut(document.content, relativeOutputPath, 200);
     this.data = {
+      inputPath: this.inputPath,
+      outputPath: this.outputPath,
       id: md5(document.content).substring(0, HashNum),
       document: document,
       title: document.title,
@@ -41,6 +43,7 @@ export default class Article {
       summary: contentPart,
       type: parsed.type,
       categoryPath: this.meta.categoryPath,
+      articleFileNameWithoutSuffix: this.meta.articleFileNameWithoutSuffix,
       ...this.controller.getBlogInformation(),
       ...this.getArticleGitData(this.inputPath)
     };
@@ -75,5 +78,7 @@ export default class Article {
   render() {
     const rendered = this.controller.renderArticle(this.data);
     fs.writeFileSync(this.outputPath, rendered);
+
+    this.controller.runPluinAfterArticleRender(rendered, this.data)
   }
 }

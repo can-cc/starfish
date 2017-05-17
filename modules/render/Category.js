@@ -92,7 +92,7 @@ export default class Category {
     _.chunk(sortedArticles, 10).forEach((articleChunk, i) => {
       const data = {
         title: this.name,
-        articles: articleChunk,
+        articles: articleChunk.map(a => a.data),
         pageN: i,
         currentPageN: pageN
       };

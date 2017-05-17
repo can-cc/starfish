@@ -84,7 +84,7 @@ export default class Index {
       ...this.controller.getBlogInformation(),
       title: this.controller.options.BLOG.NAME,
       blogDesc: this.controller.options.BLOG.DESC,
-      articles: R.take(10, allarticles),
+      articles: R.take(10, allarticles).map(a => a.data),
       categorys: categorys
     };
 
