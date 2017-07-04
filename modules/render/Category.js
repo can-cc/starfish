@@ -35,8 +35,8 @@ export default class Category {
 
   load() {
     this.data = {
-      relativeOutputPath: getRelativePath(this.outputRootPath, this.outputPath),
-      name: this.name
+      relativeOutputPath: this.name,
+      name: this.name || this.aliasName
     }
   }
 
@@ -92,20 +92,27 @@ export default class Category {
 
     const pageN = Math.ceil(sortedArticles.length / 10);
     _.chunk(sortedArticles, 10).forEach((articleChunk, i) => {
+      const outputDir = i === 0 ? this.outputPath : path.join(this.outputPath, 'page', i + 1 + '/');
+      const outputFilePath = path.join(outputDir, 'index.html');
       const data = {
+        outputPath: this.outputPath,
+        categoryPath: outputDir,
+        inputPath: this.inputPath,
         title: this.name,
+        name: this.name,
         articles: articleChunk.map(a => a.data),
         pageN: i,
         currentPageN: pageN
       };
 
       const html = this.controller.renderTemplate('category', data);
-      const outputDir = i === 0 ? this.outputPath : path.join(this.outputPath, 'page', i + 1 + '/');
+
       if (!fs.existsSync(outputDir)) {
         fs.mkdirSync(outputDir);
       }
-      const outputFilePath = path.join(outputDir, 'index.html');
+
       fs.writeFileSync(outputFilePath, html);
+      this.controller.renderPluginManager.runPluinAfterCategoryRender(html, data)
     });
   }
 

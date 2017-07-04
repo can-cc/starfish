@@ -64,4 +64,8 @@ export class RenderPluginManager {
     R.values(this.plugins).forEach(plugin => plugin.afterwCategoryListRender(data));
   }
 
+  runPluinAfterCategoryRender(rendered, data) {
+    R.values(this.plugins).forEach(plugin => plugin.afterwCategoryRender(rendered, data));
+  }
+
 }
