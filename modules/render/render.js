@@ -86,6 +86,7 @@ export class RenderController {
     }
 
     await this.load(this.inputPath, this.outputRoot, 'index');
+
     await this.copyStatic();
   }
 
@@ -101,9 +102,10 @@ export class RenderController {
 
     await index.loadRootDir();
     await index.loadCategoryDir();
+
     await index.render();
     await index.renderCategoryList();
-    await index.renderAllCategory();
+    await index.renderEachCategory();
   }
 
   // TODO move
@@ -136,13 +138,7 @@ export class RenderController {
     return this.rootIgnoreRegs.every(reg => !reg.test(name));
   }
 
-  // sortArticles(articles) {
-  //   return articles.sort((a, b) => {
-  //     return b.dateInfo[this.options.BLOG.SORT_ARTICLE_BY].getTime() -
-  //       a.dateInfo[this.options.BLOG.SORT_ARTICLE_BY].getTime();
-  //   });
-  // }
-
+  // TODO delete
   renderTemplate(key, data) {
     const mergedTemplateData = this.renderLoader.mergeTemplateData(data);
     return ejs.render(this.renderLoader.getTemplate(key), mergedTemplateData, {
@@ -153,28 +149,28 @@ export class RenderController {
     });
   }
 
-  async renderCategoryList() {
-    const categorys = R.values(this.categorys)
-      .map(category => ({
-        name: category.aliasName || category.name,
-        indexUrl: path.join('/', category.relativeOutputPath, 'index.html'),
-        number: category.articles.length
-      }))
-      .filter(category => category.number > 0);
+  // async renderCategoryList() {
+  //   const categorys = R.values(this.categorys)
+  //     .map(category => ({
+  //       name: category.aliasName || category.name,
+  //       indexUrl: path.join('/', category.relativeOutputPath, 'index.html'),
+  //       number: category.articles.length
+  //     }))
+  //     .filter(category => category.number > 0);
 
-    const html = this.renderTemplate('categorylist', {
-      title: this.options.BLOG.NAME,
-      categorys: categorys
-    });
-    // await fsExtra.mkdirs(path.join(this.outputRoot, 'category'));
-    const outputFilePath = path.join(this.outputRoot, 'category', 'index.html');
-    // TODO extrac
-    if (!fs.existsSync(path.join(this.outputRoot, 'category'))) {
-      fs.mkdirSync(path.join(this.outputRoot, 'category'));
-    }
-    // await pfs.writeFile(outputFilePath, html);
-    fs.writeFileSync(outputFilePath, html);
-  }
+  //   const html = this.renderTemplate('categorylist', {
+  //     title: this.options.BLOG.NAME,
+  //     categorys: categorys
+  //   });
+  //   // await fsExtra.mkdirs(path.join(this.outputRoot, 'category'));
+  //   const outputFilePath = path.join(this.outputRoot, 'category', 'index.html');
+  //   // TODO extrac
+  //   if (!fs.existsSync(path.join(this.outputRoot, 'category'))) {
+  //     fs.mkdirSync(path.join(this.outputRoot, 'category'));
+  //   }
+  //   // await pfs.writeFile(outputFilePath, html);
+  //   fs.writeFileSync(outputFilePath, html);
+  // }
 
   getBlogInformation() {
     return {
@@ -188,71 +184,71 @@ export class RenderController {
     return this.renderTemplate('article', data);
   }
 
-  async renderAllArticles(cb) {
-    if (this.renderLoader.hasAllArticles()) {
-      const allarticles = Object.keys(this.categorys)
-        .reduce((result, categoryName) => {
-          return result.concat(this.categorys[categoryName].articles);
-        }, [])
-        .sort((a, b) => {
-          return (
-            b.dateInfo[this.options.BLOG.SORT_ARTICLE_BY].getTime() -
-            a.dateInfo[this.options.BLOG.SORT_ARTICLE_BY].getTime()
-          );
-        });
+  // async renderAllArticles(cb) {
+  //   if (this.renderLoader.hasAllArticles()) {
+  //     const allarticles = Object.keys(this.categorys)
+  //       .reduce((result, categoryName) => {
+  //         return result.concat(this.categorys[categoryName].articles);
+  //       }, [])
+  //       .sort((a, b) => {
+  //         return (
+  //           b.dateInfo[this.options.BLOG.SORT_ARTICLE_BY].getTime() -
+  //           a.dateInfo[this.options.BLOG.SORT_ARTICLE_BY].getTime()
+  //         );
+  //       });
 
-      const pageN = Math.ceil(
-        allarticles.length / this.options.BLOG.ALL_PAGE_ARTICLE_NUMBER
-      );
+  //     const pageN = Math.ceil(
+  //       allarticles.length / this.options.BLOG.ALL_PAGE_ARTICLE_NUMBER
+  //     );
 
-      const categorys = R.values(this.categorys)
-        .map(category => ({
-          name: category.name,
-          number: category.articles.length
-        }))
-        .filter(category => category.number > 0);
+  //     const categorys = R.values(this.categorys)
+  //       .map(category => ({
+  //         name: category.name,
+  //         number: category.articles.length
+  //       }))
+  //       .filter(category => category.number > 0);
 
-      const pageDirPath = path.join(this.outputRoot, 'page');
-      if (!fs.existsSync(pageDirPath)) {
-        fs.mkdirSync(pageDirPath);
-      }
+  //     const pageDirPath = path.join(this.outputRoot, 'page');
+  //     if (!fs.existsSync(pageDirPath)) {
+  //       fs.mkdirSync(pageDirPath);
+  //     }
 
-      await Promise.all(
-        _.chunk(
-          allarticles,
-          this.options.BLOG.ALL_PAGE_ARTICLE_NUMBER
-        ).map(async (articles, i) => {
-          const html = this.renderTemplate('allarticles', {
-            title: this.options.BLOG.NAME,
-            articles: articles,
-            categorys: categorys,
-            currentPageN: i,
-            pageN: pageN,
-            type: this.renderLoader.getThemeConfigure().INDEX_TYPE
-          });
+  //     await Promise.all(
+  //       _.chunk(
+  //         allarticles,
+  //         this.options.BLOG.ALL_PAGE_ARTICLE_NUMBER
+  //       ).map(async (articles, i) => {
+  //         const html = this.renderTemplate('allarticles', {
+  //           title: this.options.BLOG.NAME,
+  //           articles: articles,
+  //           categorys: categorys,
+  //           currentPageN: i,
+  //           pageN: pageN,
+  //           type: this.renderLoader.getThemeConfigure().INDEX_TYPE
+  //         });
 
-          // TODO 优化
-          let outputPath;
-          if (i === 0) {
-            // TODO refactor function
-            if (this.renderLoader.getThemeConfigure().INDEX_TYPE === 'one') {
-              //TODO one 是什么鬼
-              // 如果是 one 代表首页就是所有文章的第一页
-              outputPath = this.outputRoot + '/page/' + (i + 1);
-            } else {
-              outputPath = this.outputRoot;
-            }
-          } else {
-            outputPath = this.outputRoot + '/page/' + (i + 1);
-          }
+  //         // TODO 优化
+  //         let outputPath;
+  //         if (i === 0) {
+  //           // TODO refactor function
+  //           if (this.renderLoader.getThemeConfigure().INDEX_TYPE === 'one') {
+  //             //TODO one 是什么鬼
+  //             // 如果是 one 代表首页就是所有文章的第一页
+  //             outputPath = this.outputRoot + '/page/' + (i + 1);
+  //           } else {
+  //             outputPath = this.outputRoot;
+  //           }
+  //         } else {
+  //           outputPath = this.outputRoot + '/page/' + (i + 1);
+  //         }
 
-          if (!fs.existsSync(outputPath)) {
-            await fs.mkdirSync(outputPath);
-          }
-          const outputFilePath = path.join(outputPath, 'index.html');
-          await fs.writeFileAsync(outputFilePath, html);
-        })
-      );
-    }
-  }
+  //         if (!fs.existsSync(outputPath)) {
+  //           await fs.mkdirSync(outputPath);
+  //         }
+  //         const outputFilePath = path.join(outputPath, 'index.html');
+  //         await fs.writeFileAsync(outputFilePath, html);
+  //       })
+  //     );
+  //   }
+  // }
 }

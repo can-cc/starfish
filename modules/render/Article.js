@@ -1,22 +1,30 @@
-import bluebird from 'bluebird';
 import fs from 'fs';
 import path from 'path';
-import _ from 'lodash';
 import ejs from 'ejs';
 import fsExtra from 'fs-extra';
 import moment from 'moment';
 import md5 from 'blueimp-md5';
-import R from 'fw-ramda';
-import { parseOrg, parseMarkDown } from './render-parse.js';
-import { isFile, isDir, takeFileName, takeFileNameWithoutSuffix,
-         getRelativePath, filterDotFiles, isSuffix, mergeForce } from '../../lib/util';
-import { syncMappingDirs, fixArticleUrlAndCut, getParsersFromModules, makeDocumentParserFn, getPlugin } from './render-util';
-import { warning, error } from '../../lib/message';
-import { loadConfig } from '../../lib/loadConfig.js';
-import { getModifyDates } from '../../util/git-date';
-import { RenderLoader } from './render-loader';
+import _ from 'lodash';
+import R from 'ramda';
+import {
+  isFile,
+  isDir,
+  takeFileName,
+  takeFileNameWithoutSuffix,
+  getRelativePath,
+  filterDotFiles,
+  isSuffix,
+  mergeForce
+} from '../../lib/util';
+import {
+  syncMappingDirs,
+  fixArticleUrlAndCut,
+  getParsersFromModules,
+  makeDocumentParserFn,
+  getPlugin
+} from './render-util';
+
 var execSync = require('child_process').execSync;
-const pfs = bluebird.promisifyAll(fs);
 
 const HashNum = 7;
 
@@ -31,8 +39,15 @@ export default class Article {
   load() {
     const parsed = this.parseArticle(this.inputPath);
     const document = parsed.document;
-    const relativeOutputPath = getRelativePath(this.meta.outputRootPath, this.meta.categoryOutputPath);
-    const [content, contentPart] = fixArticleUrlAndCut(document.content, relativeOutputPath, 200);
+    const relativeOutputPath = getRelativePath(
+      this.meta.outputRootPath,
+      this.meta.categoryOutputPath
+    );
+    const [content, contentPart] = fixArticleUrlAndCut(
+      document.content,
+      relativeOutputPath,
+      200
+    );
     this.data = {
       inputPath: this.inputPath,
       outputPath: this.outputPath,
@@ -51,15 +66,20 @@ export default class Article {
   }
 
   getArticleGitData(filePath) {
-    const stdout = execSync(`git log --pretty=format:\'%ad\' ${filePath} | cat`, {
-      cwd: this.meta.outputRootPath,
-      encoding: 'utf-8'
-    });
-    const dates =  stdout.split('\n');
+    const stdout = execSync(
+      `git log --pretty=format:\'%ad\' ${filePath} | cat`,
+      {
+        cwd: this.meta.outputRootPath,
+        encoding: 'utf-8'
+      }
+    );
+    const dates = stdout.split('\n');
     return {
       createTime: new Date(_.last(dates) || new Date()),
       modifyTime: new Date(_.head(dates) || new Date()),
-      showTime: moment(new Date(_.last(dates) || new Date())).format('dddd, MMMM Do YYYY, h:mm:ss a')
+      showTime: moment(new Date(_.last(dates) || new Date())).format(
+        'dddd, MMMM Do YYYY, h:mm:ss a'
+      )
     };
   }
 
@@ -77,13 +97,19 @@ export default class Article {
   }
 
   copyArticleAsset() {
-    const assetPath = path.join(this.meta.categoryInputPath, this.meta.articleFileNameWithoutSuffix);
+    const assetPath = path.join(
+      this.meta.categoryInputPath,
+      this.meta.articleFileNameWithoutSuffix
+    );
     if (!fs.existsSync(assetPath)) {
       return;
     }
     fsExtra.copySync(
       assetPath,
-      path.join(this.meta.categoryOutputPath, this.meta.articleFileNameWithoutSuffix)
+      path.join(
+        this.meta.categoryOutputPath,
+        this.meta.articleFileNameWithoutSuffix
+      )
     );
   }
 
@@ -91,6 +117,9 @@ export default class Article {
     const rendered = this.controller.renderArticle(this.data);
     fs.writeFileSync(this.outputPath, rendered);
     this.copyArticleAsset();
-    this.controller.renderPluginManager.runPluinAfterArticleRender(rendered, this.data)
+    this.controller.renderPluginManager.runPluinAfterArticleRender(
+      rendered,
+      this.data
+    );
   }
 }

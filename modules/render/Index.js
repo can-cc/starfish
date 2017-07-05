@@ -9,9 +9,23 @@ import md5 from 'blueimp-md5';
 import R from 'fw-ramda';
 
 import { parseOrg, parseMarkDown } from './render-parse.js';
-import { isFile, isDir, takeFileName, takeFileNameWithoutSuffix,
-         getRelativePath, filterDotFiles, isSuffix, mergeForce } from '../../lib/util';
-import { syncMappingDirs, fixArticleUrlAndCut, getParsersFromModules, makeDocumentParserFn, getPlugin } from './render-util';
+import {
+  isFile,
+  isDir,
+  takeFileName,
+  takeFileNameWithoutSuffix,
+  getRelativePath,
+  filterDotFiles,
+  isSuffix,
+  mergeForce
+} from '../../lib/util';
+import {
+  syncMappingDirs,
+  fixArticleUrlAndCut,
+  getParsersFromModules,
+  makeDocumentParserFn,
+  getPlugin
+} from './render-util';
 import { warning, error } from '../../lib/message';
 import { loadConfig } from '../../lib/loadConfig.js';
 import { getModifyDates } from '../../util/git-date';
@@ -36,25 +50,30 @@ export default class Index {
   }
 
   async loadRootDir() {
-    const categoryPaths = await pfs.readdirAsync(this.inputPath)
-          .filter(this.controller.filterIgnores.bind(this.controller))
-          .filter(p => isDir(path.resolve(this.inputPath, p)));
-    categoryPaths.map(categoryName => this.addCategory(new Category(
-      {
-        inputPath: path.join(this.inputPath, categoryName),
-        outputPath: path.join(this.outputPath, categoryName),
-        name: categoryName,
-        outputRootPath: this.inputPath,
-        parsers: this.meta.parsers
-      },
-      this.controller
-    )));
+    const categoryPaths = await pfs
+      .readdirAsync(this.inputPath)
+      .filter(this.controller.filterIgnores.bind(this.controller))
+      .filter(p => isDir(path.resolve(this.inputPath, p)));
+    categoryPaths.map(categoryName =>
+      this.addCategory(
+        new Category(
+          {
+            inputPath: path.join(this.inputPath, categoryName),
+            outputPath: path.join(this.outputPath, categoryName),
+            name: categoryName,
+            outputRootPath: this.inputPath,
+            parsers: this.meta.parsers
+          },
+          this.controller
+        )
+      )
+    );
   }
 
   loadCategoryDir() {
     this.categorys.forEach(category => {
       category.load();
-      category.loadArticles()
+      category.loadArticles();
     });
   }
 
@@ -72,13 +91,17 @@ export default class Index {
       return b.data.createTime.getTime() - a.data.createTime.getTime();
     });
 
-    const categorys = this.categorys.map((category) => {
+    const categorys = this.categorys.map(category => {
       return {
         name: category.name,
-        indexUrl: path.join('/', category.data.relativeOutputPath, 'index.html'),
+        indexUrl: path.join(
+          '/',
+          category.data.relativeOutputPath,
+          'index.html'
+        ),
         number: category.articles.length
-      }
-    })
+      };
+    });
 
     const indexData = {
       ...this.controller.getBlogInformation(),
@@ -95,16 +118,20 @@ export default class Index {
     fs.writeFileSync(outputFilePath, html);
   }
 
-  renderAllArticles() {
-
-  }
+  renderAllArticles() {}
 
   renderCategoryList() {
+    // TODO render
     const categorysData = this.categorys.map(c => c.data);
-    this.controller.renderPluginManager.runPluinAfterwCategoryListRender(categorysData);
+    this.controller.renderPluginManager.runPluinAfterwCategoryListRender(
+      categorysData,
+      {
+        outputPath: path.join(this.outputPath, 'categorys')
+      }
+    );
   }
 
-  renderAllCategory() {
+  renderEachCategory() {
     this.categorys.forEach(category => {
       category.render();
       category.renderAllArticle();

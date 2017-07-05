@@ -1,0 +1,18 @@
+{
+  "parser": "babel-eslint",
+  "plugins": [
+    "prettier"
+  ],
+  "env": {
+    "node": true
+  },
+  "rules": {
+    "no-underscore-dangle": 0,
+    "no-unused-expressions": 0,
+    "no-undef": ["error"],
+    "no-unused-vars": ["error"],
+    "prettier/prettier": ["error", {
+      "singleQuote": true
+    }]
+  }
+}
