@@ -12,10 +12,6 @@ import { loadConfig } from '../../lib/loadConfig.js';
 import { getModifyDates } from '../../util/git-date';
 import { RenderLoader } from './render-loader';
 
-const pfs = bluebird.promisifyAll(fs);
-
-const HashNum = 7;
-
 const globToRegExp = require('glob-to-regexp');
 
 import Index from './Index';
