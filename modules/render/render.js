@@ -20,35 +20,29 @@ import Index from '../../model/Index';
 import { RenderPluginManager } from './render-plugin';
 
 export class RenderController {
-  constructor(inputPath, outputPath, options) {
+  constructor(inputPath, outputPath, configure) {
     // TODO merge inputPath, outputPath
     this.inputPath = inputPath;
     this.outputPath = outputPath;
-    this.theme = options.STYLE.THEME;
-    this.options = options;
+    // this.theme = configure.STYLE.THEME;
+    this.configure = configure;
 
     this.categorys = {};
 
     this.pluginType = 'render';
 
-    // TODO remove
-    const themeDir = path.isAbsolute(options.STYLE.THEMEDIR)
-      ? options.STYLE.THEMEDIR
-      : path.resolve(inputPath, options.STYLE.THEMEDIR);
-    this.themePath = path.join(themeDir, this.theme);
-
     // methods
     this.loadRootIgnore();
 
-    this.renderLoader = new RenderLoader(inputPath, outputPath, options);
-    this.renderThemer = new RenderThemer(inputPath, outputPath, options);
+    this.renderLoader = new RenderLoader(inputPath, outputPath, configure);
+    this.renderThemer = new RenderThemer(inputPath, outputPath, configure);
     this.renderPluginManager = new RenderPluginManager({
       inputRootPath: inputPath,
       outputPath: outputPath
     });
 
     this.parsers = getParsersFromModules();
-    this.documentParserFn = makeDocumentParserFn(this.parsers);
+    // this.documentParserFn = makeDocumentParserFn(this.parsers);
   }
 
   async render() {
@@ -65,14 +59,15 @@ export class RenderController {
       this
     );
 
-    await index.loadRootDir();
+    await index.loadCategorys();
     await index.loadCategoryDir();
 
     await index.render();
     await index.renderCategoryList();
     await index.renderEachCategory();
 
-    await this.copyStatic();
+    await this.renderThemer.copyThemeAsset();
+    // await this.copyStatic();
   }
 
   // TODO move
@@ -81,14 +76,14 @@ export class RenderController {
     let self = this;
     let ignoreFilePath = path.join(
       this.inputPath,
-      this.options.CONFIG.IGNORE_FILE
+      this.configure.CONFIG.IGNORE_FILE
     );
     if (fs.existsSync(ignoreFilePath)) {
       fs.readFileSync(ignoreFilePath, 'utf-8').split('\n').forEach(globStr => {
         self.rootIgnoreRegs.push(globToRegExp(globStr));
       });
     }
-    const mappingRules = this.options.MAPPING || {};
+    const mappingRules = this.configure.MAPPING || {};
     R.keys(mappingRules).forEach(toMapPath =>
       this.rootIgnoreRegs.push(globToRegExp(toMapPath))
     );
@@ -118,9 +113,11 @@ export class RenderController {
 
   getBlogInformation() {
     return {
-      author: this.options.AUTHOR.NAME,
-      blogName: this.options.BLOG.NAME,
-      blogDesc: this.options.BLOG.DESC
+      title: this.configure.BLOG.NAME,
+      blogDesc: this.configure.BLOG.DESC,
+      author: this.configure.AUTHOR.NAME,
+      blogName: this.configure.BLOG.NAME,
+      blogDesc: this.configure.BLOG.DESC
     };
   }
 

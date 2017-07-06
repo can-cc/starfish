@@ -18,10 +18,10 @@ const pfs = bluebird.promisifyAll(fs);
 import Category from './Category';
 
 export default class Index {
-  constructor(meta, controller) {
-    this.inputPath = meta.inputPath;
-    this.outputPath = meta.outputPath;
-    this.meta = meta;
+  constructor(options, controller) {
+    this.inputPath = options.inputPath;
+    this.outputPath = options.outputPath;
+    this.options = options;
     this.controller = controller;
 
     this.categorys = [];
@@ -31,11 +31,12 @@ export default class Index {
     this.categorys.push(category);
   }
 
-  async loadRootDir() {
+  async loadCategorys() {
     const categoryPaths = await pfs
       .readdirAsync(this.inputPath)
       .filter(this.controller.filterIgnores.bind(this.controller))
       .filter(p => isDir(path.resolve(this.inputPath, p)));
+
     categoryPaths.map(categoryName =>
       this.addCategory(
         new Category(
@@ -45,7 +46,7 @@ export default class Index {
             name: categoryName,
             outputRootPath: this.outputPath,
             inputRootPath: this.inputPath,
-            parsers: this.meta.parsers
+            parsers: this.options.parsers
           },
           this.controller
         )
@@ -87,14 +88,11 @@ export default class Index {
     });
 
     const indexData = {
+      //
       ...this.controller.getBlogInformation(),
-      title: this.controller.options.BLOG.NAME,
-      blogDesc: this.controller.options.BLOG.DESC,
       articles: R.take(10, allarticles).map(a => a.data),
       categorys: categorys
     };
-
-    // this.controller.runPluginAfterIndexRender(indexData);
 
     const html = this.controller.renderTemplate('index', indexData);
     const outputFilePath = path.join(this.outputPath, 'index.html');

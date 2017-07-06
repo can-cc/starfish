@@ -18,7 +18,7 @@ import Article from './Article';
 export default class Category {
   constructor(options, controller) {
     this.name = options.name;
-    this.meta = options;
+    this.options = options;
     this.parsers = options.parsers;
     this.inputPath = options.inputPath;
     this.outputPath = options.outputPath;
@@ -75,8 +75,8 @@ export default class Category {
         articleFile
       );
       const article = new Article(
-        // TODO why merge this.meta
-        Object.assign({}, this.meta, {
+        // TODO why merge this.options
+        Object.assign({}, this.options, {
           inputPath: path.join(this.inputPath, articleFile),
           outputPath: path.join(
             this.outputPath,
@@ -86,7 +86,7 @@ export default class Category {
           categoryInputPath: this.inputPath,
           categoryOutputPath: this.outputPath,
           name: articleFileNameWithoutSuffix,
-          category: this.meta
+          category: this.options
         }),
         this.controller
       );

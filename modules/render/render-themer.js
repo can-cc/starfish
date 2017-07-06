@@ -3,6 +3,7 @@ import fs from 'fs';
 import path from 'path';
 import R from 'fw-ramda';
 import ejs from 'ejs';
+import fsExtra from 'fs-extra';
 import {
   isFile,
   isDir,
@@ -24,6 +25,13 @@ export default class RenderThemer {
 
     this.setup();
     this.load();
+  }
+
+  async copyThemeAsset() {
+    await fsExtra.copy(
+      path.join(this.themePath, 'static'),
+      path.join(this.outputPath, 'static')
+    );
   }
 
   renderTemplate(key, data) {
