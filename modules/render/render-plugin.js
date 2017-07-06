@@ -19,23 +19,42 @@ import {
   isSuffix,
   mergeForce
 } from '../../lib/util';
-import {
-  syncMappingDirs,
-  fixArticleUrlAndCut,
-  getParsersFromModules,
-  makeDocumentParserFn,
-  getPlugin
-} from './render-util';
 import { warning, error } from '../../lib/message';
 import { loadConfig } from '../../lib/loadConfig.js';
 import { getModifyDates } from '../../util/git-date';
 import { RenderLoader } from './render-loader';
 
 export class RenderPluginManager {
-  constructor(meta) {
-    this.plugins = getPlugin('render', {
+  getPlugin(type, options) {
+    const plugins = [];
+    fs
+      .readdirSync(path.resolve(__dirname, '../../node_modules'))
+      .map(name => {
+        return name;
+      })
+      .filter(filterDotFiles)
+      .filter(name => new RegExp(`^nobbb-${type}`).test(name))
+      .forEach(name => {
+        if (!plugins[name]) {
+          const plugin = new (require(path.resolve(
+            __dirname,
+            '../../node_modules/',
+            name
+          ))).default(options);
+          if (plugin.type === type) {
+            plugins[plugin.getName()] = plugin;
+          }
+        } else {
+          throw new Error('duplicate plugin');
+        }
+      });
+    return plugins;
+  }
+
+  constructor(options) {
+    this.plugins = this.getPlugin('render', {
       // meta infomation
-      ...meta
+      ...options
     });
   }
 

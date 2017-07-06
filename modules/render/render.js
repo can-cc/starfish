@@ -19,11 +19,10 @@ import Index from '../../model/Index';
 import { RenderPluginManager } from './render-plugin';
 
 export class RenderController {
-  constructor(inputPath, outputRoot, options) {
-    // TODO merge inputPath, outputRoot
+  constructor(inputPath, outputPath, options) {
+    // TODO merge inputPath, outputPath
     this.inputPath = inputPath;
-    this.outputRoot = outputRoot;
-
+    this.outputPath = outputPath;
     this.theme = options.STYLE.THEME;
     this.options = options;
 
@@ -40,10 +39,10 @@ export class RenderController {
     // methods
     this.loadRootIgnore();
 
-    this.renderLoader = new RenderLoader(inputPath, outputRoot, options);
+    this.renderLoader = new RenderLoader(inputPath, outputPath, options);
     this.renderPluginManager = new RenderPluginManager({
       inputRootPath: inputPath,
-      outputRootPath: outputRoot
+      outputPath: outputPath
     });
 
     this.parsers = getParsersFromModules();
@@ -51,11 +50,11 @@ export class RenderController {
   }
 
   async render() {
-    if (!fs.existsSync(this.outputRoot)) {
-      fs.mkdirSync(this.outputRoot);
+    if (!fs.existsSync(this.outputPath)) {
+      fs.mkdirSync(this.outputPath);
     }
 
-    await this.load(this.inputPath, this.outputRoot, 'index');
+    await this.load(this.inputPath, this.outputPath, 'index');
     await this.copyStatic();
   }
 
@@ -99,7 +98,7 @@ export class RenderController {
   async copyStatic() {
     await fsExtra.copy(
       path.join(this.themePath, 'static'),
-      path.join(this.outputRoot, 'static')
+      path.join(this.outputPath, 'static')
     );
   }
 

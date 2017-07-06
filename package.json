@@ -42,6 +42,7 @@
     "moment": "^2.18.1",
     "nobbb-parse-md": "^1.0.1",
     "nobbb-parse-org": "^1.0.1",
+    "nobbb-render-ajax@1.0.1": "^1.0.1",
     "ora": "^1.2.0",
     "org": "^0.2.0",
     "ramda": "^0.21.0"

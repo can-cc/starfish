@@ -83,22 +83,3 @@ export function getParsersFromModules() {
     .filter((moduleName) => /^nobbb-parse/.test(moduleName))
     .map((moduleName) => (new (require(moduleName).default)()));
 };
-
-// MOVE
-export function getPlugin(type, meta) {
-  const plugins = [];
-  fs.readdirSync(path.resolve(__dirname, '../../node_modules'))
-    .filter(filterDotFiles)
-    .filter(name => new RegExp(`^nobbb-${type}`).test(name))
-    .forEach((name) => {
-      if( !plugins[name] ){
-        const plugin = new (require(path.resolve(__dirname, '../../node_modules/', name)).default)(meta);
-        if( plugin.type === type ){
-          plugins[plugin.getName()] = plugin;
-        }
-      } else {
-        throw new Error('duplicate plugin');
-      }
-    });
-  return plugins;
-};
