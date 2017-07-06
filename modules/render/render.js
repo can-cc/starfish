@@ -11,6 +11,7 @@ import { warning, error } from '../../lib/message';
 import { loadConfig } from '../../lib/loadConfig.js';
 import { getModifyDates } from '../../util/git-date';
 import { RenderLoader } from './render-loader';
+import RenderThemer from './render-themer';
 
 const globToRegExp = require('glob-to-regexp');
 
@@ -40,6 +41,7 @@ export class RenderController {
     this.loadRootIgnore();
 
     this.renderLoader = new RenderLoader(inputPath, outputPath, options);
+    this.renderThemer = new RenderThemer(inputPath, outputPath, options);
     this.renderPluginManager = new RenderPluginManager({
       inputRootPath: inputPath,
       outputPath: outputPath
@@ -54,15 +56,10 @@ export class RenderController {
       fs.mkdirSync(this.outputPath);
     }
 
-    await this.load(this.inputPath, this.outputPath, 'index');
-    await this.copyStatic();
-  }
-
-  async load(dirPath, outputPath, category) {
     const index = new Index(
       {
-        inputPath: dirPath,
-        outputPath,
+        inputPath: this.inputPath,
+        outputPath: this.outputPath,
         parsers: this.parsers
       },
       this
@@ -74,6 +71,8 @@ export class RenderController {
     await index.render();
     await index.renderCategoryList();
     await index.renderEachCategory();
+
+    await this.copyStatic();
   }
 
   // TODO move
@@ -108,7 +107,7 @@ export class RenderController {
 
   // TODO delete
   renderTemplate(key, data) {
-    const mergedTemplateData = this.renderLoader.mergeTemplateData(data);
+    const mergedTemplateData = this.renderThemer.mergeTemplateData(data);
     return ejs.render(this.renderLoader.getTemplate(key), mergedTemplateData, {
       filename: path.join(
         this.renderLoader.getThemeTemplateRootPath(),

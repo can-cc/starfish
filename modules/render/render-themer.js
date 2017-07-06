@@ -2,6 +2,7 @@ import { loadConfig } from '../../lib/loadConfig';
 import fs from 'fs';
 import path from 'path';
 import R from 'fw-ramda';
+import ejs from 'ejs';
 import {
   isFile,
   isDir,
@@ -13,7 +14,9 @@ import {
   mergeForce
 } from '../../lib/util';
 
-export class RenderThemer {
+const isYaml = R.curry(isSuffix)('yaml');
+
+export default class RenderThemer {
   constructor(inputPath, outputRoot, configure) {
     this.inputPath = inputPath;
     this.outputPath = outputRoot;
@@ -21,6 +24,16 @@ export class RenderThemer {
 
     this.setup();
     this.load();
+  }
+
+  renderTemplate(key, data) {
+    const mergedTemplateData = this.renderLoader.mergeTemplateData(data);
+    return ejs.render(this.renderLoader.getTemplate(key), mergedTemplateData, {
+      filename: path.join(
+        this.renderLoader.getThemeTemplateRootPath(),
+        key + '.html'
+      )
+    });
   }
 
   setup() {
