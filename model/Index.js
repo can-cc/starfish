@@ -43,7 +43,8 @@ export default class Index {
             inputPath: path.join(this.inputPath, categoryName),
             outputPath: path.join(this.outputPath, categoryName),
             name: categoryName,
-            outputRootPath: this.inputPath,
+            outputRootPath: this.outputPath,
+            inputRootPath: this.inputPath,
             parsers: this.meta.parsers
           },
           this.controller
@@ -104,7 +105,6 @@ export default class Index {
 
   renderCategoryList() {
     // TODO render
-    console.log('------------', this.outputPath);
     const categorysData = this.categorys.map(c => c.data);
     this.controller.renderPluginManager.runPluinAfterwCategoryListRender(
       categorysData,

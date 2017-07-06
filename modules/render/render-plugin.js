@@ -25,44 +25,28 @@ import { getModifyDates } from '../../util/git-date';
 import { RenderLoader } from './render-loader';
 
 export class RenderPluginManager {
-  getPlugin(type, options) {
-    const plugins = [];
-    fs
-      .readdirSync(path.resolve(__dirname, '../../node_modules'))
-      .map(name => {
-        return name;
-      })
-      .filter(filterDotFiles)
-      .filter(name => new RegExp(`^nobbb-${type}`).test(name))
-      .forEach(name => {
-        if (!plugins[name]) {
-          const plugin = new (require(path.resolve(
-            __dirname,
-            '../../node_modules/',
-            name
-          ))).default(options);
-          if (plugin.type === type) {
-            plugins[plugin.getName()] = plugin;
-          }
-        } else {
-          throw new Error('duplicate plugin');
-        }
-      });
-    return plugins;
-  }
-
   constructor(options) {
-    this.plugins = this.getPlugin('render', {
+    this.plugins = this.getPluginFromNodeMudules({
       // meta infomation
       ...options
     });
   }
 
+  getPlugin() {
+    return this.plugins;
+  }
+
   runPlugin() {}
 
-  runPluinAfterArticleRender(rawDocument, articleData, cb) {
+  runPluinBeforeArticleRender(articleData) {
     R.values(this.plugins).forEach(plugin => {
-      plugin.afterArticleRender(rawDocument, articleData, cb);
+      plugin.beforeArticleRender(articleData);
+    });
+  }
+
+  runPluinAfterArticleRender(rawDocument, articleData) {
+    R.values(this.plugins).forEach(plugin => {
+      plugin.afterArticleRender(rawDocument, articleData);
     });
   }
 
@@ -76,9 +60,9 @@ export class RenderPluginManager {
     );
   }
 
-  runPluinAfterwCategoryListRender(...args) {
+  runPluinAfterwCategoryListRender(categorysData, options) {
     R.values(this.plugins).forEach(plugin =>
-      plugin.afterwCategoryListRender(...args)
+      plugin.afterwCategoryListRender(...arguments)
     );
   }
 
@@ -87,4 +71,30 @@ export class RenderPluginManager {
       plugin.afterwCategoryRender(rendered, data)
     );
   }
+
+  getPluginFromNodeMudules(options) {
+    const plugins = {};
+    fs
+      .readdirSync(path.resolve(__dirname, '../../node_modules'))
+      .map(name => {
+        return name;
+      })
+      .filter(filterDotFiles)
+      .filter(name => new RegExp(`^nobbb-render`).test(name))
+      .forEach(name => {
+        if (!plugins[name]) {
+          const plugin = new (require(path.resolve(
+            __dirname,
+            '../../node_modules/',
+            name
+          ))).default(options);
+          plugins[plugin.getName()] = plugin;
+        } else {
+          throw new Error('duplicate plugin');
+        }
+      });
+    return plugins;
+  }
 }
+
+export default RenderPluginManager;

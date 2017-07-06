@@ -16,12 +16,12 @@ import {
 import Article from './Article';
 
 export default class Category {
-  constructor(meta, controller) {
-    this.name = meta.name;
-    this.meta = meta;
-    this.parsers = meta.parsers;
-    this.inputPath = meta.inputPath;
-    this.outputPath = meta.outputPath;
+  constructor(options, controller) {
+    this.name = options.name;
+    this.meta = options;
+    this.parsers = options.parsers;
+    this.inputPath = options.inputPath;
+    this.outputPath = options.outputPath;
     this.controller = controller;
 
     this.articles = [];
@@ -37,6 +37,7 @@ export default class Category {
   }
 
   loadCategoryConfigure() {
+    // TODO
     this.categoryConfigure = {};
     const categoryConfigureFilePath = path.join(
       this.inputPath,
@@ -74,6 +75,7 @@ export default class Category {
         articleFile
       );
       const article = new Article(
+        // TODO why merge this.meta
         Object.assign({}, this.meta, {
           inputPath: path.join(this.inputPath, articleFile),
           outputPath: path.join(
@@ -83,7 +85,8 @@ export default class Category {
           articleFileNameWithoutSuffix,
           categoryInputPath: this.inputPath,
           categoryOutputPath: this.outputPath,
-          name: articleFileNameWithoutSuffix
+          name: articleFileNameWithoutSuffix,
+          category: this.meta
         }),
         this.controller
       );

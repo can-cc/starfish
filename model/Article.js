@@ -26,7 +26,6 @@ function fixArticleUrlAndCut(content, relativeOutputPath, cutLimit) {
 
   var appendRelativeFn = function(i, e) {
     let src = $(this).attr('src');
-
     if (!/^[http|//]/.test(src)) {
       src = path.join('/', relativeOutputPath, src);
     }
@@ -96,7 +95,7 @@ export default class Article {
     const stdout = execSync(
       `git log --pretty=format:\'%ad\' ${filePath} | cat`,
       {
-        cwd: this.meta.outputRootPath,
+        cwd: this.meta.inputRootPath,
         encoding: 'utf-8'
       }
     );
@@ -141,6 +140,7 @@ export default class Article {
   }
 
   render() {
+    this.controller.renderPluginManager.runPluinBeforeArticleRender(this.data);
     const rendered = this.controller.renderArticle(this.data);
     fs.writeFileSync(this.outputPath, rendered);
     this.copyArticleAsset();
