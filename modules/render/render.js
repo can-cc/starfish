@@ -14,7 +14,7 @@ import { RenderLoader } from './render-loader';
 
 const globToRegExp = require('glob-to-regexp');
 
-import Index from './Index';
+import Index from '../../model/Index';
 
 import { RenderPluginManager } from './render-plugin';
 
