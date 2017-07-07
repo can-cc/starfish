@@ -5,11 +5,8 @@ import _ from 'lodash';
 import ejs from 'ejs';
 import fsExtra from 'fs-extra';
 import R from 'fw-ramda';
-import { getRelativePath, filterDotFiles, isSuffix } from '../../lib/util';
+
 import { getParsersFromModules, makeDocumentParserFn } from './render-util';
-import { warning, error } from '../../lib/message';
-import { loadConfig } from '../../lib/loadConfig.js';
-import { getModifyDates } from '../../util/git-date';
 import { RenderLoader } from './render-loader';
 import RenderThemer from './render-themer';
 
@@ -113,9 +110,9 @@ export class RenderController {
 
   getBlogInformation() {
     return {
-      title: this.configure.BLOG.NAME,
-      blogDesc: this.configure.BLOG.DESC,
       author: this.configure.AUTHOR.NAME,
+      blogTitle: this.configure.BLOG.NAME,
+      blogDesc: this.configure.BLOG.DESC,
       blogName: this.configure.BLOG.NAME,
       blogDesc: this.configure.BLOG.DESC
     };
