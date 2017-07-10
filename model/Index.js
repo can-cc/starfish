@@ -102,8 +102,14 @@ export default class Index {
   renderAllArticles() {}
 
   renderCategoryList() {
-    // TODO render
     const categorysData = this.categorys.map(c => c.data);
+    const categoryListOutputPath = path.join(this.outputPath, 'categorys');
+    if (!fs.existsSync(categoryListOutputPath)) {
+      fs.mkdirSync(categoryListOutputPath);
+    }
+
+    const html = this.controller.renderTemplate('categorylist', categorysData);
+    fs.writeFileSync(path.join(categoryListOutputPath, 'index.html'), html);
     this.controller.renderPluginManager.runPluinAfterwCategoryListRender(
       categorysData,
       {
