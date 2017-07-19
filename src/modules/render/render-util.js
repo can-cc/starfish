@@ -79,7 +79,7 @@ export function makeDocumentParserFn(parsers) {
 }
 
 export function getParsersFromModules() {
-  return fs.readdirSync(path.resolve(__dirname, '../../node_modules'))
+  return fs.readdirSync(path.resolve(__dirname, '../../../node_modules'))
     .filter((moduleName) => /^nobbb-parse/.test(moduleName))
     .map((moduleName) => (new (require(moduleName).default)()));
 };

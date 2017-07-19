@@ -27,12 +27,9 @@ export default class RenderCommand {
       let outputPath = outputPath || 'build';
 
       const spinner = ora('Start render...').start();
-
-      const renderControl = new RenderController(
-        inputPath,
-        outputPath
-      );
       try {
+        const renderControl = new RenderController(inputPath, outputPath);
+
         await renderControl.render();
         spinner.succeed('Render completion...');
       } catch (error) {

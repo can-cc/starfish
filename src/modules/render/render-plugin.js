@@ -74,7 +74,7 @@ export class RenderPluginManager {
   getPluginFromNodeMudules(options) {
     const plugins = {};
     fs
-      .readdirSync(path.resolve(__dirname, '../../node_modules'))
+      .readdirSync(path.resolve(__dirname, '../../../node_modules'))
       .map(name => {
         return name;
       })
@@ -84,7 +84,7 @@ export class RenderPluginManager {
         if (!plugins[name]) {
           const plugin = new (require(path.resolve(
             __dirname,
-            '../../node_modules/',
+            '../../../node_modules/',
             name
           ))).default(options);
           plugins[plugin.getName()] = plugin;

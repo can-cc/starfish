@@ -1,4 +1,4 @@
-import RenderPlugin from '../../modules/render/render-plugin';
+import RenderPlugin from '../../src/modules/render/render-plugin';
 
 let renderPlugin;
 

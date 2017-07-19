@@ -1,8 +1,9 @@
-import RenderController from '../../modules/render/render';
+import RenderController from '../../src/modules/render/render';
 import fs from 'fs';
 import path from 'path';
 
 test('integrated test render feather', async done => {
+
   const inputPath = 'test/mock-source/';
   const outputPath = 'test/test-build/';
   const renderCtrl = new RenderController(inputPath, outputPath);

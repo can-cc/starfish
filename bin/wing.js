@@ -1,5 +1,5 @@
 'use strict';
 
-import cli from '../lib/cli';
+import cli from '../src/lib/cli';
 
 cli.run(process.argv);
