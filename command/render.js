@@ -27,12 +27,10 @@ export default class RenderCommand {
       let outputPath = outputPath || 'build';
 
       const spinner = ora('Start render...').start();
-      // TODO  move options logic to controller
-      const options = readConfigure(inputPath);
+
       const renderControl = new RenderController(
         inputPath,
-        outputPath,
-        options
+        outputPath
       );
       try {
         await renderControl.render();

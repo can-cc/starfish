@@ -24,7 +24,14 @@ export default class RenderThemer {
     this.outputPath = outputRoot;
     this.configure = configure;
 
-    this.setup();
+    this.theme = this.configure.STYLE.THEME;
+    this.themePath = path.join(
+      path.isAbsolute(this.configure.STYLE.THEMEDIR)
+        ? this.configure.STYLE.THEMEDIR
+        : path.resolve(this.inputPath, this.configure.STYLE.THEMEDIR),
+      this.theme
+    );
+
     this.load();
   }
 
@@ -43,11 +50,6 @@ export default class RenderThemer {
         key + '.html'
       )
     });
-  }
-
-  setup() {
-    this.theme = this.configure.STYLE.THEME;
-    this.themePath = path.join(this.getThemeDir(), this.theme);
   }
 
   loadLangData() {
@@ -100,12 +102,6 @@ export default class RenderThemer {
 
     this.loadLangData();
     this.loadTemplates();
-  }
-
-  getThemeDir() {
-    return path.isAbsolute(this.configure.STYLE.THEMEDIR)
-      ? this.configure.STYLE.THEMEDIR
-      : path.resolve(this.inputPath, this.configure.STYLE.THEMEDIR);
   }
 
   getThemeConfigure() {

@@ -7,8 +7,8 @@ import fsExtra from 'fs-extra';
 import R from 'fw-ramda';
 
 import { getParsersFromModules, makeDocumentParserFn } from './render-util';
-import { RenderLoader } from './render-loader';
 import RenderThemer from './render-themer';
+import { readConfigure } from '../../lib/loadConfig';
 
 const globToRegExp = require('glob-to-regexp');
 
@@ -17,12 +17,13 @@ import Index from '../../model/Index';
 import { RenderPluginManager } from './render-plugin';
 
 export class RenderController {
-  constructor(inputPath, outputPath, configure) {
+  constructor(inputPath, outputPath) {
     // TODO merge inputPath, outputPath
     this.inputPath = inputPath;
     this.outputPath = outputPath;
     // this.theme = configure.STYLE.THEME;
-    this.configure = configure;
+
+    this.configure = readConfigure(this.inputPath);
 
     this.categorys = {};
 
@@ -30,7 +31,8 @@ export class RenderController {
 
     // methods
     this.loadRootIgnore();
-    this.renderThemer = new RenderThemer(inputPath, outputPath, configure);
+    this.renderThemer = new RenderThemer(inputPath, outputPath, this.configure);
+
     this.renderPluginManager = new RenderPluginManager({
       inputRootPath: inputPath,
       outputPath: outputPath

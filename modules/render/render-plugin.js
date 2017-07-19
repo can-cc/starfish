@@ -22,7 +22,6 @@ import {
 import { warning, error } from '../../lib/message';
 import { loadConfig } from '../../lib/loadConfig.js';
 import { getModifyDates } from '../../util/git-date';
-import { RenderLoader } from './render-loader';
 
 export class RenderPluginManager {
   constructor(options) {
