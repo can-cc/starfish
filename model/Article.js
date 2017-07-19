@@ -75,16 +75,25 @@ export default class Article {
   }
 
   getArticleGitData(filePath) {
-    const stdout = execSync(
-      `git log --pretty=format:\'%ad\' ${filePath} | cat`,
-      {
-        cwd: this.options.inputRootPath,
-        encoding: 'utf-8'
-      }
-    );
-    const dates = stdout.split('\n');
+    let dates = [];
+    try {
+      const stdout = execSync(
+        `git log --pretty=format:\'%ad\' ${path.relative(
+          this.options.inputRootPath,
+          filePath
+        )} | cat`,
+        {
+          cwd: this.options.inputRootPath,
+          encoding: 'utf-8'
+        }
+      );
+      dates = stdout.split('\n');
+    } catch (error) {
+      console.warning('get file log datas fail', error.message);
+    }
+
     return {
-      createTime: new Date(_.last(dates) || new Date()),
+      createTime: new Date(_.last(dates) || new Date()), //TODO new Data 什么鬼
       modifyTime: new Date(_.head(dates) || new Date()),
       showTime: moment(new Date(_.last(dates) || new Date())).format(
         'dddd, MMMM Do YYYY, h:mm:ss a'

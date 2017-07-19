@@ -1,45 +1,30 @@
 import RenderController from '../../modules/render/render';
+import fs from 'fs';
+import path from 'path';
 
-test(
-  'integrated test render feather',
-  async done => {
-    const renderCtrl = new RenderController(
-      'test/mock-source/',
-      'test/test-build/',
-      {
-        AUTHOR: { NAME: 'rebot', GITHUB: 'AbyChan' },
-        BLOG: {
-          NAME: 'test blog name',
-          DESC: 'describtion',
-          TMPDIR: '/tmp',
-          TMPNAME: 'nobbbtmp',
-          INDEX_ARTICLE_NUMBER: 7,
-          CATEGORY_ARTICLE_NUMBER: 20,
-          ALL_PAGE_ARTICLE_NUMBER: 20,
-          SORT_ARTICLE_BY: 'create',
-          ARTICLE_SUMMARY_CHAR_NUMBER: 300
-        },
-        CONFIG: {
-          CONFIG_FILE: 'nobbb.config.yaml',
-          DIR_CONFIG_FILE: '.nobbbconfig.yaml',
-          IGNORE_FILE: '.nobbbignore'
-        },
-        STYLE: { THEMEDIR: '@themes', THEME: 'ng' },
-        SERVE: { HOST: '0.0.0.0', PORT: '8080' },
-        MAPPING: {
-          '@image': '/static/img/',
-          '@root-asset': '/',
-          '@demo': '/demo/'
-        },
-        LANG: 'zh-CN'
-      }
-    );
-    try {
-      await renderCtrl.render();
-      done();
-    } catch (error) {
-      console.error(error);
-    }
-  },
-  20000
-);
+test('integrated test render feather', async done => {
+  const inputPath = 'test/mock-source/';
+  const outputPath = 'test/test-build/';
+  const renderCtrl = new RenderController(inputPath, outputPath);
+  await renderCtrl.render();
+  expect(fs.existsSync(path.join(outputPath, 'index.html'))).toBe(true);
+  expect(fs.existsSync(path.join(outputPath, 'categorys/index.html'))).toBe(
+    true
+  );
+  expect(fs.existsSync(path.join(outputPath, 'categorys/index.json'))).toBe(
+    true
+  );
+  expect(fs.existsSync(path.join(outputPath, 'articles/hello-word.json'))).toBe(
+    true
+  );
+  expect(fs.existsSync(path.join(outputPath, 'articles/hello-word.html'))).toBe(
+    true
+  );
+  expect(fs.existsSync(path.join(outputPath, 'articles/index.html'))).toBe(
+    true
+  );
+  expect(fs.existsSync(path.join(outputPath, 'articles/index.json'))).toBe(
+    true
+  );
+  done();
+});
