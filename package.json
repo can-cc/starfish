@@ -4,11 +4,11 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build": "node_modules/.bin/babel lib/cli.js > lib/cli.dist.js",
+    "build": "node_modules/.bin/babel -d ./dist ./src",
     "test": "node_modules/.bin/jest"
   },
   "bin": {
-    "nobbb": "./bin/nobbb.dist.js"
+    "nobbb": "./dist/index"
   },
   "repository": {
     "type": "git",
@@ -25,6 +25,7 @@
     "babel-cli": "^6.24.1",
     "babel-core": "^6.21.0",
     "babel-plugin-transform-async-to-generator": "^6.8.0",
+    "babel-polyfill": "^6.23.0",
     "babel-preset-stage-3": "^6.17.0",
     "babel-types": "^6.21.0",
     "bluebird": "^3.3.5",
