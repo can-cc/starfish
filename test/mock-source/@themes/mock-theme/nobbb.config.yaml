@@ -1,0 +1,20 @@
+INDEX_TYPE: one
+
+INDEX_ARTICLE_NUMBER: 7
+
+ALL_PAGE_ARTICLE_NUMBER: 20
+
+PAGING_START_N: 1
+
+LANG: "zh-CN"
+
+TEXT:
+  FOOTER: "陳放為的博客 All rights reserved."
+  AUTHOR: "陳放為"
+  AUTHOR_DESC: "一个码农"
+
+LINK:
+  GITHUB: "https://github.com/AbyChan/"
+
+IMG:
+  FOOTER_AVATOR: '/static/img/me.jpg'

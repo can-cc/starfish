@@ -1,0 +1,35 @@
+AUTHOR:
+  NAME: 'test-reboot'
+  GITHUB: 'reboot'
+
+BLOG:
+  NAME: 'reboot blog'
+  DESC: 'this is reboot bog'
+  TMPDIR: '/tmp'
+  TMPNAME: 'NobbBuildTemp'
+  PORT: 8080
+  HOST: '127.0.0.1'
+  INDEX_ARTICLE_NUMBER: 7
+  CATEGORY_ARTICLE_NUMBER: 20
+  ALL_PAGE_ARTICLE_NUMBER: 20
+  SORT_ARTICLE_BY: 'create'
+  ARTICLE_SUMMARY_CHAR_NUMBER: 300
+
+STYLE:
+  THEMEDIR: '@themes'
+  THEME: 'mock-theme'
+
+CONFIG:
+  CONFIG_FILE: 'nobbb.config.yaml'
+  DIR_CONFIG_FILE: '.nobbbconfig.yaml'
+  IGNORE_FILE: '.nobbbignore'
+
+SERVE:
+  HOST: '0.0.0.0'
+  PORT: '8080'
+
+MAPPING:
+  '@image': '/static/img/'
+  '@root-asset': '/'
+
+LANG: 'zh-CN'
