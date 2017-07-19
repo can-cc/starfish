@@ -4,7 +4,11 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "node_modules/.bin/babel lib/cli.js > lib/cli.dist.js",
+    "test": "node_modules/.bin/jest"
+  },
+  "bin": {
+    "nobbb": "./bin/nobbb.dist.js"
   },
   "repository": {
     "type": "git",
@@ -18,6 +22,7 @@
   "homepage": "https://github.com/A-Horse/Wing#readme",
   "dependencies": {
     "async": "^2.0.0-rc.4",
+    "babel-cli": "^6.24.1",
     "babel-core": "^6.21.0",
     "babel-plugin-transform-async-to-generator": "^6.8.0",
     "babel-preset-stage-3": "^6.17.0",
