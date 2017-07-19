@@ -16,3 +16,4 @@ tags
 *~
 /log
 /yarn.lock
+/runMyBlog.sh
