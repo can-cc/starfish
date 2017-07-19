@@ -30,8 +30,6 @@ export class RenderController {
 
     // methods
     this.loadRootIgnore();
-
-    this.renderLoader = new RenderLoader(inputPath, outputPath, configure);
     this.renderThemer = new RenderThemer(inputPath, outputPath, configure);
     this.renderPluginManager = new RenderPluginManager({
       inputRootPath: inputPath,
@@ -100,9 +98,9 @@ export class RenderController {
   // TODO delete
   renderTemplate(key, data) {
     const mergedTemplateData = this.renderThemer.mergeTemplateData(data);
-    return ejs.render(this.renderLoader.getTemplate(key), mergedTemplateData, {
+    return ejs.render(this.renderThemer.getTemplate(key), mergedTemplateData, {
       filename: path.join(
-        this.renderLoader.getThemeTemplateRootPath(),
+        this.renderThemer.getThemeTemplateRootPath(),
         key + '.html'
       )
     });
@@ -122,3 +120,5 @@ export class RenderController {
     return this.renderTemplate('article', data);
   }
 }
+
+export default RenderController;

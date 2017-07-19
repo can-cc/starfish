@@ -1,4 +1,5 @@
 import { loadConfig } from '../../lib/loadConfig';
+import yaml from 'js-yaml';
 import fs from 'fs';
 import path from 'path';
 import R from 'fw-ramda';
@@ -87,8 +88,11 @@ export default class RenderThemer {
   }
 
   load() {
-    this.themeConfigure = loadConfig(
-      path.join(this.themePath, this.configure.CONFIG.CONFIG_FILE)
+    this.themeConfigure = yaml.safeLoad(
+      fs.readFileSync(
+        path.join(this.themePath, this.configure.CONFIG.CONFIG_FILE),
+        'utf8'
+      )
     );
     this.textData = this.themeConfigure.TEXT || {};
     this.linkData = this.themeConfigure.LINK || {};

@@ -67,7 +67,7 @@ export default class Index {
 
   render() {
     // TODO refactor function
-    if (this.controller.renderLoader.getThemeConfigure().INDEX_TYPE !== 'one') {
+    if (this.controller.renderThemer.getThemeConfigure().INDEX_TYPE !== 'one') {
       return;
     }
 
