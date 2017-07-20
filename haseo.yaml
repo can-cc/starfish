@@ -1,4 +1,4 @@
 name: nobbb
 flow:
   - build: npm run build
-  - test: nm run test
+  - test: npm run test
