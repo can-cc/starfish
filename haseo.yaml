@@ -1,4 +1,5 @@
 name: nobbb
 flow:
+  - pre: yarn install
   - build: npm run build
   - test: npm run test
