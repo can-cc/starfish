@@ -8,7 +8,7 @@ const outputPath = 'test/test-build/';
 const outputPathAbsolutelyPath = path.resolve(__dirname, '../../', outputPath);
 
 afterEach(() => {
-  execSync(`rm -r ${outputPathAbsolutelyPath}`);
+  execSync(`rm -rf ${outputPathAbsolutelyPath}`);
 });
 
 test('integrated test render feather', async done => {
