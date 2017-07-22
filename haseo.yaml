@@ -2,3 +2,5 @@ name: nobbb
 flow:
   - install: yarn install
   - test: npm run test
+  - build: npm run build
+  - clean: rm -rf node_modules/
