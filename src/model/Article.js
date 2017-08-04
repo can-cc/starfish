@@ -96,7 +96,7 @@ export default class Article {
       createTime: new Date(_.last(dates) || new Date()), //TODO new Data 什么鬼
       modifyTime: new Date(_.head(dates) || new Date()),
       showTime: moment(new Date(_.last(dates) || new Date())).format(
-        'dddd, MMMM Do YYYY, h:mm:ss a'
+        'MMMM Do YYYY, h:mm'
       )
     };
   }
