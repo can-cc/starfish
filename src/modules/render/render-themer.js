@@ -32,76 +32,35 @@ export default class RenderThemer {
       this.theme
     );
 
-    this.load();
+    this.themeConfigure = yaml.safeLoad(
+      fs.readFileSync(path.join(this.themePath, this.configure.CONFIG.CONFIG_FILE), 'utf8')
+    );
+    this.loadTemplates();
   }
 
   async copyThemeAsset() {
-    await fsExtra.copy(
-      path.join(this.themePath, 'static'),
-      path.join(this.outputPath, 'static')
+    const templatesAssetMap = this.themeConfigure.THEME_MAPPING;
+    await Promise.all(
+      Object.keys(templatesAssetMap).map(targetName => {
+        const sourcePath = path.join(this.themePath, templatesAssetMap[targetName]);
+        return fsExtra.copy(sourcePath, path.join(this.outputPath, targetName));
+      })
     );
   }
 
   renderTemplate(key, data) {
-    const mergedTemplateData = this.renderLoader.mergeTemplateData(data);
-    return ejs.render(this.renderLoader.getTemplate(key), mergedTemplateData, {
-      filename: path.join(
-        this.renderLoader.getThemeTemplateRootPath(),
-        key + '.html'
-      )
-    });
-  }
-
-  loadLangData() {
-    const lang = (this.lang = this.configure.LANG || this.themeConfigure.LANG);
-    const langFiles = fs
-      .readdirSync(path.join(this.themePath, 'lang'))
-      .filter(filterDotFiles)
-      .filter(isYaml);
-
-    if (langFiles.indexOf(lang + '.yaml') > 0) {
-      this.langData = loadConfig(
-        path.join(this.themePath, 'lang', lang + '.yaml')
-      );
-    } else {
-      this.langData = loadConfig(
-        path.join(this.themePath, 'lang', 'default.yaml')
-      );
-    }
+    return ejs.render(this.getTemplate(key), data);
   }
 
   loadTemplates() {
-    const themeTemplateRootPath = (this.themeTemplateRootPath = path.join(
-      this.themePath,
-      'templates'
-    )); // TODO configure dir name ?
-    this.templates = fs
-      .readdirSync(themeTemplateRootPath)
-      .filter(filterDotFiles)
-      .filter(f => isFile(path.join(themeTemplateRootPath, f)))
-      .reduce((templates, filePath) => {
-        const key = takeFileNameWithoutSuffix(filePath);
-        templates[key] = fs.readFileSync(
-          path.join(themeTemplateRootPath, filePath),
-          'utf-8'
-        );
-        return templates;
-      }, {});
-  }
-
-  load() {
-    this.themeConfigure = yaml.safeLoad(
-      fs.readFileSync(
-        path.join(this.themePath, this.configure.CONFIG.CONFIG_FILE),
-        'utf8'
-      )
-    );
-    this.textData = this.themeConfigure.TEXT || {};
-    this.linkData = this.themeConfigure.LINK || {};
-    this.imgData = this.themeConfigure.IMG;
-
-    this.loadLangData();
-    this.loadTemplates();
+    const templatesConfigMap = this.themeConfigure.TEMPLATE;
+    this.templateContentMap = R.compose(
+      R.reduce((result, key) => {
+        result[key] = fs.readFileSync(path.join(this.themePath, templatesConfigMap[key]), 'utf-8');
+        return result;
+      }, {}),
+      R.keys
+    )(templatesConfigMap);
   }
 
   getThemeConfigure() {
@@ -109,7 +68,7 @@ export default class RenderThemer {
   }
 
   getTemplate(key) {
-    return this.templates[key];
+    return this.templateContentMap[key];
   }
 
   getThemeTemplateRootPath() {
@@ -118,14 +77,5 @@ export default class RenderThemer {
 
   hasAllArticles() {
     return !!this.templates['allarticles'];
-  }
-
-  mergeTemplateData(data) {
-    return R.compose(
-      R.merge({ TEXT: this.textData }),
-      R.merge({ LINK: this.linkData }),
-      R.merge({ IMG: this.imgData }),
-      R.merge({ LANG: this.langData })
-    )(data);
   }
 }

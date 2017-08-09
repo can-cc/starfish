@@ -18,18 +18,14 @@ import { RenderPluginManager } from './render-plugin';
 
 export class RenderController {
   constructor(inputPath, outputPath) {
-    // TODO merge inputPath, outputPath
     this.inputPath = inputPath;
     this.outputPath = outputPath;
-    // this.theme = configure.STYLE.THEME;
 
     this.configure = readConfigure(this.inputPath);
 
     this.categorys = {};
 
     this.pluginType = 'render';
-
-    // methods
     this.loadRootIgnore();
     this.renderThemer = new RenderThemer(inputPath, outputPath, this.configure);
 
@@ -39,7 +35,6 @@ export class RenderController {
     });
 
     this.parsers = getParsersFromModules();
-    // this.documentParserFn = makeDocumentParserFn(this.parsers);
   }
 
   async render() {
@@ -64,7 +59,6 @@ export class RenderController {
     await index.renderEachCategory();
 
     await this.renderThemer.copyThemeAsset();
-    // await this.copyStatic();
   }
 
   // TODO move
@@ -97,17 +91,6 @@ export class RenderController {
     return this.rootIgnoreRegs.every(reg => !reg.test(name));
   }
 
-  // TODO delete
-  renderTemplate(key, data) {
-    const mergedTemplateData = this.renderThemer.mergeTemplateData(data);
-    return ejs.render(this.renderThemer.getTemplate(key), mergedTemplateData, {
-      filename: path.join(
-        this.renderThemer.getThemeTemplateRootPath(),
-        key + '.html'
-      )
-    });
-  }
-
   getBlogInformation() {
     return {
       author: this.configure.AUTHOR.NAME,
@@ -116,10 +99,6 @@ export class RenderController {
       blogName: this.configure.BLOG.NAME,
       blogDesc: this.configure.BLOG.DESC
     };
-  }
-
-  renderArticle(data) {
-    return this.renderTemplate('article', data);
   }
 }
 

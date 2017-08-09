@@ -12,7 +12,7 @@ BLOG:
   SORT_ARTICLE_BY: 'create'
 
 CONFIG:
-  CONFIG_FILE: 'wing.config.yaml'
+  CONFIG_FILE: 'starfish.config.yaml'
   DIR_CONFIG_FILE: '.wdconfig.yaml'
   IGNORE_FILE: '.nobbbignore'
 

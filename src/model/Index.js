@@ -94,7 +94,7 @@ export default class Index {
       categorys: categorys
     };
 
-    const html = this.controller.renderTemplate('index', indexData);
+    const html = this.controller.renderThemer.renderTemplate('INDEX', indexData);
     const outputFilePath = path.join(this.outputPath, 'index.html');
     fs.writeFileSync(outputFilePath, html);
   }
@@ -108,7 +108,7 @@ export default class Index {
       fs.mkdirSync(categoryListOutputPath);
     }
 
-    const html = this.controller.renderTemplate('categorylist', categorysData);
+    const html = this.controller.renderThemer.renderTemplate('CATEGORY_LIST', categorysData);
     fs.writeFileSync(path.join(categoryListOutputPath, 'index.html'), html);
     this.controller.renderPluginManager.runPluinAfterwCategoryListRender(
       categorysData,

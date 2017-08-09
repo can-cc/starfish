@@ -95,9 +95,7 @@ export default class Article {
     return {
       createTime: new Date(_.last(dates) || new Date()), //TODO new Data 什么鬼
       modifyTime: new Date(_.head(dates) || new Date()),
-      showTime: moment(new Date(_.last(dates) || new Date())).format(
-        'MMMM Do YYYY, h:mm'
-      )
+      showTime: moment(new Date(_.last(dates) || new Date())).format('MMMM Do YYYY, h:mm')
     };
   }
 
@@ -124,23 +122,17 @@ export default class Article {
     }
     fsExtra.copySync(
       assetPath,
-      path.join(
-        this.options.categoryOutputPath,
-        this.options.articleFileNameWithoutSuffix
-      )
+      path.join(this.options.categoryOutputPath, this.options.articleFileNameWithoutSuffix)
     );
   }
 
   render() {
     this.controller.renderPluginManager.runPluinBeforeArticleRender(this.data);
 
-    const rendered = this.controller.renderArticle(this.data);
+    const rendered = this.controller.renderThemer.renderTemplate('ARTICLE', this.data);
 
     fs.writeFileSync(this.articleOutputPath, rendered);
     this.copyArticleAsset();
-    this.controller.renderPluginManager.runPluinAfterArticleRender(
-      rendered,
-      this.data
-    );
+    this.controller.renderPluginManager.runPluinAfterArticleRender(rendered, this.data);
   }
 }

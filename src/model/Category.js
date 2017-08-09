@@ -131,7 +131,7 @@ export default class Category {
         currentPageN: pageN
       };
 
-      const html = this.controller.renderTemplate('category', data);
+      const html = this.controller.renderThemer.renderTemplate('CATEGORY', data);
 
       if (!fs.existsSync(outputDir)) {
         fs.mkdirSync(outputDir);
