@@ -4,17 +4,18 @@ import path from 'path';
 import _ from 'lodash';
 import ejs from 'ejs';
 import fsExtra from 'fs-extra';
-import R from 'fw-ramda';
+import R from 'ramda';
 
 import { getParsersFromModules, makeDocumentParserFn } from './render-util';
 import RenderThemer from './render-themer';
 import { readConfigure } from '../../lib/loadConfig';
 
-const globToRegExp = require('glob-to-regexp');
+
 
 import Index from '../../model/Index';
 
 import { RenderPluginManager } from './render-plugin';
+const globToRegExp = require('glob-to-regexp');
 
 export class RenderController {
   constructor(inputPath, outputPath) {
