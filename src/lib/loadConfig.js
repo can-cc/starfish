@@ -11,7 +11,7 @@ let loadConfig = filepath => {
 const readConfigure = inputPath => {
   const userConfigure = loadConfig(path.join(inputPath, 'config.yaml'));
   const defaultConfigure = loadConfig(
-    path.join(__dirname, '../config.default.yaml')
+    path.join(__dirname, '../../config.default.yaml')
   );
   return R.merge(defaultConfigure, userConfigure);
 };

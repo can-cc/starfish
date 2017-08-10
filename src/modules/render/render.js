@@ -5,12 +5,9 @@ import _ from 'lodash';
 import ejs from 'ejs';
 import fsExtra from 'fs-extra';
 import R from 'ramda';
-
 import { getParsersFromModules, makeDocumentParserFn } from './render-util';
 import RenderThemer from './render-themer';
 import { readConfigure } from '../../lib/loadConfig';
-
-
 
 import Index from '../../model/Index';
 
