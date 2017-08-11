@@ -75,9 +75,6 @@ export class RenderPluginManager {
     const plugins = {};
     fs
       .readdirSync(path.resolve(__dirname, '../../../node_modules'))
-      .map(name => {
-        return name;
-      })
       .filter(filterDotFiles)
       .filter(name => new RegExp(`^nobbb-render`).test(name))
       .forEach(name => {

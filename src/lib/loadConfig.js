@@ -1,6 +1,6 @@
-let yaml = require('js-yaml'),
-  R = require('fw-ramda'),
-  fs = require('fs');
+import yaml from 'js-yaml';
+import R from 'ramda';
+import fs from 'fs';
 
 import * as path from 'path';
 

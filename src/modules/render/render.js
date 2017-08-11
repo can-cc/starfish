@@ -78,13 +78,6 @@ export class RenderController {
     );
   }
 
-  async copyStatic() {
-    await fsExtra.copy(
-      path.join(this.themePath, 'static'),
-      path.join(this.outputPath, 'static')
-    );
-  }
-
   filterIgnores(name) {
     return this.rootIgnoreRegs.every(reg => !reg.test(name));
   }
