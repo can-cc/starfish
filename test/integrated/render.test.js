@@ -11,9 +11,10 @@ afterEach(() => {
   execSync(`rm -rf ${outputPathAbsolutelyPath}`);
 });
 
-test('integrated test render feather', async done => {
+test('integrated test render feather', async () => {
   const renderCtrl = new RenderController(inputPath, outputPath);
   await renderCtrl.render();
+
   expect(fs.existsSync(path.join(outputPath, 'index.html'))).toBe(true);
   expect(fs.existsSync(path.join(outputPath, 'categorys/index.html'))).toBe(
     true
@@ -21,17 +22,16 @@ test('integrated test render feather', async done => {
   expect(fs.existsSync(path.join(outputPath, 'categorys/index.json'))).toBe(
     true
   );
-  expect(fs.existsSync(path.join(outputPath, 'articles/hello-word.json'))).toBe(
+  expect(fs.existsSync(path.join(outputPath, 'javascript/hello-word.json'))).toBe(
     true
   );
-  expect(fs.existsSync(path.join(outputPath, 'articles/hello-word.html'))).toBe(
+  expect(fs.existsSync(path.join(outputPath, 'javascript/hello-word.html'))).toBe(
     true
   );
-  expect(fs.existsSync(path.join(outputPath, 'articles/index.html'))).toBe(
+  expect(fs.existsSync(path.join(outputPath, 'javascript/index.html'))).toBe(
     true
   );
-  expect(fs.existsSync(path.join(outputPath, 'articles/index.json'))).toBe(
+  expect(fs.existsSync(path.join(outputPath, 'javascript/index.json'))).toBe(
     true
   );
-  done();
 });
