@@ -20,14 +20,11 @@ export class RenderController {
     this.configure = readConfigure(this.inputPath);
 
     this.loadRootIgnore();
-
     this.renderThemer = new RenderThemer(inputPath, outputPath, this.configure);
-
     this.renderPluginManager = new RenderPluginManager({
       inputRootPath: inputPath,
       outputPath: outputPath
     });
-
     this.parsers = getParsersFromModules();
   }
 
