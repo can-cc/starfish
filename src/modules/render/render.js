@@ -1,30 +1,26 @@
-import bluebird from 'bluebird';
 import fs from 'fs';
 import path from 'path';
-import _ from 'lodash';
-import ejs from 'ejs';
-import fsExtra from 'fs-extra';
 import R from 'ramda';
+const globToRegExp = require('glob-to-regexp');
+
 import { getParsersFromModules, makeDocumentParserFn } from './render-util';
 import RenderThemer from './render-themer';
 import { readConfigure } from '../../lib/loadConfig';
 
-import Index from '../../model/Index';
+import Blog from '../../model/Blog';
 
 import { RenderPluginManager } from './render-plugin';
-const globToRegExp = require('glob-to-regexp');
 
 export class RenderController {
   constructor(inputPath, outputPath) {
+    this.pluginType = 'render';
     this.inputPath = inputPath;
     this.outputPath = outputPath;
 
     this.configure = readConfigure(this.inputPath);
 
-    this.categorys = {};
-
-    this.pluginType = 'render';
     this.loadRootIgnore();
+
     this.renderThemer = new RenderThemer(inputPath, outputPath, this.configure);
 
     this.renderPluginManager = new RenderPluginManager({
@@ -40,21 +36,21 @@ export class RenderController {
       fs.mkdirSync(this.outputPath);
     }
 
-    const index = new Index(
+    const blog = new Blog(
       {
-        inputPath: this.inputPath,
+        inputPath: path.join(this.inputPath, this.configure.BLOG.BLOGDIR),
         outputPath: this.outputPath,
         parsers: this.parsers
       },
       this
     );
 
-    await index.loadCategorys();
-    await index.loadCategoryDir();
+    await blog.loadCategorys();
+    await blog.loadCategoryDir();
 
-    await index.render();
-    await index.renderCategoryList();
-    await index.renderEachCategory();
+    await blog.render();
+    await blog.renderCategoryList();
+    await blog.renderEachCategory();
 
     await this.renderThemer.copyThemeAsset();
   }
@@ -63,19 +59,14 @@ export class RenderController {
   loadRootIgnore() {
     this.rootIgnoreRegs = [];
     let self = this;
-    let ignoreFilePath = path.join(
-      this.inputPath,
-      this.configure.CONFIG.IGNORE_FILE
-    );
+    let ignoreFilePath = path.join(this.inputPath, this.configure.CONFIG.IGNORE_FILE);
     if (fs.existsSync(ignoreFilePath)) {
       fs.readFileSync(ignoreFilePath, 'utf-8').split('\n').forEach(globStr => {
         self.rootIgnoreRegs.push(globToRegExp(globStr));
       });
     }
     const mappingRules = this.configure.MAPPING || {};
-    R.keys(mappingRules).forEach(toMapPath =>
-      this.rootIgnoreRegs.push(globToRegExp(toMapPath))
-    );
+    R.keys(mappingRules).forEach(toMapPath => this.rootIgnoreRegs.push(globToRegExp(toMapPath)));
   }
 
   filterIgnores(name) {

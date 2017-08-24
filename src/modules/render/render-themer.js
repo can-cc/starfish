@@ -6,18 +6,10 @@ import R from 'fw-ramda';
 import ejs from 'ejs';
 import fsExtra from 'fs-extra';
 import {
-  isFile,
-  isDir,
-  takeFileName,
-  takeFileNameWithoutSuffix,
-  getRelativePath,
-  filterDotFiles,
-  isSuffix,
-  mergeForce
+  isSuffix
 } from '../../lib/util';
 
 import shell from 'shelljs';
-const isYaml = R.curry(isSuffix)('yaml');
 
 export default class RenderThemer {
   constructor(inputPath, outputRoot, configure) {
@@ -50,12 +42,6 @@ export default class RenderThemer {
       }
       shell.cp('-R', path.join(this.themePath, sourceExpress), targetPath);
     });
-    // await Promise.all(
-    //   Object.keys(templatesAssetMap).map(targetName => {
-    //     const sourcePath = path.join(this.themePath, templatesAssetMap[targetName]);
-    //     return fsExtra.copy(sourcePath, path.join(this.outputPath, targetName));
-    //   })
-    // );
   }
 
   renderTemplate(key, data) {
