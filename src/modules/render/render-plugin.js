@@ -25,10 +25,7 @@ import { getModifyDates } from '../../util/git-date';
 
 export class RenderPluginManager {
   constructor(options) {
-    this.plugins = this.getPluginFromNodeMudules({
-      // meta infomation
-      ...options
-    });
+    this.plugins = this.getPluginFromNodeMudules(options);
   }
 
   getPlugin() {
