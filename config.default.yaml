@@ -14,7 +14,7 @@ BLOG:
 CONFIG:
   CONFIG_FILE: 'starfish.config.yaml'
   DIR_CONFIG_FILE: '.wdconfig.yaml'
-  IGNORE_FILE: '.nobbbignore'
+  IGNORE_FILE: '.ignore'
 
 STYLE:
   THEMEDIR: '@themes'
