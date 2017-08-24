@@ -34,4 +34,13 @@ test('integrated test render feather', async () => {
   expect(fs.existsSync(path.join(outputPath, 'javascript/index.json'))).toBe(
     true
   );
+  expect(fs.existsSync(path.join(outputPath, 'javascript/metor/index.json'))).toBe(
+    true
+  );
+  expect(fs.existsSync(path.join(outputPath, 'javascript/metor/index.html'))).toBe(
+    true
+  );
+  expect(fs.existsSync(path.join(outputPath, 'javascript/metor/test.png'))).toBe(
+    true
+  );
 });

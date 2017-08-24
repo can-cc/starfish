@@ -1,4 +1,4 @@
 #+TITLE: hello world
-#+AUTHOR: cf
+#+AUTHOR: rebot
 
 hi everybody

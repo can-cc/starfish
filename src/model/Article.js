@@ -43,6 +43,15 @@ export default class Article {
     this.articleOutputPath = options.outputPath;
     this.options = options;
     this.controller = controller;
+
+    this.assetPath = path.join(
+      this.options.categoryInputPath,
+      this.options.articleFileNameWithoutSuffix
+    );
+  }
+
+  hasAsset() {
+    return fs.existsSync(this.assetPath);
   }
 
   load() {
@@ -68,6 +77,8 @@ export default class Article {
       categoryInputPath: this.options.categoryInputPath,
       categoryOutputPath: this.options.categoryOutputPath,
       articleFileNameWithoutSuffix: this.options.articleFileNameWithoutSuffix,
+
+      hasAsset: this.hasAsset(),
 
       ...this.controller.getBlogInformation(),
       ...this.getArticleGitData(this.articleInputPath)
@@ -113,26 +124,25 @@ export default class Article {
   }
 
   copyArticleAsset() {
-    const assetPath = path.join(
-      this.options.categoryInputPath,
-      this.options.articleFileNameWithoutSuffix
-    );
-    if (!fs.existsSync(assetPath)) {
-      return;
-    }
     fsExtra.copySync(
-      assetPath,
+      this.assetPath,
       path.join(this.options.categoryOutputPath, this.options.articleFileNameWithoutSuffix)
     );
   }
 
   render() {
     this.controller.renderPluginManager.runPluinBeforeArticleRender(this.data);
-
     const rendered = this.controller.renderThemer.renderTemplate('ARTICLE', this.data);
 
-    fs.writeFileSync(this.articleOutputPath, rendered);
-    this.copyArticleAsset();
+    let outputPath;
+    if (this.hasAsset()) {
+      this.copyArticleAsset();
+      outputPath = path.join(this.options.categoryOutputPath, this.options.articleFileNameWithoutSuffix, 'index.html');
+    } else {
+      outputPath = this.articleOutputPath;
+    }
+
+    fs.writeFileSync(outputPath, rendered);
     this.controller.renderPluginManager.runPluinAfterArticleRender(rendered, this.data);
   }
 }
