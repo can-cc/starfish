@@ -3,6 +3,7 @@ AUTHOR:
   GITHUB: 'reboot'
 
 BLOG:
+  BLOGDIR: 'articles'
   NAME: 'reboot blog'
   DESC: 'this is reboot bog'
   TMPDIR: '/tmp'
@@ -18,11 +19,12 @@ BLOG:
 STYLE:
   THEMEDIR: '@themes'
   THEME: 'mock-theme'
+  THEME_CONFIG_FILE: 'theme.config.yaml'
 
 CONFIG:
-  CONFIG_FILE: 'nobbb.config.yaml'
+  CONFIG_FILE: 'config.yaml'
   DIR_CONFIG_FILE: '.nobbbconfig.yaml'
-  IGNORE_FILE: '.nobbbignore'
+  IGNORE_FILE: '.ignore'
 
 SERVE:
   HOST: '0.0.0.0'
