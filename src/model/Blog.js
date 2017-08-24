@@ -62,7 +62,7 @@ export default class Blog {
   }
 
   concatAllArticle() {
-    return R.concat(...this.categorys.map(c => c.getAllArticles()));
+    return [].concat(...this.categorys.map(c => c.getAllArticles()));
   }
 
   render() {
