@@ -2865,9 +2865,9 @@ nobbb-parse-org@^1.0.1:
   dependencies:
     org "^0.2.0"
 
-nobbb-render-ajax@v1.0.5:
-  version "1.0.5"
-  resolved "https://registry.yarnpkg.com/nobbb-render-ajax/-/nobbb-render-ajax-1.0.5.tgz#dd31946642bb280728d2593e7073aadf103d4224"
+nobbb-render-ajax@v1.0.6:
+  version "1.0.6"
+  resolved "https://registry.yarnpkg.com/nobbb-render-ajax/-/nobbb-render-ajax-1.0.6.tgz#4d87ce11bded7651005b46b1929cfc61c283700a"
   dependencies:
     babel-preset-stage-1 "^6.24.1"
     ramda "^0.23.0"

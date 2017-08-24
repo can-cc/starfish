@@ -134,15 +134,15 @@ export default class Article {
     this.controller.renderPluginManager.runPluinBeforeArticleRender(this.data);
     const rendered = this.controller.renderThemer.renderTemplate('ARTICLE', this.data);
 
-    let outputPath;
+    const outputDirPath = path.join(this.options.categoryOutputPath, this.options.articleFileNameWithoutSuffix);
     if (this.hasAsset()) {
       this.copyArticleAsset();
-      outputPath = path.join(this.options.categoryOutputPath, this.options.articleFileNameWithoutSuffix, 'index.html');
-    } else {
-      outputPath = this.articleOutputPath;
+    }
+    if (!fs.existsSync(outputDirPath)) {
+      fs.mkdirSync(outputDirPath);
     }
 
-    fs.writeFileSync(outputPath, rendered);
+    fs.writeFileSync(path.join(outputDirPath, 'index.html'), rendered);
     this.controller.renderPluginManager.runPluinAfterArticleRender(rendered, this.data);
   }
 }

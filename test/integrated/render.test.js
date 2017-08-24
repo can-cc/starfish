@@ -22,10 +22,10 @@ test('integrated test render feather', async () => {
   expect(fs.existsSync(path.join(outputPath, 'categorys/index.json'))).toBe(
     true
   );
-  expect(fs.existsSync(path.join(outputPath, 'javascript/hello-word.json'))).toBe(
+  expect(fs.existsSync(path.join(outputPath, 'javascript/hello-word/index.html'))).toBe(
     true
   );
-  expect(fs.existsSync(path.join(outputPath, 'javascript/hello-word.html'))).toBe(
+  expect(fs.existsSync(path.join(outputPath, 'javascript/hello-word/index.json'))).toBe(
     true
   );
   expect(fs.existsSync(path.join(outputPath, 'javascript/index.html'))).toBe(
