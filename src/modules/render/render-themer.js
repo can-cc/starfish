@@ -26,7 +26,7 @@ export default class RenderThemer {
     );
 
     this.themeConfigure = yaml.safeLoad(
-      fs.readFileSync(path.join(this.themePath, this.configure.CONFIG.CONFIG_FILE), 'utf8')
+      fs.readFileSync(path.join(this.themePath, this.configure.STYLE.THEME_CONFIG_FILE), 'utf8')
     );
     this.loadTemplates();
   }
