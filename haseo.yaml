@@ -1,6 +1,7 @@
-name: nobbb
+name: starfish
 flow:
+  - clean: rm -rf node_modules/
   - install: yarn install
   - test: npm run test
-  - build: npm run build
-  - clean: rm -rf node_modules/
+  - build: npm run compile
+  - link: npm link --local
