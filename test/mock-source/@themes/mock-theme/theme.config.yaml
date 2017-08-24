@@ -1,0 +1,30 @@
+RENDER_TYPE: "ANGULAR_UNIVERSAL"
+
+TEMPLATE:
+  INDEX: "./templates/index.html"
+  CATEGORY_LIST: "./templates/index.html"
+  CATEGORY: "./templates/index.html"
+  ARTICLE: "./templates/index.html"
+  ALL_ARTICLE: "./templates/index.html"
+
+THEME_MAPPING:
+  - /: "./css-test.css"
+
+INDEX_TYPE: one
+
+INDEX_ARTICLE_NUMBER: 7
+
+ALL_PAGE_ARTICLE_NUMBER: 20
+
+PAGING_START_N: 1
+
+TEXT:
+  FOOTER: "陳放為的博客 All rights reserved."
+  AUTHOR: "陳放為"
+  AUTHOR_DESC: "一个码农"
+
+LINK:
+  GITHUB: "https://github.com/AbyChan/"
+
+IMG:
+  FOOTER_AVATOR: '/static/img/me.jpg'
