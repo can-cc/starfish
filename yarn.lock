@@ -2,6 +2,42 @@
 # yarn lockfile v1
 
 
+"@angular/animations@^4.3.3":
+  version "4.3.6"
+  resolved "https://registry.yarnpkg.com/@angular/animations/-/animations-4.3.6.tgz#bf9283ec7c8c98b32f569d84dcda10890fdc0262"
+  dependencies:
+    tslib "^1.7.1"
+
+"@angular/common@^4.3.3":
+  version "4.3.6"
+  resolved "https://registry.yarnpkg.com/@angular/common/-/common-4.3.6.tgz#ed37e9307c7506dd834797c1a6cf675e52b5b6ee"
+  dependencies:
+    tslib "^1.7.1"
+
+"@angular/compiler@^4.3.3":
+  version "4.3.6"
+  resolved "https://registry.yarnpkg.com/@angular/compiler/-/compiler-4.3.6.tgz#be170df098b71e835ccedf168d5fb7b23e5045b8"
+  dependencies:
+    tslib "^1.7.1"
+
+"@angular/core@^4.3.3":
+  version "4.3.6"
+  resolved "https://registry.yarnpkg.com/@angular/core/-/core-4.3.6.tgz#bbac63d68d0f7bcb389d12b34208652be3287e96"
+  dependencies:
+    tslib "^1.7.1"
+
+"@angular/http@^4.3.3":
+  version "4.3.6"
+  resolved "https://registry.yarnpkg.com/@angular/http/-/http-4.3.6.tgz#563827d1a7d5e89e3b7d86b77fbbd367b2c08591"
+  dependencies:
+    tslib "^1.7.1"
+
+"@angular/platform-browser@^4.3.3":
+  version "4.3.6"
+  resolved "https://registry.yarnpkg.com/@angular/platform-browser/-/platform-browser-4.3.6.tgz#6152b1f3b78d0246fc5e150e2f7b9ed4337e3ba6"
+  dependencies:
+    tslib "^1.7.1"
+
 "@angular/platform-server@^4.3.3":
   version "4.3.3"
   resolved "https://registry.yarnpkg.com/@angular/platform-server/-/platform-server-4.3.3.tgz#404c00208d7258d4f9a54c9a5dda2147b21b6c9b"
@@ -9,6 +45,12 @@
     parse5 "^3.0.1"
     tslib "^1.7.1"
     xhr2 "^0.1.4"
+
+"@angular/router@^4.3.3":
+  version "4.3.6"
+  resolved "https://registry.yarnpkg.com/@angular/router/-/router-4.3.6.tgz#64033edb4fcda08a323e7533b4a1820c0f28d130"
+  dependencies:
+    tslib "^1.7.1"
 
 "@types/node@^6.0.46":
   version "6.0.85"
@@ -2823,9 +2865,9 @@ nobbb-parse-org@^1.0.1:
   dependencies:
     org "^0.2.0"
 
-nobbb-render-ajax@v1.0.3:
-  version "1.0.3"
-  resolved "https://registry.yarnpkg.com/nobbb-render-ajax/-/nobbb-render-ajax-1.0.3.tgz#d45b0234c7d97fa851ab5e253224468a563330b6"
+nobbb-render-ajax@v1.0.5:
+  version "1.0.5"
+  resolved "https://registry.yarnpkg.com/nobbb-render-ajax/-/nobbb-render-ajax-1.0.5.tgz#dd31946642bb280728d2593e7073aadf103d4224"
   dependencies:
     babel-preset-stage-1 "^6.24.1"
     ramda "^0.23.0"
@@ -3409,6 +3451,12 @@ rx-lite@*, rx-lite@^4.0.8:
   version "4.0.8"
   resolved "https://registry.yarnpkg.com/rx-lite/-/rx-lite-4.0.8.tgz#0b1e11af8bc44836f04a6407e92da42467b79444"
 
+rxjs@^5.4.2:
+  version "5.4.3"
+  resolved "https://registry.yarnpkg.com/rxjs/-/rxjs-5.4.3.tgz#0758cddee6033d68e0fd53676f0f3596ce3d483f"
+  dependencies:
+    symbol-observable "^1.0.1"
+
 safe-buffer@^5.0.1, safe-buffer@~5.1.0, safe-buffer@~5.1.1:
   version "5.1.1"
   resolved "https://registry.yarnpkg.com/safe-buffer/-/safe-buffer-5.1.1.tgz#893312af69b2123def71f57889001671eeb2c853"
@@ -3571,15 +3619,24 @@ sshpk@^1.7.0:
     jsbn "~0.1.0"
     tweetnacl "~0.14.0"
 
-starfish-command-ssr@^1.0.0:
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/starfish-command-ssr/-/starfish-command-ssr-1.0.0.tgz#fa868d801c6c6b81c08ee03136c00c587d55118a"
+starfish-command-ssr@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/starfish-command-ssr/-/starfish-command-ssr-1.0.1.tgz#e4b6ebf9c05a1b9a0a0fcc762bc5856a4ebf3f89"
   dependencies:
+    "@angular/animations" "^4.3.3"
+    "@angular/common" "^4.3.3"
+    "@angular/compiler" "^4.3.3"
+    "@angular/core" "^4.3.3"
+    "@angular/http" "^4.3.3"
+    "@angular/platform-browser" "^4.3.3"
     "@angular/platform-server" "^4.3.3"
+    "@angular/router" "^4.3.3"
     babel-preset-stage-1 "^6.24.1"
     glob "^7.1.2"
     js-yaml "^3.9.1"
     ramda "^0.23.0"
+    rxjs "^5.4.2"
+    zone.js v0.8.14
 
 "statuses@>= 1.3.1 < 2", statuses@~1.3.1:
   version "1.3.1"
@@ -3661,6 +3718,10 @@ supports-color@^3.1.2:
   resolved "https://registry.yarnpkg.com/supports-color/-/supports-color-3.2.3.tgz#65ac0504b3954171d8a64946b2ae3cbb8a5f54f6"
   dependencies:
     has-flag "^1.0.0"
+
+symbol-observable@^1.0.1:
+  version "1.0.4"
+  resolved "https://registry.yarnpkg.com/symbol-observable/-/symbol-observable-1.0.4.tgz#29bf615d4aa7121bdd898b22d4b3f9bc4e2aa03d"
 
 "symbol-tree@>= 3.1.0 < 4.0.0", symbol-tree@^3.2.1:
   version "3.2.2"
@@ -4021,3 +4082,7 @@ yargs@~3.10.0:
     cliui "^2.1.0"
     decamelize "^1.0.0"
     window-size "0.1.0"
+
+zone.js@v0.8.14:
+  version "0.8.14"
+  resolved "https://registry.yarnpkg.com/zone.js/-/zone.js-0.8.14.tgz#0c4db24b178232274ccb43f78c99db7f3642b6cf"
