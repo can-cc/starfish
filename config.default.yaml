@@ -19,7 +19,7 @@ CONFIG:
 STYLE:
   THEMEDIR: '@themes'
   THEME: 'white-card'
-  THEME_CONFIG_FILE: 'starfish.config.yaml'
+  THEME_CONFIG_FILE: 'theme.config.yaml'
 
 SERVE:
   HOST: '0.0.0.0'
