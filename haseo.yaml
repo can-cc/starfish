@@ -2,6 +2,6 @@ name: starfish
 flow:
   - clean: rm -rf node_modules/
   - install: yarn install
-  - test: npm run test
+  - test: npm run test --ci
   - build: npm run compile
   - link: npm link --local
