@@ -16,6 +16,7 @@ import {
   mergeForce
 } from '../../lib/util';
 
+import shell from 'shelljs';
 const isYaml = R.curry(isSuffix)('yaml');
 
 export default class RenderThemer {
@@ -39,13 +40,22 @@ export default class RenderThemer {
   }
 
   async copyThemeAsset() {
-    const templatesAssetMap = this.themeConfigure.THEME_MAPPING;
-    await Promise.all(
-      Object.keys(templatesAssetMap).map(targetName => {
-        const sourcePath = path.join(this.themePath, templatesAssetMap[targetName]);
-        return fsExtra.copy(sourcePath, path.join(this.outputPath, targetName));
-      })
-    );
+    const templatesAssetMaps = this.themeConfigure.THEME_MAPPING;
+    templatesAssetMaps.forEach(templatesAssetMap => {
+      const targetName = R.keys(templatesAssetMap)[0];
+      const sourceExpress = R.values(templatesAssetMap)[0];
+      const targetPath = path.join(this.outputPath, targetName);
+      if (!fs.existsSync(targetPath)) {
+        fs.mkdirSync(targetPath);
+      }
+      shell.cp('-R', path.join(this.themePath, sourceExpress), targetPath);
+    });
+    // await Promise.all(
+    //   Object.keys(templatesAssetMap).map(targetName => {
+    //     const sourcePath = path.join(this.themePath, templatesAssetMap[targetName]);
+    //     return fsExtra.copy(sourcePath, path.join(this.outputPath, targetName));
+    //   })
+    // );
   }
 
   renderTemplate(key, data) {
