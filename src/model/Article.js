@@ -78,7 +78,7 @@ export default class Article {
     let dates = [];
     try {
       const stdout = execSync(
-        `git log --pretty=format:\'%ad\' ${path.relative(
+        `git log --follow --pretty=format:\'%ad\' ${path.relative(
           this.options.inputRootPath,
           filePath
         )} | cat`,
