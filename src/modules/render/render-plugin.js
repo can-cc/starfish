@@ -51,41 +51,27 @@ export class RenderPluginManager {
   }
 
   runPluginAfterIndexRender(indexData) {
-    R.values(this.plugins).forEach(plugin =>
-      plugin.afterIndexRender(indexData)
-    );
+    R.values(this.plugins).forEach(plugin => plugin.afterIndexRender(indexData));
   }
 
   runPluinAfterwCategoryListRender(categorysData, options) {
-    R.values(this.plugins).forEach(plugin =>
-      plugin.afterwCategoryListRender(...arguments)
-    );
+    R.values(this.plugins).forEach(plugin => plugin.afterwCategoryListRender(...arguments));
   }
 
   runPluinAfterCategoryRender(rendered, data) {
-    R.values(this.plugins).forEach(plugin =>
-      plugin.afterwCategoryRender(rendered, data)
-    );
+    R.values(this.plugins).forEach(plugin => plugin.afterwCategoryRender(rendered, data));
   }
 
   getPluginFromNodeMudules(options) {
     const plugins = {};
-    fs
-      .readdirSync(path.resolve(__dirname, '../../../node_modules'))
-      .filter(filterDotFiles)
-      .filter(name => new RegExp(`^nobbb-render`).test(name))
-      .forEach(name => {
-        if (!plugins[name]) {
-          const plugin = new (require(path.resolve(
-            __dirname,
-            '../../../node_modules/',
-            name
-          ))).default(options);
-          plugins[plugin.getName()] = plugin;
-        } else {
-          throw new Error('duplicate plugin');
-        }
-      });
+    ['nobbb-render-ajax'].forEach(name => {
+      if (!plugins[name]) {
+        const plugin = new (require(name)).default(options);
+        plugins[plugin.getName()] = plugin;
+      } else {
+        throw new Error('duplicate plugin');
+      }
+    });
     return plugins;
   }
 }

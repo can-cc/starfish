@@ -2,11 +2,19 @@ import path from 'path';
 import fs from 'fs';
 import fsExtra from 'fs-extra';
 import cheerio from 'cheerio';
-import { isFile, isDir, takeFileName, takeFileNameWithoutSuffix,
-         getRelativePath, filterDotFiles, isSuffix, mergeForce } from '../../lib/util';
+import {
+  isFile,
+  isDir,
+  takeFileName,
+  takeFileNameWithoutSuffix,
+  getRelativePath,
+  filterDotFiles,
+  isSuffix,
+  mergeForce
+} from '../../lib/util';
 
 export async function syncMappingDirs(needMapping, mappingRules, dirPath, outputPath) {
-  needMapping.map(async (subDir) => {
+  needMapping.map(async subDir => {
     if (mappingRules[subDir]) {
       await fsExtra.copy(path.join(dirPath, subDir), path.join(outputPath, mappingRules[subDir]));
     }
@@ -25,7 +33,7 @@ export function fixArticleUrlAndCut(content, relativeOutputPath, cutLimit) {
   var appendRelativeFn = function(i, e) {
     let src = $(this).attr('src');
 
-    if( !/^[http|//]/.test(src) ){
+    if (!/^[http|//]/.test(src)) {
       src = path.join('/', relativeOutputPath, src);
     }
     $(this).attr('src', src);
@@ -35,14 +43,14 @@ export function fixArticleUrlAndCut(content, relativeOutputPath, cutLimit) {
   $('script').each(appendRelativeFn);
 
   let ps = $('h1, h2, h3, h4, h5, h6, p'),
-      summary = '';
+    summary = '';
 
-  for(let i = 0, max = ps.length; i < max; i++) {
+  for (let i = 0, max = ps.length; i < max; i++) {
     summary += $(ps[i]).text();
-    if( summary.length > cutLimit ){
+    if (summary.length > cutLimit) {
       summary = summary.substring(0, cutLimit);
       break;
-    } else if(i !== max - 1) {
+    } else if (i !== max - 1) {
       summary += '<br/>';
     }
   }
@@ -57,7 +65,6 @@ export function cutOffArticle(content, number) {
   });
   return text.substring(0, number);
 }
-
 
 export function makeDocumentParserFn(parsers) {
   return (filePath, data) => {
@@ -79,7 +86,7 @@ export function makeDocumentParserFn(parsers) {
 }
 
 export function getParsersFromModules() {
-  return fs.readdirSync(path.resolve(__dirname, '../../../node_modules'))
-    .filter((moduleName) => /^nobbb-parse/.test(moduleName))
-    .map((moduleName) => (new (require(moduleName).default)()));
-};
+  return ['nobbb-parse-md', 'nobbb-parse-org'].map(
+    moduleName => new (require(moduleName)).default()
+  );
+}

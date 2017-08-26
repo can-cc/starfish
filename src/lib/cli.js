@@ -20,11 +20,10 @@ function searchCommands() {
       return result;
     }, {});
 
-  const nodeModuleCommands = fs
-    .readdirSync(path.resolve(__dirname, '../../node_modules'))
+  const nodeModuleCommands = ['starfish-command-ssr']
     .filter(name => /^starfish-command/.test(name))
     .reduce((result, name) => {
-      const module = new (require(path.resolve(__dirname, '../../node_modules/', name))).default();
+      const module = new (require(name)).default();
       result[module.getName()] = module;
       return result;
     }, {});
