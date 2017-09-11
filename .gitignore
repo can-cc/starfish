@@ -8,3 +8,4 @@ tags
 /log
 /runMyBlog.sh
 dist/
+test/test-build

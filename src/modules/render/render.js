@@ -1,6 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 import R from 'ramda';
+import shell from 'shelljs';
 const globToRegExp = require('glob-to-regexp');
 
 import { getParsersFromModules, makeDocumentParserFn } from './render-util';
@@ -50,6 +51,15 @@ export class RenderController {
     await blog.renderEachCategory();
 
     await this.renderThemer.copyThemeAsset();
+    this.copySpec();
+  }
+
+  copySpec() {
+    const mapping = this.configure.MAPPING;
+    R.keys(mapping).forEach(sourcePath => {
+      const targetPath = mapping[sourcePath];
+      shell.cp('-R', path.join(this.inputPath, sourcePath), path.join(this.outputPath, targetPath));
+    });
   }
 
   // TODO move
