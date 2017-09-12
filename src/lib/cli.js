@@ -2,8 +2,9 @@ import meow from 'meow';
 import R from 'ramda';
 import fs from 'fs';
 import path from 'path';
-
 import { filterDotFiles } from './util';
+import Package from '../../package.json';
+
 
 const cli = meow({
   help: ['Usage:', 'starfish <command>']
@@ -30,7 +31,15 @@ function searchCommands() {
   return { ...buildInCommands, ...nodeModuleCommands };
 }
 
+function showVersion() {
+  console.log(Package.name, Package.version);
+}
+
 cli.run = function() {
+  if (this.flags.v) {
+    return showVersion();
+  }
+
   const commandMap = searchCommands();
   if (!commandMap[this.input[0]]) {
     return this.showHelp();
