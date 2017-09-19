@@ -62,10 +62,16 @@ export default class Article {
       this.options.categoryOutputPath
     );
     const content = fixArticleUrlAndCut(document.content, relativeOutputPath);
+    const outputDirPath = path.join(
+      this.options.categoryOutputPath,
+      this.options.articleFileNameWithoutSuffix
+    );
     this.data = {
       // 抛弃
       inputPath: this.articleInputPath,
       outputPath: this.articleOutputPath,
+      outputDirPath,
+      outputFilePath: path.join(outputDirPath, 'index.html'),
 
       articleInputPath: this.articleInputPath,
       articleOutputPath: this.articleOutputPath,
@@ -134,15 +140,14 @@ export default class Article {
     this.controller.renderPluginManager.runPluinBeforeArticleRender(this.data);
     const rendered = this.controller.renderThemer.renderTemplate('ARTICLE', this.data);
 
-    const outputDirPath = path.join(this.options.categoryOutputPath, this.options.articleFileNameWithoutSuffix);
     if (this.hasAsset()) {
       this.copyArticleAsset();
     }
-    if (!fs.existsSync(outputDirPath)) {
-      fs.mkdirSync(outputDirPath);
+    if (!fs.existsSync(this.data.outputDirPath)) {
+      fs.mkdirSync(this.dataoutputDirPath);
     }
 
-    fs.writeFileSync(path.join(outputDirPath, 'index.html'), rendered);
+    fs.writeFileSync(this.data.outputFilePath, rendered);
     this.controller.renderPluginManager.runPluinAfterArticleRender(rendered, this.data);
   }
 }
