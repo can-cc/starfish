@@ -144,7 +144,7 @@ export default class Article {
       this.copyArticleAsset();
     }
     if (!fs.existsSync(this.data.outputDirPath)) {
-      fs.mkdirSync(this.dataoutputDirPath);
+      fs.mkdirSync(this.data.outputDirPath);
     }
 
     fs.writeFileSync(this.data.outputFilePath, rendered);
