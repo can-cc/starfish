@@ -16,7 +16,7 @@ export default class StarFishRenderSiteMap {
 
   beforeArticleRender() {}
 
-  afterArticleRender(rawDocument, articleData) {
+  afterArticleRender(rendered, articleData) {
     this.urls.push(
       `http://${this.options.blogConfigure.BLOG.DOMAIN}${articleData.outputFileRelativePath}`
     );
@@ -28,7 +28,11 @@ export default class StarFishRenderSiteMap {
 
   afterIndexRender() {}
 
-  afterCategoryListRender() {}
+  afterCategoryListRender(rendered, data) {
+    // console.log(data);
+  }
 
-  afterwCategoryRender() {}
+  afterCategoryRender(rendered, data) {
+    // console.log(data);
+  }
 }
