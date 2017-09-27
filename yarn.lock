@@ -2505,14 +2505,14 @@ js-tokens@^3.0.0:
   version "3.0.2"
   resolved "https://registry.yarnpkg.com/js-tokens/-/js-tokens-3.0.2.tgz#9866df395102130e38f7f996bceb65443209c25b"
 
-js-yaml@^3.6.0, js-yaml@^3.7.0, js-yaml@^3.8.4:
+js-yaml@^3.6.0:
   version "3.8.4"
   resolved "https://registry.yarnpkg.com/js-yaml/-/js-yaml-3.8.4.tgz#520b4564f86573ba96662af85a8cafa7b4b5a6f6"
   dependencies:
     argparse "^1.0.7"
     esprima "^3.1.1"
 
-js-yaml@^3.9.1:
+js-yaml@^3.7.0, js-yaml@^3.8.4, js-yaml@^3.9.1:
   version "3.9.1"
   resolved "https://registry.yarnpkg.com/js-yaml/-/js-yaml-3.9.1.tgz#08775cebdfdd359209f0d2acd383c8f86a6904a0"
   dependencies:
@@ -2865,9 +2865,9 @@ nobbb-parse-org@^1.0.1:
   dependencies:
     org "^0.2.0"
 
-nobbb-render-ajax@v1.0.7:
-  version "1.0.7"
-  resolved "https://registry.yarnpkg.com/nobbb-render-ajax/-/nobbb-render-ajax-1.0.7.tgz#0b3ee97f504e91c568cc7d2c47d77950fdac1aac"
+nobbb-render-ajax@v1.0.8:
+  version "1.0.8"
+  resolved "https://registry.yarnpkg.com/nobbb-render-ajax/-/nobbb-render-ajax-1.0.8.tgz#30ceeaadb1cf46c92c02bd0e21b6da68942282e5"
   dependencies:
     babel-preset-stage-1 "^6.24.1"
     ramda "^0.23.0"
