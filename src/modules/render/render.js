@@ -2,7 +2,6 @@ import fs from 'fs';
 import path from 'path';
 import R from 'ramda';
 import shell from 'shelljs';
-const globToRegExp = require('glob-to-regexp');
 
 import { getParsersFromModules, makeDocumentParserFn } from './render-util';
 import RenderThemer from './render-themer';
@@ -31,7 +30,7 @@ export class RenderController {
     this.parsers = getParsersFromModules();
   }
 
-  async render() {
+  render() {
     if (!fs.existsSync(this.outputPath)) {
       fs.mkdirSync(this.outputPath);
     }
@@ -51,7 +50,7 @@ export class RenderController {
 
     this.renderPluginManager.runPluinAfterRender();
 
-    await this.renderThemer.copyThemeAsset();
+    this.renderThemer.copyThemeAsset();
     this.copySpec();
   }
 

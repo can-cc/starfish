@@ -26,7 +26,7 @@ export default class RenderThemer {
     this.loadTemplates();
   }
 
-  async copyThemeAsset() {
+  copyThemeAsset() {
     const templatesAssetMaps = this.themeConfigure.THEME_MAPPING;
     templatesAssetMaps.forEach(templatesAssetMap => {
       const targetName = R.keys(templatesAssetMap)[0];

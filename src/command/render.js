@@ -21,7 +21,7 @@ export default class RenderCommand {
       try {
         const renderControl = new RenderController(inputPath, outputPath);
 
-        await renderControl.render();
+        renderControl.render();
         spinner.succeed('Render completion...');
       } catch (error) {
         console.error(error);
