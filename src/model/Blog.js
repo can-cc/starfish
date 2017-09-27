@@ -50,49 +50,10 @@ export default class Blog {
     );
   }
 
-  // concatAllArticle() {
-  //   return [].concat(...this.categorys.map(c => c.getAllArticles()));
-  // }
-
   async render() {
-    // await this.renderCategoryList();
     await this.renderEachCategory();
     this.blogIndex.render();
     this.categoryList.render();
-
-    // const allarticles = this.concatAllArticle().sort((a, b) => {
-    //   return b.data.createTime.getTime() - a.data.createTime.getTime();
-    // });
-    // const categorys = this.categorys.map(category => {
-    //   return {
-    //     name: category.name,
-    //     indexUrl: path.join('/', category.data.relativeOutputPath, 'index.html'),
-    //     number: category.articles.length
-    //   };
-    // });
-    // const indexData = {
-    //   ...this.controller.getBlogInformation(),
-    //   articles: R.take(10, allarticles).map(a => a.data),
-    //   categorys: categorys
-    // };
-    // const html = this.controller.renderThemer.renderTemplate('INDEX', indexData);
-    // const outputFilePath = path.join(this.outputPath, 'index.html');
-    // fs.writeFileSync(outputFilePath, html);
-  }
-
-  renderAllArticles() {}
-
-  renderCategoryList() {
-    // const categorysData = this.categorys.map(c => c.data);
-    // const categoryListOutputPath = path.join(this.outputPath, 'categorys');
-    // if (!fs.existsSync(categoryListOutputPath)) {
-    //   fs.mkdirSync(categoryListOutputPath);
-    // }
-    // const html = this.controller.renderThemer.renderTemplate('CATEGORY_LIST', categorysData);
-    // fs.writeFileSync(path.join(categoryListOutputPath, 'index.html'), html);
-    // this.controller.renderPluginManager.runPluinAfterwCategoryListRender(categorysData, {
-    //   outputPath: path.join(this.outputPath, 'categorys')
-    // });
   }
 
   renderEachCategory() {
