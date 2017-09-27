@@ -17,10 +17,9 @@ export class RenderController {
     this.inputPath = inputPath;
     this.outputPath = outputPath;
 
-    this.configure = readConfigure(this.inputPath);
+    this.configure = readConfigure(this.inputPath); // TODO rename
     this.blogConfigure = this.configure;
 
-    // this.loadRootIgnore();
     this.renderThemer = new RenderThemer(inputPath, outputPath, this.configure);
     this.renderPluginManager = new RenderPluginManager({
       inputRootPath: inputPath,
