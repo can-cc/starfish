@@ -1,5 +1,4 @@
 import { server } from '../lib/server';
-import { TickProcess } from '../lib/tickProcess';
 import { loadConfig, readConfigure } from '../lib/loadConfig';
 import { output, error, log } from '../lib/message';
 import {
