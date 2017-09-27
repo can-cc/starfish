@@ -66,7 +66,7 @@ export default class Article {
       this.options.categoryOutputPath,
       this.options.articleFileNameWithoutSuffix
     );
-    console.log(this.options.outputRootPath);
+
     this.data = {
       // 抛弃
       inputPath: this.articleInputPath,

@@ -1,13 +1,8 @@
-import { loadConfig } from '../../lib/loadConfig';
 import yaml from 'js-yaml';
 import fs from 'fs';
 import path from 'path';
 import R from 'fw-ramda';
 import ejs from 'ejs';
-import fsExtra from 'fs-extra';
-import {
-  isSuffix
-} from '../../lib/util';
 
 import shell from 'shelljs';
 

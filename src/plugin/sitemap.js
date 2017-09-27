@@ -4,6 +4,8 @@ import glob from 'glob';
 
 export default class StarFishRenderSiteMap {
   constructor(options) {
+    console.log(options);
+    this.options = options;
     this.name = 'sitemap';
     this.type = 'render';
     this.urls = [];
@@ -16,12 +18,14 @@ export default class StarFishRenderSiteMap {
   beforeArticleRender() {}
 
   afterArticleRender(rawDocument, articleData) {
-    console.log(articleData);
+    this.urls.push(
+      `http://${this.options.blogConfigure.BLOG.DOMAIN}${articleData.outputFileRelativePath}`
+    );
   }
 
-  runPluinAfterRender() {}
-
-  afterRender() {}
+  afterRender() {
+    console.log(this.urls);
+  }
 
   afterIndexRender() {}
 
