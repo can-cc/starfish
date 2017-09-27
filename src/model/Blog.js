@@ -22,6 +22,11 @@ export default class Blog {
     this.categorys.push(category);
   }
 
+  async load() {
+    await this.loadCategorys();
+    this.loadCategoryDir();
+  }
+
   async loadCategorys() {
     const categoryPaths = await pfs
       .readdirAsync(this.inputPath)
@@ -56,28 +61,28 @@ export default class Blog {
     return [].concat(...this.categorys.map(c => c.getAllArticles()));
   }
 
-  render() {
-    const allarticles = this.concatAllArticle().sort((a, b) => {
-      return b.data.createTime.getTime() - a.data.createTime.getTime();
-    });
+  async render() {
+    await this.renderCategoryList();
+    await this.renderEachCategory();
 
-    const categorys = this.categorys.map(category => {
-      return {
-        name: category.name,
-        indexUrl: path.join('/', category.data.relativeOutputPath, 'index.html'),
-        number: category.articles.length
-      };
-    });
-
-    const indexData = {
-      ...this.controller.getBlogInformation(),
-      articles: R.take(10, allarticles).map(a => a.data),
-      categorys: categorys
-    };
-
-    const html = this.controller.renderThemer.renderTemplate('INDEX', indexData);
-    const outputFilePath = path.join(this.outputPath, 'index.html');
-    fs.writeFileSync(outputFilePath, html);
+    // const allarticles = this.concatAllArticle().sort((a, b) => {
+    //   return b.data.createTime.getTime() - a.data.createTime.getTime();
+    // });
+    // const categorys = this.categorys.map(category => {
+    //   return {
+    //     name: category.name,
+    //     indexUrl: path.join('/', category.data.relativeOutputPath, 'index.html'),
+    //     number: category.articles.length
+    //   };
+    // });
+    // const indexData = {
+    //   ...this.controller.getBlogInformation(),
+    //   articles: R.take(10, allarticles).map(a => a.data),
+    //   categorys: categorys
+    // };
+    // const html = this.controller.renderThemer.renderTemplate('INDEX', indexData);
+    // const outputFilePath = path.join(this.outputPath, 'index.html');
+    // fs.writeFileSync(outputFilePath, html);
   }
 
   renderAllArticles() {}
