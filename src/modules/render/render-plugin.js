@@ -49,7 +49,7 @@ export class RenderPluginManager {
   }
 
   runPluinAfterCategoryRender(rendered, data) {
-    R.values(this.plugins).forEach(plugin => plugin.afterwCategoryRender(rendered, data));
+    R.values(this.plugins).forEach(plugin => plugin.afterCategoryRender(rendered, data));
   }
 }
 
