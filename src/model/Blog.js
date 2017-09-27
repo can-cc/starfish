@@ -18,8 +18,8 @@ export default class Blog {
     this.controller = controller;
   }
 
-  async load() {
-    this.categorys = await this.loadCategorys();
+  load() {
+    this.categorys = this.loadCategorys();
     this.categorys.forEach(category => {
       category.load();
     });
@@ -28,11 +28,10 @@ export default class Blog {
     this.categoryList = new CategoryList(this.options, this.categorys, this.controller);
   }
 
-  async loadCategorys() {
-    const categoryPaths = await pfs
-      .readdirAsync(this.inputPath)
-      .filter(this.controller.filterIgnores.bind(this.controller))
-      .filter(p => isDir(path.resolve(this.inputPath, p)));
+  loadCategorys() {
+    const categoryPaths = fs
+      .readdirSync(this.inputPath)
+      .filter(p => isDir(path.join(this.inputPath, p)));
 
     return categoryPaths.map(
       categoryName =>
@@ -50,13 +49,13 @@ export default class Blog {
     );
   }
 
-  async render() {
-    await this.renderEachCategory();
+  render() {
+    this.renderCategorys();
     this.blogIndex.render();
     this.categoryList.render();
   }
 
-  renderEachCategory() {
+  renderCategorys() {
     this.categorys.forEach(category => {
       category.render();
       category.renderAllArticle();

@@ -46,11 +46,8 @@ export class RenderController {
       this
     );
 
-    // await blog.loadCategorys();
-    // await blog.loadCategoryDir();
-    await blog.load();
-
-    await blog.render();
+    blog.load();
+    blog.render();
 
     this.renderPluginManager.runPluinAfterRender();
 
@@ -72,9 +69,12 @@ export class RenderController {
     let self = this;
     let ignoreFilePath = path.join(this.inputPath, this.configure.CONFIG.IGNORE_FILE);
     if (fs.existsSync(ignoreFilePath)) {
-      fs.readFileSync(ignoreFilePath, 'utf-8').split('\n').forEach(globStr => {
-        self.rootIgnoreRegs.push(globToRegExp(globStr));
-      });
+      fs
+        .readFileSync(ignoreFilePath, 'utf-8')
+        .split('\n')
+        .forEach(globStr => {
+          self.rootIgnoreRegs.push(globToRegExp(globStr));
+        });
     }
     const mappingRules = this.configure.MAPPING || {};
     R.keys(mappingRules).forEach(toMapPath => this.rootIgnoreRegs.push(globToRegExp(toMapPath)));
