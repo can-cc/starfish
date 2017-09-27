@@ -19,6 +19,7 @@ export class RenderController {
     this.outputPath = outputPath;
 
     this.configure = readConfigure(this.inputPath);
+    this.blogConfigure = this.configure;
 
     this.loadRootIgnore();
     this.renderThemer = new RenderThemer(inputPath, outputPath, this.configure);
@@ -39,17 +40,17 @@ export class RenderController {
       {
         inputPath: path.join(this.inputPath, this.configure.BLOG.BLOGDIR),
         outputPath: this.outputPath,
-        parsers: this.parsers
+        parsers: this.parsers,
+        blogConfigure: this.blogConfigure
       },
       this
     );
 
-    await blog.loadCategorys();
-    await blog.loadCategoryDir();
+    // await blog.loadCategorys();
+    // await blog.loadCategoryDir();
+    await blog.load();
 
     await blog.render();
-    await blog.renderCategoryList();
-    await blog.renderEachCategory();
 
     this.renderPluginManager.runPluinAfterRender();
 

@@ -25,15 +25,7 @@ export default class Category {
       relativeOutputPath: this.name,
       name: this.name || this.aliasName
     };
-  }
 
-  loadCategoryConfigure() {
-    // TODO
-    this.categoryConfigure = {};
-    const categoryConfigureFilePath = path.join(this.inputPath, '.wdconfig.yaml');
-  }
-
-  loadArticles() {
     const paths = fs
       .readdirSync(this.inputPath)
       .filter(this.controller.filterIgnores.bind(this.controller)); // TODO: filterIgnores 过滤了更多
@@ -44,15 +36,6 @@ export default class Category {
     const articleFiles = files.filter(
       file => filterDotFiles(file) && R.values(this.parsers).some(parser => parser.check(file))
     );
-
-    // const articleFileNameWithoutSuffixs = articleFiles.map(file => takeFileNameWithoutSuffix(file));
-    // const [articleAsserts, otherDirs] = _.partition(
-    //   dirs,
-    //   dir => articleFileNameWithoutSuffixs.indexOf(dir) >= 0
-    // );
-    // const shouldCopyArticleAssertNames = articleAsserts.filter(
-    //   articleAssert => articleFileNameWithoutSuffixs.indexOf(articleAssert) >= 0
-    // );
 
     articleFiles.forEach(articleFile => {
       const articleFileNameWithoutSuffix = takeFileNameWithoutSuffix(articleFile);
@@ -73,6 +56,12 @@ export default class Category {
       this.addArticle.call(this, article);
     });
     this.data.articleNumber = articleFiles.length;
+  }
+
+  loadCategoryConfigure() {
+    // TODO
+    this.categoryConfigure = {};
+    const categoryConfigureFilePath = path.join(this.inputPath, '.wdconfig.yaml');
   }
 
   getAllArticles() {
@@ -115,7 +104,6 @@ export default class Category {
 
       fs.writeFileSync(outputFilePath, html);
       this.controller.renderPluginManager.runPluinAfterCategoryRender(html, data);
-
     });
   }
 

@@ -7,6 +7,7 @@ import { isDir } from '../lib/util';
 const pfs = bluebird.promisifyAll(fs);
 
 import Category from './Category';
+import BlogIndex from './Index';
 
 export default class Blog {
   constructor(options, controller) {
@@ -14,17 +15,14 @@ export default class Blog {
     this.outputPath = options.outputPath;
     this.options = options;
     this.controller = controller;
-
-    this.categorys = [];
-  }
-
-  addCategory(category) {
-    this.categorys.push(category);
   }
 
   async load() {
-    await this.loadCategorys();
-    this.loadCategoryDir();
+    this.categorys = await this.loadCategorys();
+    this.categorys.forEach(category => {
+      category.load();
+    });
+    this.blogIndex = new BlogIndex(this.options, this.categorys, this.controller);
   }
 
   async loadCategorys() {
@@ -33,8 +31,8 @@ export default class Blog {
       .filter(this.controller.filterIgnores.bind(this.controller))
       .filter(p => isDir(path.resolve(this.inputPath, p)));
 
-    categoryPaths.map(categoryName =>
-      this.addCategory(
+    return categoryPaths.map(
+      categoryName =>
         new Category(
           {
             inputPath: path.join(this.inputPath, categoryName),
@@ -46,24 +44,17 @@ export default class Blog {
           },
           this.controller
         )
-      )
     );
   }
 
-  loadCategoryDir() {
-    this.categorys.forEach(category => {
-      category.load();
-      category.loadArticles();
-    });
-  }
-
-  concatAllArticle() {
-    return [].concat(...this.categorys.map(c => c.getAllArticles()));
-  }
+  // concatAllArticle() {
+  //   return [].concat(...this.categorys.map(c => c.getAllArticles()));
+  // }
 
   async render() {
     await this.renderCategoryList();
     await this.renderEachCategory();
+    this.blogIndex.render();
 
     // const allarticles = this.concatAllArticle().sort((a, b) => {
     //   return b.data.createTime.getTime() - a.data.createTime.getTime();
