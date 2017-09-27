@@ -8,6 +8,7 @@ const pfs = bluebird.promisifyAll(fs);
 
 import Category from './Category';
 import BlogIndex from './Index';
+import CategoryList from './CategoryList';
 
 export default class Blog {
   constructor(options, controller) {
@@ -22,7 +23,9 @@ export default class Blog {
     this.categorys.forEach(category => {
       category.load();
     });
+
     this.blogIndex = new BlogIndex(this.options, this.categorys, this.controller);
+    this.categoryList = new CategoryList(this.options, this.categorys, this.controller);
   }
 
   async loadCategorys() {
@@ -52,9 +55,10 @@ export default class Blog {
   // }
 
   async render() {
-    await this.renderCategoryList();
+    // await this.renderCategoryList();
     await this.renderEachCategory();
     this.blogIndex.render();
+    this.categoryList.render();
 
     // const allarticles = this.concatAllArticle().sort((a, b) => {
     //   return b.data.createTime.getTime() - a.data.createTime.getTime();
@@ -79,17 +83,16 @@ export default class Blog {
   renderAllArticles() {}
 
   renderCategoryList() {
-    const categorysData = this.categorys.map(c => c.data);
-    const categoryListOutputPath = path.join(this.outputPath, 'categorys');
-    if (!fs.existsSync(categoryListOutputPath)) {
-      fs.mkdirSync(categoryListOutputPath);
-    }
-
-    const html = this.controller.renderThemer.renderTemplate('CATEGORY_LIST', categorysData);
-    fs.writeFileSync(path.join(categoryListOutputPath, 'index.html'), html);
-    this.controller.renderPluginManager.runPluinAfterwCategoryListRender(categorysData, {
-      outputPath: path.join(this.outputPath, 'categorys')
-    });
+    // const categorysData = this.categorys.map(c => c.data);
+    // const categoryListOutputPath = path.join(this.outputPath, 'categorys');
+    // if (!fs.existsSync(categoryListOutputPath)) {
+    //   fs.mkdirSync(categoryListOutputPath);
+    // }
+    // const html = this.controller.renderThemer.renderTemplate('CATEGORY_LIST', categorysData);
+    // fs.writeFileSync(path.join(categoryListOutputPath, 'index.html'), html);
+    // this.controller.renderPluginManager.runPluinAfterwCategoryListRender(categorysData, {
+    //   outputPath: path.join(this.outputPath, 'categorys')
+    // });
   }
 
   renderEachCategory() {

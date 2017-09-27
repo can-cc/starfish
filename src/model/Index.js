@@ -1,5 +1,4 @@
 import path from 'path';
-import R from 'ramda';
 import fs from 'fs';
 
 export default class Index {
