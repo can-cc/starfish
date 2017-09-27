@@ -2,16 +2,7 @@ import fs from 'fs';
 import path from 'path';
 import _ from 'lodash';
 import R from 'fw-ramda';
-import {
-  isFile,
-  isDir,
-  takeFileName,
-  takeFileNameWithoutSuffix,
-  getRelativePath,
-  filterDotFiles,
-  isSuffix,
-  mergeForce
-} from '../lib/util';
+import { isFile, takeFileNameWithoutSuffix, filterDotFiles } from '../lib/util';
 
 import Article from './Article';
 
@@ -39,10 +30,7 @@ export default class Category {
   loadCategoryConfigure() {
     // TODO
     this.categoryConfigure = {};
-    const categoryConfigureFilePath = path.join(
-      this.inputPath,
-      '.wdconfig.yaml'
-    );
+    const categoryConfigureFilePath = path.join(this.inputPath, '.wdconfig.yaml');
   }
 
   loadArticles() {
@@ -54,14 +42,10 @@ export default class Category {
       isFile(path.resolve(this.inputPath, pathName))
     );
     const articleFiles = files.filter(
-      file =>
-        filterDotFiles(file) &&
-        R.values(this.parsers).some(parser => parser.check(file))
+      file => filterDotFiles(file) && R.values(this.parsers).some(parser => parser.check(file))
     );
 
-    const articleFileNameWithoutSuffixs = articleFiles.map(file =>
-      takeFileNameWithoutSuffix(file)
-    );
+    const articleFileNameWithoutSuffixs = articleFiles.map(file => takeFileNameWithoutSuffix(file));
     const [articleAsserts, otherDirs] = _.partition(
       dirs,
       dir => articleFileNameWithoutSuffixs.indexOf(dir) >= 0
@@ -71,17 +55,12 @@ export default class Category {
     );
 
     articleFiles.forEach(articleFile => {
-      const articleFileNameWithoutSuffix = takeFileNameWithoutSuffix(
-        articleFile
-      );
+      const articleFileNameWithoutSuffix = takeFileNameWithoutSuffix(articleFile);
       const article = new Article(
         // TODO why merge this.options
         Object.assign({}, this.options, {
           inputPath: path.join(this.inputPath, articleFile),
-          outputPath: path.join(
-            this.outputPath,
-            articleFileNameWithoutSuffix + '.html'
-          ),
+          outputPath: path.join(this.outputPath, articleFileNameWithoutSuffix, 'index.html'),
           articleFileNameWithoutSuffix,
           categoryInputPath: this.inputPath,
           categoryOutputPath: this.outputPath,
@@ -115,10 +94,7 @@ export default class Category {
 
     const pageN = Math.ceil(sortedArticles.length / 10);
     _.chunk(sortedArticles, 10).forEach((articleChunk, i) => {
-      const outputDir =
-        i === 0
-          ? this.outputPath
-          : path.join(this.outputPath, 'page', i + 1 + '/');
+      const outputDir = i === 0 ? this.outputPath : path.join(this.outputPath, 'page', i + 1 + '/');
       const outputFilePath = path.join(outputDir, 'index.html');
       const data = {
         outputPath: this.outputPath,
@@ -138,10 +114,7 @@ export default class Category {
       }
 
       fs.writeFileSync(outputFilePath, html);
-      this.controller.renderPluginManager.runPluinAfterCategoryRender(
-        html,
-        data
-      );
+      this.controller.renderPluginManager.runPluinAfterCategoryRender(html, data);
     });
   }
 

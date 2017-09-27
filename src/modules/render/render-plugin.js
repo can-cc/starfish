@@ -7,7 +7,7 @@ export class RenderPluginManager {
 
   getPluginFromNodeMudules(options) {
     const plugins = {};
-    ['nobbb-render-ajax'].forEach(name => {
+    ['nobbb-render-ajax', '../../plugin/sitemap'].forEach(name => {
       if (!plugins[name]) {
         const plugin = new (require(name)).default(options);
         plugins[plugin.getName()] = plugin;
@@ -51,8 +51,6 @@ export class RenderPluginManager {
   runPluinAfterCategoryRender(rendered, data) {
     R.values(this.plugins).forEach(plugin => plugin.afterwCategoryRender(rendered, data));
   }
-
-
 }
 
 export default RenderPluginManager;

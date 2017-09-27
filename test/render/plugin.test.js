@@ -10,5 +10,5 @@ test('adds 1 + 2 to equal 3', () => {
   const pluginNames = Object.values(renderPlugin.getPlugin()).map(p =>
     p.getName()
   );
-  expect(pluginNames).toEqual(['ajax']);
+  expect(pluginNames).toEqual(['ajax', 'sitemap']);
 });

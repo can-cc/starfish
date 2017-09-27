@@ -2,19 +2,30 @@ import fs from 'fs';
 import path from 'path';
 import glob from 'glob';
 
-const TMPFILE = './temp.js';
-
 export default class StarFishRenderSiteMap {
-  constructor() {
+  constructor(options) {
     this.name = 'sitemap';
     this.type = 'render';
+    this.urls = [];
   }
 
-  runPluinAfterArticleRender(rawDocument, articleData) {
-
+  getName() {
+    return this.name;
   }
 
-  runPluinAfterRender() {
+  beforeArticleRender() {}
 
+  afterArticleRender(rawDocument, articleData) {
+    console.log(articleData);
   }
+
+  runPluinAfterRender() {}
+
+  afterRender() {}
+
+  afterIndexRender() {}
+
+  afterwCategoryListRender() {}
+
+  afterwCategoryRender() {}
 }

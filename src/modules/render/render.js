@@ -24,7 +24,8 @@ export class RenderController {
     this.renderThemer = new RenderThemer(inputPath, outputPath, this.configure);
     this.renderPluginManager = new RenderPluginManager({
       inputRootPath: inputPath,
-      outputPath: outputPath
+      outputPath: outputPath,
+      blogConfigure: this.configure
     });
     this.parsers = getParsersFromModules();
   }

@@ -66,12 +66,17 @@ export default class Article {
       this.options.categoryOutputPath,
       this.options.articleFileNameWithoutSuffix
     );
+    console.log(this.options.outputRootPath);
     this.data = {
       // 抛弃
       inputPath: this.articleInputPath,
       outputPath: this.articleOutputPath,
       outputDirPath,
       outputFilePath: path.join(outputDirPath, 'index.html'),
+      outputFileRelativePath: getRelativePath(
+        this.options.outputRootPath,
+        path.join(outputDirPath, 'index.html')
+      ),
 
       articleInputPath: this.articleInputPath,
       articleOutputPath: this.articleOutputPath,
