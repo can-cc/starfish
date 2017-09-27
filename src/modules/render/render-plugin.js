@@ -45,7 +45,7 @@ export class RenderPluginManager {
   }
 
   runPluinAfterwCategoryListRender(categorysData, options) {
-    R.values(this.plugins).forEach(plugin => plugin.afterwCategoryListRender(...arguments));
+    R.values(this.plugins).forEach(plugin => plugin.afterCategoryListRender(...arguments));
   }
 
   runPluinAfterCategoryRender(rendered, data) {
