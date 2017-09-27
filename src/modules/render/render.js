@@ -51,6 +51,8 @@ export class RenderController {
     await blog.renderCategoryList();
     await blog.renderEachCategory();
 
+    this.renderPluginManager.runPluinAfterRender();
+
     await this.renderThemer.copyThemeAsset();
     this.copySpec();
   }

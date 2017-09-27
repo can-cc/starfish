@@ -4,6 +4,7 @@ AUTHOR:
 
 BLOG:
   BLOGDIR: 'articles'
+  DOMAIN: 'test.starfish.org'
   NAME: 'reboot blog'
   DESC: 'this is reboot bog'
   TMPDIR: '/tmp'

@@ -24,7 +24,7 @@ export default class StarFishRenderSiteMap {
   }
 
   afterRender() {
-    console.log(this.urls);
+    fs.writeFileSync(path.join(this.options.outputPath, 'sitemap.txt'), this.urls.join('\n'));
   }
 
   afterIndexRender() {}
