@@ -46,4 +46,11 @@ test('integrated test render feather', async () => {
   expect(fs.existsSync(path.join(outputPath, 'favicon.ico'))).toBe(
     true
   );
+  expect(fs.existsSync(path.join(outputPath, 'sitemap.txt'))).toBe(
+    true
+  );
+  expect(fs.readFileSync(path.join(outputPath, 'sitemap.txt'), 'utf8')).toBe(
+    `http://test.starfish.orgjavascript/metor/index.html
+http://test.starfish.orgjavascript/hello-word/index.html`
+  );
 });
