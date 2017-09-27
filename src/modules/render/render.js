@@ -49,7 +49,6 @@ export class RenderController {
     blog.render();
 
     this.renderPluginManager.runPluinAfterRender();
-
     this.renderThemer.copyThemeAsset();
     this.copySpec();
   }
