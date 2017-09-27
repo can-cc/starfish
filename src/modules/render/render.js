@@ -21,7 +21,7 @@ export class RenderController {
     this.configure = readConfigure(this.inputPath);
     this.blogConfigure = this.configure;
 
-    this.loadRootIgnore();
+    // this.loadRootIgnore();
     this.renderThemer = new RenderThemer(inputPath, outputPath, this.configure);
     this.renderPluginManager = new RenderPluginManager({
       inputRootPath: inputPath,
@@ -61,27 +61,6 @@ export class RenderController {
       const targetPath = mapping[sourcePath];
       shell.cp('-R', path.join(this.inputPath, sourcePath), path.join(this.outputPath, targetPath));
     });
-  }
-
-  // TODO move
-  loadRootIgnore() {
-    this.rootIgnoreRegs = [];
-    let self = this;
-    let ignoreFilePath = path.join(this.inputPath, this.configure.CONFIG.IGNORE_FILE);
-    if (fs.existsSync(ignoreFilePath)) {
-      fs
-        .readFileSync(ignoreFilePath, 'utf-8')
-        .split('\n')
-        .forEach(globStr => {
-          self.rootIgnoreRegs.push(globToRegExp(globStr));
-        });
-    }
-    const mappingRules = this.configure.MAPPING || {};
-    R.keys(mappingRules).forEach(toMapPath => this.rootIgnoreRegs.push(globToRegExp(toMapPath)));
-  }
-
-  filterIgnores(name) {
-    return this.rootIgnoreRegs.every(reg => !reg.test(name));
   }
 
   getBlogInformation() {

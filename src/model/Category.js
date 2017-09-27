@@ -26,9 +26,7 @@ export default class Category {
       name: this.name || this.aliasName
     };
 
-    const paths = fs
-      .readdirSync(this.inputPath)
-      .filter(this.controller.filterIgnores.bind(this.controller)); // TODO: filterIgnores 过滤了更多
+    const paths = fs.readdirSync(this.inputPath);
 
     const [files, dirs] = _.partition(paths, pathName =>
       isFile(path.resolve(this.inputPath, pathName))
