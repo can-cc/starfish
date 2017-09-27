@@ -4,7 +4,6 @@ import glob from 'glob';
 
 export default class StarFishRenderSiteMap {
   constructor(options) {
-    console.log(options);
     this.options = options;
     this.name = 'sitemap';
     this.type = 'render';
@@ -29,7 +28,7 @@ export default class StarFishRenderSiteMap {
 
   afterIndexRender() {}
 
-  afterwCategoryListRender() {}
+  afterCategoryListRender() {}
 
   afterwCategoryRender() {}
 }

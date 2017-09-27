@@ -2,16 +2,7 @@ import bluebird from 'bluebird';
 import fs from 'fs';
 import path from 'path';
 import R from 'fw-ramda';
-import {
-  isFile,
-  isDir,
-  takeFileName,
-  takeFileNameWithoutSuffix,
-  getRelativePath,
-  filterDotFiles,
-  isSuffix,
-  mergeForce
-} from '../lib/util';
+import { isDir } from '../lib/util';
 
 const pfs = bluebird.promisifyAll(fs);
 
@@ -66,11 +57,6 @@ export default class Blog {
   }
 
   render() {
-    // TODO refactor function
-    if (this.controller.renderThemer.getThemeConfigure().INDEX_TYPE !== 'one') {
-      return;
-    }
-
     const allarticles = this.concatAllArticle().sort((a, b) => {
       return b.data.createTime.getTime() - a.data.createTime.getTime();
     });
@@ -84,7 +70,6 @@ export default class Blog {
     });
 
     const indexData = {
-      //
       ...this.controller.getBlogInformation(),
       articles: R.take(10, allarticles).map(a => a.data),
       categorys: categorys

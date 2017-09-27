@@ -45,14 +45,14 @@ export default class Category {
       file => filterDotFiles(file) && R.values(this.parsers).some(parser => parser.check(file))
     );
 
-    const articleFileNameWithoutSuffixs = articleFiles.map(file => takeFileNameWithoutSuffix(file));
-    const [articleAsserts, otherDirs] = _.partition(
-      dirs,
-      dir => articleFileNameWithoutSuffixs.indexOf(dir) >= 0
-    );
-    const shouldCopyArticleAssertNames = articleAsserts.filter(
-      articleAssert => articleFileNameWithoutSuffixs.indexOf(articleAssert) >= 0
-    );
+    // const articleFileNameWithoutSuffixs = articleFiles.map(file => takeFileNameWithoutSuffix(file));
+    // const [articleAsserts, otherDirs] = _.partition(
+    //   dirs,
+    //   dir => articleFileNameWithoutSuffixs.indexOf(dir) >= 0
+    // );
+    // const shouldCopyArticleAssertNames = articleAsserts.filter(
+    //   articleAssert => articleFileNameWithoutSuffixs.indexOf(articleAssert) >= 0
+    // );
 
     articleFiles.forEach(articleFile => {
       const articleFileNameWithoutSuffix = takeFileNameWithoutSuffix(articleFile);
@@ -115,6 +115,7 @@ export default class Category {
 
       fs.writeFileSync(outputFilePath, html);
       this.controller.renderPluginManager.runPluinAfterCategoryRender(html, data);
+
     });
   }
 

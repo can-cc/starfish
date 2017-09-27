@@ -1,13 +1,5 @@
-import { server } from '../lib/server';
-import { loadConfig, readConfigure } from '../lib/loadConfig';
-import { output, error, log } from '../lib/message';
-import {
-  isFile,
-  isDir,
-  logCurrentTime,
-  injectGlobal,
-  filterDotFiles
-} from '../lib/util';
+import { error, log } from '../lib/message';
+import { isDir, logCurrentTime } from '../lib/util';
 import { RenderController } from '../modules/render/render';
 import ora from 'ora';
 
