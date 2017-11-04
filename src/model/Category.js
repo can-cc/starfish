@@ -76,7 +76,7 @@ export default class Category {
     }
 
     const sortedArticles = this.articles.sort((a, b) => {
-      return b.data.createTime.getTime() - a.data.createTime.getTime();
+      return b.data.createTime - a.data.createTime;
     });
 
     const pageN = Math.ceil(sortedArticles.length / 10);

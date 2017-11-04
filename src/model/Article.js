@@ -115,9 +115,9 @@ export default class Article {
     }
 
     return {
-      createTime: new Date(_.last(dates) || new Date()), //TODO new Data 什么鬼
-      modifyTime: new Date(_.head(dates) || new Date()),
-      showTime: moment(new Date(_.last(dates) || new Date())).format('MMMM Do YYYY, h:mm')
+      createTime: new Date(_.last(dates) || new Date()).getTime(), //TODO new Data 什么鬼 // TODO 可能是为了防止为空，这个以后优化吧
+      modifyTime: new Date(_.head(dates) || new Date()).getTime(),
+      showTime: new Date(_.last(dates) || new Date()).getTime()
     };
   }
 
