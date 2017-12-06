@@ -1,21 +1,10 @@
 import fs from 'fs';
 import path from 'path';
 import fsExtra from 'fs-extra';
-import moment from 'moment';
 import md5 from 'blueimp-md5';
 import _ from 'lodash';
-import R from 'ramda';
 import cheerio from 'cheerio';
-import {
-  isFile,
-  isDir,
-  takeFileName,
-  takeFileNameWithoutSuffix,
-  getRelativePath,
-  filterDotFiles,
-  isSuffix,
-  mergeForce
-} from '../lib/util';
+import { getRelativePath } from '../lib/util';
 
 function fixArticleUrlAndCut(content, relativeOutputPath) {
   let $ = cheerio.load(content);
@@ -77,7 +66,6 @@ export default class Article {
         this.options.outputRootPath,
         path.join(outputDirPath, 'index.html')
       ),
-
       articleInputPath: this.articleInputPath,
       articleOutputPath: this.articleOutputPath,
       id: md5(document.content).substring(0, HashNum),
@@ -88,8 +76,9 @@ export default class Article {
       categoryInputPath: this.options.categoryInputPath,
       categoryOutputPath: this.options.categoryOutputPath,
       articleFileNameWithoutSuffix: this.options.articleFileNameWithoutSuffix,
-
+      categoryPathName: this.options.category,
       hasAsset: this.hasAsset(),
+      categoryName: this.options.category.name,
 
       ...this.controller.getBlogInformation(),
       ...this.getArticleGitData(this.articleInputPath)

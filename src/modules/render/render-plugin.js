@@ -7,7 +7,7 @@ export class RenderPluginManager {
 
   getPluginFromNodeMudules(options) {
     const plugins = {};
-    ['nobbb-render-ajax', '../../plugin/sitemap'].forEach(name => {
+    ['nobbb-render-ajax', '../../plugin/sitemap', '../../plugin/recent-article'].forEach(name => {
       if (!plugins[name]) {
         const plugin = new (require(name)).default(options);
         plugins[plugin.getName()] = plugin;
@@ -36,8 +36,8 @@ export class RenderPluginManager {
     });
   }
 
-  runPluinAfterRender() {
-    R.values(this.plugins).forEach(plugin => plugin.afterRender());
+  runPluinAfterRender(blog) {
+    R.values(this.plugins).forEach(plugin => plugin.afterRender(blog));
   }
 
   runPluginAfterIndexRender(indexData) {

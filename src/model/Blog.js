@@ -61,4 +61,8 @@ export default class Blog {
       category.renderAllArticle();
     });
   }
+
+  getAllArticle() {
+    return R.compose(R.flatten, R.map(category => category.getAllArticles()))(this.categorys);
+  }
 }
