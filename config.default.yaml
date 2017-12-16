@@ -18,7 +18,7 @@ CONFIG:
 
 STYLE:
   THEMEDIR: '@themes'
-  THEME: 'white-card'
+  THEME: 'hg'
   THEME_CONFIG_FILE: 'theme.config.yaml'
 
 SERVE:
