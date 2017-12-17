@@ -5,7 +5,7 @@ AUTHOR:
 BLOG:
   NAME: 'Hacker Blog'
   TMPDIR: '/tmp'
-  TMPNAME: 'WIngTmp'
+  TMPNAME: 'WingTmp'
   PORT: 8080
   HOST: '127.0.0.1'
   INDEX_ARTICLE_NUMBER: 7
