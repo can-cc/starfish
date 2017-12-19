@@ -22,7 +22,7 @@ function fixArticleUrlAndCut(content, relativeOutputPath) {
   return $.html();
 }
 
-var execSync = require('child_process').execSync;
+const execSync = require('child_process').execSync;
 
 const HashNum = 7;
 
