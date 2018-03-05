@@ -1,4 +1,5 @@
 name: starfish
+watch: true
 flow:
   - clean: rm -rf node_modules/
   - install: yarn install
