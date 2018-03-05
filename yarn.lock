@@ -1263,6 +1263,10 @@ dashdash@^1.12.0:
   dependencies:
     assert-plus "^1.0.0"
 
+date-fns@^2.0.0-alpha.7:
+  version "2.0.0-alpha.7"
+  resolved "https://registry.yarnpkg.com/date-fns/-/date-fns-2.0.0-alpha.7.tgz#245ad16f95764eababfb2c0a41fd5d033c20e57a"
+
 dateformat@^1.0.12:
   version "1.0.12"
   resolved "https://registry.yarnpkg.com/dateformat/-/dateformat-1.0.12.tgz#9f124b67594c937ff706932e4a642cca8dbbfee9"
@@ -3619,9 +3623,9 @@ sshpk@^1.7.0:
     jsbn "~0.1.0"
     tweetnacl "~0.14.0"
 
-starfish-command-ssr@^1.0.5:
-  version "1.0.5"
-  resolved "https://registry.yarnpkg.com/starfish-command-ssr/-/starfish-command-ssr-1.0.5.tgz#d8caf6aedab4f0b86272c461dd36e69c66c04f75"
+starfish-command-ssr@^1.0.6:
+  version "1.0.6"
+  resolved "https://registry.yarnpkg.com/starfish-command-ssr/-/starfish-command-ssr-1.0.6.tgz#e2598e5e8118927e842bb6012429315bb54e0a03"
   dependencies:
     "@angular/animations" "^4.3.3"
     "@angular/common" "^4.3.3"
@@ -3632,6 +3636,7 @@ starfish-command-ssr@^1.0.5:
     "@angular/platform-server" "^4.3.3"
     "@angular/router" "^4.3.3"
     babel-preset-stage-1 "^6.24.1"
+    date-fns "^2.0.0-alpha.7"
     glob "^7.1.2"
     js-yaml "^3.9.1"
     ramda "^0.23.0"
