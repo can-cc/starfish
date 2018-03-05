@@ -3619,9 +3619,9 @@ sshpk@^1.7.0:
     jsbn "~0.1.0"
     tweetnacl "~0.14.0"
 
-starfish-command-ssr@^1.0.3:
-  version "1.0.3"
-  resolved "https://registry.yarnpkg.com/starfish-command-ssr/-/starfish-command-ssr-1.0.3.tgz#f81e6b9ff8f410c603d5f20917648a259376c0e2"
+starfish-command-ssr@^1.0.4:
+  version "1.0.4"
+  resolved "https://registry.yarnpkg.com/starfish-command-ssr/-/starfish-command-ssr-1.0.4.tgz#7e85f9e129406f886168c0b51d26b339a39bdfe3"
   dependencies:
     "@angular/animations" "^4.3.3"
     "@angular/common" "^4.3.3"
