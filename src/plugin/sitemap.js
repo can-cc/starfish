@@ -28,11 +28,7 @@ export default class StarFishRenderSiteMap {
 
   afterIndexRender() {}
 
-  afterCategoryListRender(rendered, data) {
-    // console.log(data);
-  }
+  afterCategoryListRender(rendered, data) {}
 
-  afterCategoryRender(rendered, data) {
-    // console.log(data);
-  }
+  afterCategoryRender(rendered, data) {}
 }
