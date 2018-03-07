@@ -1,12 +1,22 @@
-import yaml from 'js-yaml';
-import fs from 'fs';
-import path from 'path';
-import R from 'fw-ramda';
-import ejs from 'ejs';
+import * as yaml from 'js-yaml';
+import * as fs from 'fs';
+import * as path from 'path';
+import * as R from 'fw-ramda';
+import * as ejs from 'ejs';
 
-import shell from 'shelljs';
+import * as shell from 'shelljs';
 
 export default class RenderThemer {
+  inputPath: string;
+  outputPath: string;
+  configure: any;
+  theme: any;
+  themePath: string;
+  templateContentMap: any;
+  themeConfigure: any;
+  themeTemplateRootPath: string;
+  templates: string;
+
   constructor(inputPath, outputRoot, configure) {
     this.inputPath = inputPath;
     this.outputPath = outputRoot;
