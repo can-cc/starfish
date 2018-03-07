@@ -1,9 +1,9 @@
-import fs from 'fs';
-import path from 'path';
-import fsExtra from 'fs-extra';
-import md5 from 'blueimp-md5';
-import _ from 'lodash';
-import cheerio from 'cheerio';
+import * as fs from 'fs';
+import * as path from 'path';
+import * as fsExtra from 'fs-extra';
+import * as md5 from 'blueimp-md5';
+import * as _ from 'lodash';
+import * as cheerio from 'cheerio';
 import { getRelativePath } from '../lib/util';
 
 function fixArticleUrlAndCut(content, relativeOutputPath) {
@@ -27,6 +27,13 @@ const execSync = require('child_process').execSync;
 const HashNum = 7;
 
 export default class Article {
+  articleInputPath: string;
+  articleOutputPath: string;
+  options: any;
+  controller: any;
+  assetPath: string;
+  data: any;
+
   constructor(options, controller) {
     this.articleInputPath = options.inputPath;
     this.articleOutputPath = options.outputPath;
@@ -100,7 +107,7 @@ export default class Article {
       );
       dates = stdout.split('\n');
     } catch (error) {
-      console.warning('get file log datas fail', error.message);
+      console.warn('get file log datas fail', error.message);
     }
 
     return {

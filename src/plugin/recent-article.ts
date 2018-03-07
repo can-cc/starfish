@@ -1,9 +1,13 @@
-import R from 'ramda';
-import fs from 'fs';
-import path from 'path';
-import glob from 'glob';
+import * as R from 'ramda';
+import * as fs from 'fs';
+import * as path from 'path';
+import * as glob from 'glob';
 
 export default class StarFishRenderRecentArticle {
+  options: any;
+  name: string;
+  type: string;
+
   constructor(options) {
     this.options = options;
     this.name = 'recent-article';

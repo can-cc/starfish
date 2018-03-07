@@ -1,6 +1,8 @@
-import R from 'fw-ramda';
+import * as R from 'fw-ramda';
 
 export class RenderPluginManager {
+  plugins: any;
+
   constructor(options) {
     this.plugins = this.getPluginFromNodeMudules(options);
   }
@@ -45,7 +47,7 @@ export class RenderPluginManager {
   }
 
   runPluinAfterwCategoryListRender(categorysData, options) {
-    R.values(this.plugins).forEach(plugin => plugin.afterCategoryListRender(...arguments));
+    R.values(this.plugins).forEach(plugin => plugin.afterCategoryListRender(categorysData, options));
   }
 
   runPluinAfterCategoryRender(rendered, data) {

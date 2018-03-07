@@ -1,12 +1,23 @@
-import fs from 'fs';
-import path from 'path';
-import _ from 'lodash';
-import R from 'fw-ramda';
+import * as  fs from 'fs';
+import * as path from 'path';
+import * as _ from 'lodash';
+import * as R from 'fw-ramda';
 import { isFile, takeFileNameWithoutSuffix, filterDotFiles } from '../lib/util';
 
 import Article from './Article';
 
 export default class Category {
+  name: string;
+  options: string;
+  parsers: any;
+  inputPath: string;
+  outputPath: string;
+  controller: any;
+  articles = [];
+  data: any;
+  aliasName: string;
+  categoryConfigure: any;
+
   constructor(options, controller) {
     this.name = options.name;
     this.options = options;
@@ -15,7 +26,6 @@ export default class Category {
     this.outputPath = options.outputPath;
     this.controller = controller;
 
-    this.articles = [];
 
     this.loadCategoryConfigure();
   }

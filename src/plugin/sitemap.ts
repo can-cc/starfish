@@ -1,13 +1,17 @@
-import fs from 'fs';
-import path from 'path';
-import glob from 'glob';
+import * as fs from 'fs';
+import * as path from 'path';
+import * as glob from 'glob';
 
 export default class StarFishRenderSiteMap {
+  options: any;
+  name: string;
+  type: string;
+  urls = []
+
   constructor(options) {
     this.options = options;
     this.name = 'sitemap';
     this.type = 'render';
-    this.urls = [];
   }
 
   getName() {

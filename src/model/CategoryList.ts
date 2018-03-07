@@ -1,7 +1,10 @@
-import path from 'path';
-import fs from 'fs';
+import * as path from 'path';
+import * as fs from 'fs';
 
 export default class CategoryList {
+  options: any;
+  categorys: any;
+  controller: any;
   constructor(options, categorys, controller) {
     this.options = options;
     this.categorys = categorys;

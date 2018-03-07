@@ -1,7 +1,10 @@
-import path from 'path';
-import fs from 'fs';
+import * as path from 'path';
+import * as fs from 'fs';
 
 export default class Index {
+  options: any;
+  categorys: any;
+  controller: any;
   constructor(options, categorys, controller) {
     this.options = options;
     this.categorys = categorys;
@@ -26,7 +29,7 @@ export default class Index {
       // articles: R.take(10, allarticles).map(a => a.data),
       // categorys: categorys
     };
-
+ 
     const html = this.controller.renderThemer.renderTemplate('INDEX', indexData);
     const outputFilePath = path.join(this.options.outputPath, 'index.html');
     fs.writeFileSync(outputFilePath, html);

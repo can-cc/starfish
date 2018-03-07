@@ -1,7 +1,7 @@
-import fs from 'fs';
-import path from 'path';
-import R from 'ramda';
-import shell from 'shelljs';
+import * as fs from 'fs';
+import * as path from 'path';
+import * as R from 'ramda';
+import * as shell from 'shelljs';
 
 import { getParsersFromModules, makeDocumentParserFn } from './render-util';
 import RenderThemer from './render-themer';
@@ -12,6 +12,15 @@ import Blog from '../../model/Blog';
 import { RenderPluginManager } from './render-plugin';
 
 export class RenderController {
+  pluginType: string;
+  inputPath: string;
+  outputPath: string;
+  configure: any;
+  blogConfigure: any;
+  renderPluginManager: any;
+  renderThemer: any;
+  parsers: any;
+
   constructor(inputPath, outputPath) {
     this.pluginType = 'render';
     this.inputPath = inputPath;
@@ -66,7 +75,6 @@ export class RenderController {
       blogTitle: this.configure.BLOG.NAME,
       blogDesc: this.configure.BLOG.DESC,
       blogName: this.configure.BLOG.NAME,
-      blogDesc: this.configure.BLOG.DESC
     };
   }
 }
