@@ -1,10 +1,10 @@
-import meow from 'meow';
-import R from 'ramda';
-import fs from 'fs';
-import path from 'path';
+import * as meow from 'meow';
+import * as R from 'ramda';
+import * as fs from 'fs';
+import * as path from 'path';
 import { filterDotFiles } from './util';
-import Package from '../../package.json';
 
+const Package = JSON.parse(fs.readFileSync(path.join(__dirname, '../../package.json')).toString());
 
 const cli = meow({
   help: ['Usage:', 'starfish <command>']

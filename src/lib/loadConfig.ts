@@ -1,6 +1,6 @@
-import yaml from 'js-yaml';
-import R from 'ramda';
-import fs from 'fs';
+import * as yaml from 'js-yaml';
+import * as R from 'ramda';
+import * as fs from 'fs';
 
 import * as path from 'path';
 

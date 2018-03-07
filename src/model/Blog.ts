@@ -1,6 +1,6 @@
-import bluebird from 'bluebird';
-import fs from 'fs';
-import path from 'path';
+import * as bluebird from 'bluebird';
+import * as fs from 'fs';
+import * as path from 'path';
 import R from 'fw-ramda';
 import { isDir } from '../lib/util';
 
@@ -11,6 +11,14 @@ import BlogIndex from './Index';
 import CategoryList from './CategoryList';
 
 export default class Blog {
+  inputPath: string;
+  options: any;
+  outputPath: string;
+  controller: any;
+  categorys: any;
+  blogIndex: any;
+  categoryList: any;
+
   constructor(options, controller) {
     this.inputPath = options.inputPath;
     this.outputPath = options.outputPath;

@@ -2,6 +2,7 @@ node_modules
 .tern-port
 .DS_Store
 build
+/built
 build2
 *#
 tags
