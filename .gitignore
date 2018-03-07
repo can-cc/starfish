@@ -1,12 +1,7 @@
 node_modules
 .tern-port
 .DS_Store
-build
 /built
-build2
-*#
+/build
 tags
-/log
-/runMyBlog.sh
-dist/
 test/test-build
