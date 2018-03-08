@@ -1,5 +1,3 @@
-'use strict';
-
 import * as fs from 'fs';
 import * as path from 'path';
 
@@ -44,9 +42,7 @@ export let isSuffix = (suffix, str) => {
 
 export let logCurrentTime = () => {
   let date = new Date();
-  console.log(
-    `Time: ${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`
-  );
+  console.log(`Time: ${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`);
 };
 
 export let filterDotFiles = name => {

@@ -1,5 +1,3 @@
-import Article from '../../src/model/Article';
+const Article = require('../../src/model/Article');
 
-test('Article', () => {
-
-});
+test('Article', function() {});

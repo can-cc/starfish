@@ -1,7 +1,7 @@
-import path from 'path';
-import fs from 'fs';
-import fsExtra from 'fs-extra';
-import cheerio from 'cheerio';
+import * as path from 'path';
+import * as fs from 'fs';
+import * as fsExtra from 'fs-extra';
+import * as cheerio from 'cheerio';
 import {
   isFile,
   isDir,
@@ -24,10 +24,6 @@ export async function syncMappingDirs(needMapping, mappingRules, dirPath, output
 // TODO
 // cut content for index and category display
 export function fixArticleUrlAndCut(content, relativeOutputPath, cutLimit) {
-  // let text = htmlToText.fromString(content, {
-  //     wordwrap: 130
-  // });
-  //return text.substring(0, ARTICLE_SUMMARY_CHAR_NUMBER);
   let $ = cheerio.load(content);
 
   var appendRelativeFn = function(i, e) {
@@ -42,8 +38,8 @@ export function fixArticleUrlAndCut(content, relativeOutputPath, cutLimit) {
   $('img').each(appendRelativeFn);
   $('script').each(appendRelativeFn);
 
-  let ps = $('h1, h2, h3, h4, h5, h6, p'),
-    summary = '';
+  const ps = $('h1, h2, h3, h4, h5, h6, p');
+  let summary = '';
 
   for (let i = 0, max = ps.length; i < max; i++) {
     summary += $(ps[i]).text();
@@ -55,15 +51,6 @@ export function fixArticleUrlAndCut(content, relativeOutputPath, cutLimit) {
     }
   }
   return [$.html(), summary];
-}
-
-export function cutOffArticle(content, number) {
-  const text = htmlToText.fromString(content, {
-    wordwrap: number,
-    ignoreImage: true,
-    ignoreHref: true
-  });
-  return text.substring(0, number);
 }
 
 export function makeDocumentParserFn(parsers) {
