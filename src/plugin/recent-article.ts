@@ -37,11 +37,7 @@ export default class StarFishRenderRecentArticle {
 
   afterIndexRender() {}
 
-  afterCategoryListRender(rendered, data) {
-    // console.log(data);
-  }
+  afterCategoryListRender(rendered, data) {}
 
-  afterCategoryRender(rendered, data) {
-    // console.log(data);
-  }
+  afterCategoryRender(rendered, data) {}
 }
