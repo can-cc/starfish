@@ -7,49 +7,68 @@ import { isDir } from '../lib/util';
 const pfs = bluebird.promisifyAll(fs);
 
 import Category from './Category';
-import BlogIndex from './Index';
+import BlogHome from './Home';
 import CategoryList from './CategoryList';
+import { RenderController } from '../modules/render/render-controller';
 
 export default class Blog {
-  inputPath: string;
-  options: any;
-  outputPath: string;
-  controller: any;
-  categorys: any;
-  blogIndex: any;
-  categoryList: any;
+  private categorys: Category[];
+  private blogHome: any;
+  private categoryList: any;
 
-  constructor(options, controller) {
-    this.inputPath = options.inputPath;
-    this.outputPath = options.outputPath;
-    this.options = options;
-    this.controller = controller;
+  constructor(
+    private options: {
+      blogInputPath: string;
+      blogOutputPath: string;
+      parsers: any; // TODO delete here
+      blogConfigure: any;
+    },
+    private controller: RenderController
+  ) {
+    this.load();
   }
 
-  load() {
+  public load(): void {
     this.categorys = this.loadCategorys();
     this.categorys.forEach(category => {
+      // TODO move to constructor
       category.load();
     });
 
-    this.blogIndex = new BlogIndex(this.options, this.categorys, this.controller);
+    this.blogHome = new BlogHome(this.options, this.categorys, this.controller);
     this.categoryList = new CategoryList(this.options, this.categorys, this.controller);
   }
 
-  loadCategorys() {
+
+  public render() {
+    this.categorys.forEach(category => {
+      // TODO merge two function
+      category.render();
+      category.renderAllArticle();
+    });
+    this.blogHome.render();
+    this.categoryList.render();
+  }
+
+
+  public getAllArticle() {
+    return R.compose(R.flatten, R.map(category => category.getAllArticles()))(this.categorys);
+  }
+
+  private loadCategorys(): Category[] {
     const categoryPaths = fs
-      .readdirSync(this.inputPath)
-      .filter(p => isDir(path.join(this.inputPath, p)));
+      .readdirSync(this.options.blogInputPath)
+      .filter(p => isDir(path.join(this.options.blogInputPath, p)));
 
     return categoryPaths.map(
       categoryName =>
         new Category(
           {
-            inputPath: path.join(this.inputPath, categoryName),
-            outputPath: path.join(this.outputPath, categoryName),
+            inputPath: path.join(this.options.blogInputPath, categoryName),
+            outputPath: path.join(this.options.blogOutputPath, categoryName),
             name: categoryName,
-            outputRootPath: this.outputPath,
-            inputRootPath: this.inputPath,
+            outputRootPath: this.options.blogOutputPath,
+            inputRootPath: this.options.blogInputPath,
             parsers: this.options.parsers
           },
           this.controller
@@ -57,20 +76,4 @@ export default class Blog {
     );
   }
 
-  render() {
-    this.renderCategorys();
-    this.blogIndex.render();
-    this.categoryList.render();
-  }
-
-  renderCategorys() {
-    this.categorys.forEach(category => {
-      category.render();
-      category.renderAllArticle();
-    });
-  }
-
-  getAllArticle() {
-    return R.compose(R.flatten, R.map(category => category.getAllArticles()))(this.categorys);
-  }
 }

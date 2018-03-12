@@ -12,48 +12,40 @@ import Blog from '../../model/Blog';
 import { RenderPluginManager } from './render-plugin';
 
 export class RenderController {
-  pluginType: string;
-  inputPath: string;
-  outputPath: string;
   configure: any;
   blogConfigure: any;
   renderPluginManager: any;
   renderThemer: any;
   parsers: any;
 
-  constructor(inputPath, outputPath) {
-    this.pluginType = 'render';
-    this.inputPath = inputPath;
-    this.outputPath = outputPath;
-
-    this.configure = readConfigure(this.inputPath); // TODO rename
+  constructor(private rootInputPath: string, private outputPath: string) {
+    this.configure = readConfigure(rootInputPath); // TODO rename
     this.blogConfigure = this.configure;
 
-    this.renderThemer = new RenderThemer(inputPath, outputPath, this.configure);
+    this.renderThemer = new RenderThemer(rootInputPath, outputPath, this.configure);
     this.renderPluginManager = new RenderPluginManager({
-      inputRootPath: inputPath,
+      inputRootPath: rootInputPath,
       outputPath: outputPath,
       blogConfigure: this.configure
     });
     this.parsers = getParsersFromModules();
   }
 
-  render() {
+  public render(): void {
     if (!fs.existsSync(this.outputPath)) {
       fs.mkdirSync(this.outputPath);
     }
 
     const blog = new Blog(
       {
-        inputPath: path.join(this.inputPath, this.configure.BLOG.BLOGDIR),
-        outputPath: this.outputPath,
-        parsers: this.parsers,
+      blogInputPath: path.join(this.rootInputPath, this.configure.BLOG.BLOGDIR),
+      blogOutputPath: this.outputPath,
+      parsers: this.parsers,
         blogConfigure: this.blogConfigure
       },
       this
     );
 
-    blog.load();
     blog.render();
 
     this.renderPluginManager.runPluinAfterRender(blog);
@@ -61,11 +53,15 @@ export class RenderController {
     this.copySpec();
   }
 
-  copySpec() {
+  private copySpec() {
     const mapping = this.configure.MAPPING;
     R.keys(mapping).forEach(sourcePath => {
       const targetPath = mapping[sourcePath];
-      shell.cp('-R', path.join(this.inputPath, sourcePath), path.join(this.outputPath, targetPath));
+      shell.cp(
+        '-R',
+        path.join(this.rootInputPath, sourcePath),
+        path.join(this.outputPath, targetPath)
+      );
     });
   }
 
@@ -74,9 +70,7 @@ export class RenderController {
       author: this.configure.AUTHOR.NAME,
       blogTitle: this.configure.BLOG.NAME,
       blogDesc: this.configure.BLOG.DESC,
-      blogName: this.configure.BLOG.NAME,
+      blogName: this.configure.BLOG.NAME
     };
   }
 }
-
-export default RenderController;

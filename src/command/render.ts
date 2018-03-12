@@ -1,12 +1,12 @@
 import { error, log } from '../lib/message';
 import { isDir, logCurrentTime } from '../lib/util';
-import { RenderController } from '../modules/render/render';
+import { RenderController } from '../modules/render/render-controller';
 import * as ora from 'ora';
 
 export default class RenderCommand {
-  name: string;
+  name = 'render';
+
   constructor() {
-    this.name = 'render';
   }
 
   getName() {

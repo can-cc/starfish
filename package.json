@@ -67,8 +67,9 @@
     "starfish-command-ssr": "^1.0.7"
   },
   "devDependencies": {
-    "typescript": "^2.7.2",
     "@types/jest": "^22.2.0",
-    "meow": "^3.3.0"
+    "meow": "^3.3.0",
+    "tslint-config-prettier": "^1.9.0",
+    "typescript": "^2.7.2"
   }
 }
