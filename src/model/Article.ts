@@ -37,6 +37,7 @@ export class Article {
     private options: {
       articleInputPath: string;
       articleOutputPath: string;
+      categoryInputPath: string;
       categoryOutputPath: string;
       rootInputPath: string;
       rootOutputPath: string;
@@ -45,7 +46,6 @@ export class Article {
     private controller: RenderController
   ) {
     this.assetPath = takeFileNameWithoutSuffix(options.articleInputPath);
-
 
     this.load();
   }
@@ -65,7 +65,6 @@ export class Article {
     this.controller.renderPluginManager.runPluinAfterArticleRender(rendered, this.data);
   }
 
-
   private hasAsset() {
     return fs.existsSync(this.assetPath);
   }
@@ -75,7 +74,7 @@ export class Article {
 
     const document = parsed.document;
 
-    this.id =  md5(document.title).substring(0, HashNum);
+    this.id = md5(document.title).substring(0, HashNum);
 
     const relativeOutputPath = getRelativePath(
       this.options.rootOutputPath,
@@ -148,5 +147,4 @@ export class Article {
       path.join(this.options.categoryOutputPath, takeFileNameWithoutSuffix(this.options.filename))
     );
   }
-
 }

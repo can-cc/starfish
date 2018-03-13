@@ -2,9 +2,9 @@ import * as fs from 'fs';
 import * as path from 'path';
 import * as _ from 'lodash';
 import * as R from 'fw-ramda';
-import { isFile, takeFileNameWithoutSuffix, filterDotFiles } from '../lib/util';
+import { isFile, takeFileNameWithoutSuffix, filterDotFiles, getRelativePath } from '../lib/util';
 
-import Article from './Article';
+import { Article } from './Article';
 
 export default class Category {
   name: string;
@@ -14,15 +14,17 @@ export default class Category {
   aliasName: string;
   categoryConfigure: any;
 
-  constructor(private options: {
-    categoryInputPath: string,
-    categoryOutputPath: string,
-    rootInputPath: string,
-    rootOutputPath: string,
-    categoryName,
-    parsers: any
-  }, private controller) {
-    this.name = options.name;
+  constructor(
+    private options: {
+      categoryInputPath: string;
+      categoryOutputPath: string;
+      rootInputPath: string;
+      rootOutputPath: string;
+      categoryName;
+      parsers: any;
+    },
+    private controller
+  ) {
     this.parsers = options.parsers;
     this.controller = controller;
 
@@ -50,21 +52,18 @@ export default class Category {
       const articleFileNameWithoutSuffix = takeFileNameWithoutSuffix(articleFile);
       const article = new Article(
         {
-        rootOutputPath: this.options.rootOutputPath,
-        rootInputPath: this.options.rootInputPath,
-        categoryOutputPath: this.options.categoryOutputPath,
-        filename: articleFile, // TODO fix
-       },
-        // TODO why merge this.options
-        Object.assign({}, this.options, {
-          inputPath: path.join(this.inputPath, articleFile),
-          outputPath: path.join(this.outputPath, articleFileNameWithoutSuffix, 'index.html'),
-          articleFileNameWithoutSuffix,
-          categoryInputPath: this.inputPath,
-          categoryOutputPath: this.outputPath,
-          name: articleFileNameWithoutSuffix,
-          category: this.options
-        }),
+          articleInputPath: path.join(this.options.categoryInputPath, articleFile),
+          articleOutputPath: path.join(
+            this.options.categoryOutputPath,
+            articleFileNameWithoutSuffix,
+            'index.html'
+          ),
+          rootOutputPath: this.options.rootOutputPath,
+          rootInputPath: this.options.rootInputPath,
+          categoryInputPath: this.options.categoryInputPath,
+          categoryOutputPath: this.options.categoryOutputPath,
+          filename: articleFile
+        },
         this.controller
       );
       this.addArticle.call(this, article);
@@ -75,7 +74,7 @@ export default class Category {
   loadCategoryConfigure() {
     // TODO
     this.categoryConfigure = {};
-    const categoryConfigureFilePath = path.join(this.inputPath, '.wdconfig.yaml');
+    const categoryConfigureFilePath = path.join(this.options.categoryInputPath, '.wdconfig.yaml');
   }
 
   getAllArticles() {
@@ -87,38 +86,36 @@ export default class Category {
   }
 
   render() {
-    if (!fs.existsSync(this.outputPath)) {
-      fs.mkdirSync(this.outputPath);
+    if (!fs.existsSync(this.options.categoryOutputPath)) {
+      fs.mkdirSync(this.options.categoryOutputPath);
     }
 
     const sortedArticles = this.articles.sort((a, b) => {
       return b.data.createTime - a.data.createTime;
     });
+    
+    const categoryData = {
+      path: getRelativePath(this.options.rootOutputPath, this.options.categoryOutputPath)
+    }
+    // const data = {
+    //   outputPath: this.outputPath,
+    //   categoryPath: outputDir,
+    //   inputPath: this.inputPath,
+    //   title: this.name,
+    //   name: this.name,
+    //   articles: articleChunk.map(a => a.data),
+    //   pageN: i,
+    //   currentPageN: pageN
+    // };
 
-    const pageN = Math.ceil(sortedArticles.length / 10);
-    _.chunk(sortedArticles, 10).forEach((articleChunk, i) => {
-      const outputDir = i === 0 ? this.outputPath : path.join(this.outputPath, 'page', i + 1 + '/');
-      const outputFilePath = path.join(outputDir, 'index.html');
-      const data = {
-        outputPath: this.outputPath,
-        categoryPath: outputDir,
-        inputPath: this.inputPath,
-        title: this.name,
-        name: this.name,
-        articles: articleChunk.map(a => a.data),
-        pageN: i,
-        currentPageN: pageN
-      };
-
-      const html = this.controller.renderThemer.renderTemplate('CATEGORY', data);
-
-      if (!fs.existsSync(outputDir)) {
-        fs.mkdirSync(outputDir);
-      }
-
-      fs.writeFileSync(outputFilePath, html);
-      this.controller.renderPluginManager.runPluinAfterCategoryRender(html, data);
-    });
+    const html = this.controller.renderThemer.renderTemplate('CATEGORY', data);
+    
+    if (!fs.existsSync(outputDir)) {
+      fs.mkdirSync(outputDir);
+    }
+    
+    fs.writeFileSync(outputFilePath, html);
+    this.controller.renderPluginManager.runPluinAfterCategoryRender(html, data);
   }
 
   renderAllArticle() {
