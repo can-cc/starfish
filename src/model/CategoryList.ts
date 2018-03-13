@@ -1,27 +1,28 @@
 import * as path from 'path';
 import * as fs from 'fs';
+import Category from './Category';
+import { RenderController } from '../modules/render/render-controller';
 
-export default class CategoryList {
-  options: any;
-  categorys: any;
-  controller: any;
-  constructor(options, categorys, controller) {
-    this.options = options;
-    this.categorys = categorys;
-    this.controller = controller;
-  }
+export class CategoryList {
+  constructor(
+    private options: {
+      categoryListOutputPath: string;
+    },
+    private categorys: Category[],
+    private controller: RenderController
+  ) {}
 
-  render() {
+  public render() {
     const categorysData = this.categorys.map(c => c.data);
-    const categoryListOutputPath = path.join(this.options.outputPath, 'categorys');
-    if (!fs.existsSync(categoryListOutputPath)) {
-      fs.mkdirSync(categoryListOutputPath);
+    if (!fs.existsSync(this.options.categoryListOutputPath)) {
+      fs.mkdirSync(this.options.categoryListOutputPath);
     }
 
     const html = this.controller.renderThemer.renderTemplate('CATEGORY_LIST', categorysData);
-    fs.writeFileSync(path.join(categoryListOutputPath, 'index.html'), html);
+    fs.writeFileSync(path.join(this.options.categoryListOutputPath, 'index.html'), html);
+
     this.controller.renderPluginManager.runPluinAfterwCategoryListRender(categorysData, {
-      outputPath: path.join(this.options.outputPath, 'categorys')
+      outputPath: this.options.categoryListOutputPath
     });
   }
 }

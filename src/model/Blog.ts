@@ -7,8 +7,8 @@ import { isDir } from '../lib/util';
 const pfs = bluebird.promisifyAll(fs);
 
 import Category from './Category';
-import BlogHome from './Home';
-import CategoryList from './CategoryList';
+import { BlogHome } from './Home';
+import { CategoryList } from './CategoryList';
 import { RenderController } from '../modules/render/render-controller';
 
 export default class Blog {
@@ -35,10 +35,22 @@ export default class Blog {
       category.load();
     });
 
-    this.blogHome = new BlogHome(this.options, this.categorys, this.controller);
-    this.categoryList = new CategoryList(this.options, this.categorys, this.controller);
-  }
+    this.blogHome = new BlogHome(
+      {
+        homeOutputPath: this.options.blogOutputPath
+      },
+      this.categorys,
+      this.controller
+    );
 
+    this.categoryList = new CategoryList(
+      {
+        categoryListOutputPath: path.join(this.options.blogOutputPath, 'categorys')
+      },
+      this.categorys,
+      this.controller
+    );
+  }
 
   public render() {
     this.categorys.forEach(category => {
@@ -49,7 +61,6 @@ export default class Blog {
     this.blogHome.render();
     this.categoryList.render();
   }
-
 
   public getAllArticle() {
     return R.compose(R.flatten, R.map(category => category.getAllArticles()))(this.categorys);
@@ -65,7 +76,7 @@ export default class Blog {
         new Category(
           {
             inputPath: path.join(this.options.blogInputPath, categoryName),
-            outputPath: path.join(this.options.blogOutputPath, categoryName),
+          outputPath: path.join(this.options.blogOutputPath, categoryName),
             name: categoryName,
             outputRootPath: this.options.blogOutputPath,
             inputRootPath: this.options.blogInputPath,
@@ -75,5 +86,4 @@ export default class Blog {
         )
     );
   }
-
 }

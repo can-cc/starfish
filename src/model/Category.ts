@@ -1,4 +1,4 @@
-import * as  fs from 'fs';
+import * as fs from 'fs';
 import * as path from 'path';
 import * as _ from 'lodash';
 import * as R from 'fw-ramda';
@@ -8,29 +8,30 @@ import Article from './Article';
 
 export default class Category {
   name: string;
-  options: string;
   parsers: any;
-  inputPath: string;
-  outputPath: string;
-  controller: any;
   articles = [];
   data: any;
   aliasName: string;
   categoryConfigure: any;
 
-  constructor(options, controller) {
+  constructor(private options: {
+    categoryInputPath: string,
+    categoryOutputPath: string,
+    rootInputPath: string,
+    rootOutputPath: string,
+    categoryName,
+    parsers: any
+  }, private controller) {
     this.name = options.name;
-    this.options = options;
     this.parsers = options.parsers;
-    this.inputPath = options.inputPath;
-    this.outputPath = options.outputPath;
     this.controller = controller;
 
-
     this.loadCategoryConfigure();
+
+    this.load();
   }
 
-  load() {
+  private load() {
     this.data = {
       relativeOutputPath: this.name,
       name: this.name || this.aliasName
@@ -48,6 +49,12 @@ export default class Category {
     articleFiles.forEach(articleFile => {
       const articleFileNameWithoutSuffix = takeFileNameWithoutSuffix(articleFile);
       const article = new Article(
+        {
+        rootOutputPath: this.options.rootOutputPath,
+        rootInputPath: this.options.rootInputPath,
+        categoryOutputPath: this.options.categoryOutputPath,
+        filename: articleFile, // TODO fix
+       },
         // TODO why merge this.options
         Object.assign({}, this.options, {
           inputPath: path.join(this.inputPath, articleFile),
@@ -60,7 +67,6 @@ export default class Category {
         }),
         this.controller
       );
-      article.load();
       this.addArticle.call(this, article);
     });
     this.data.articleNumber = articleFiles.length;

@@ -28,7 +28,6 @@ export class RenderController {
       outputPath: outputPath,
       blogConfigure: this.configure
     });
-    this.parsers = getParsersFromModules();
   }
 
   public render(): void {
@@ -41,8 +40,8 @@ export class RenderController {
       blogInputPath: path.join(this.rootInputPath, this.configure.BLOG.BLOGDIR),
       blogOutputPath: this.outputPath,
       parsers: this.parsers,
-        blogConfigure: this.blogConfigure
-      },
+      blogConfigure: this.blogConfigure
+    },
       this
     );
 

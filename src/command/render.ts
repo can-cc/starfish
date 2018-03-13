@@ -1,4 +1,3 @@
-import { error, log } from '../lib/message';
 import { isDir, logCurrentTime } from '../lib/util';
 import { RenderController } from '../modules/render/render-controller';
 import * as ora from 'ora';
@@ -29,9 +28,9 @@ export default class RenderCommand {
         spinner.fail('Build Fail...');
       }
       logCurrentTime();
-      log('Render completion!');
+      console.log('Render completion!');
     } else {
-      error('Invalid input!');
+      console.log('Invalid input!');
     }
   }
 }

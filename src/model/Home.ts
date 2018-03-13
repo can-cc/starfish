@@ -1,17 +1,18 @@
 import * as path from 'path';
 import * as fs from 'fs';
+import Category from './Category';
+import { RenderController } from '../modules/render/render-controller';
 
-export default class Index {
-  options: any;
-  categorys: any;
-  controller: any;
-  constructor(options, categorys, controller) {
-    this.options = options;
-    this.categorys = categorys;
-    this.controller = controller;
-  }
+export class BlogHome {
+  constructor(
+    private options: {
+      homeOutputPath: string;
+    },
+    private categorys: Category[],
+    private controller: RenderController
+  ) {}
 
-  render() {
+  public render(): void {
     // const allarticles = this.concatAllArticle().sort((a, b) => {
     //   return b.data.createTime.getTime() - a.data.createTime.getTime();
     // });
@@ -29,9 +30,9 @@ export default class Index {
       // articles: R.take(10, allarticles).map(a => a.data),
       // categorys: categorys
     };
- 
+
     const html = this.controller.renderThemer.renderTemplate('INDEX', indexData);
-    const outputFilePath = path.join(this.options.outputPath, 'index.html');
+    const outputFilePath = path.join(this.options.homeOutputPath, 'index.html');
     fs.writeFileSync(outputFilePath, html);
   }
 }

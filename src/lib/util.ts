@@ -13,7 +13,7 @@ export let takeFileName = str => {
   return str.replace(/^.*[\\\/]/, '');
 };
 
-export let takeFileNameWithoutSuffix = str => {
+export const takeFileNameWithoutSuffix = str => {
   return takeFileName(str).replace(/\.\S+$/, '');
 };
 
