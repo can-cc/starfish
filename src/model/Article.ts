@@ -30,7 +30,7 @@ const HashNum = 7;
 
 export class Article {
   private assetPath: string;
-  private data: any;
+  public data: any;
   private id: string;
 
   constructor(

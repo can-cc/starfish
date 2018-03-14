@@ -7,8 +7,6 @@ import { isFile, takeFileNameWithoutSuffix, filterDotFiles, getRelativePath } fr
 import { Article } from './Article';
 
 export default class Category {
-  name: string;
-  parsers: any;
   articles = [];
   data: any;
   aliasName: string;
@@ -21,12 +19,9 @@ export default class Category {
       rootInputPath: string;
       rootOutputPath: string;
       categoryName;
-      parsers: any;
     },
     private controller
   ) {
-    this.parsers = options.parsers;
-    this.controller = controller;
 
     this.loadCategoryConfigure();
 
@@ -44,6 +39,7 @@ export default class Category {
     const [files, dirs] = _.partition(paths, pathName =>
       isFile(path.resolve(this.inputPath, pathName))
     );
+
     const articleFiles = files.filter(
       file => filterDotFiles(file) && R.values(this.parsers).some(parser => parser.check(file))
     );
@@ -60,7 +56,7 @@ export default class Category {
           ),
           rootOutputPath: this.options.rootOutputPath,
           rootInputPath: this.options.rootInputPath,
-          categoryInputPath: this.options.categoryInputPath,
+        categoryInputPath: this.options.categoryInputPath,
           categoryOutputPath: this.options.categoryOutputPath,
           filename: articleFile
         },
@@ -93,27 +89,19 @@ export default class Category {
     const sortedArticles = this.articles.sort((a, b) => {
       return b.data.createTime - a.data.createTime;
     });
-    
-    const categoryData = {
-      path: getRelativePath(this.options.rootOutputPath, this.options.categoryOutputPath)
-    }
-    // const data = {
-    //   outputPath: this.outputPath,
-    //   categoryPath: outputDir,
-    //   inputPath: this.inputPath,
-    //   title: this.name,
-    //   name: this.name,
-    //   articles: articleChunk.map(a => a.data),
-    //   pageN: i,
-    //   currentPageN: pageN
-    // };
 
-    const html = this.controller.renderThemer.renderTemplate('CATEGORY', data);
-    
-    if (!fs.existsSync(outputDir)) {
-      fs.mkdirSync(outputDir);
+    const categoryData = {
+      path: getRelativePath(this.options.rootOutputPath, this.options.categoryOutputPath),
+      categoryName: this.options.categoryName,
+      articles: this.articles.map(a => a.data)
     }
-    
+
+    const html = this.controller.renderThemer.renderTemplate('CATEGORY', categoryData);
+
+    if (!fs.existsSync(this.options.categoryOutputPath)) {
+      fs.mkdirSync(this.options.categoryOutputPath);
+    }
+
     fs.writeFileSync(outputFilePath, html);
     this.controller.renderPluginManager.runPluinAfterCategoryRender(html, data);
   }
