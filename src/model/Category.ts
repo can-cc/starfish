@@ -5,12 +5,10 @@ import * as R from 'fw-ramda';
 import { isFile, takeFileNameWithoutSuffix, filterDotFiles, getRelativePath } from '../lib/util';
 
 import { Article } from './Article';
+import { getParsersFromModules } from '../modules/render/render-util';
 
 export default class Category {
   articles = [];
-  data: any;
-  aliasName: string;
-  categoryConfigure: any;
 
   constructor(
     private options: {
@@ -22,26 +20,66 @@ export default class Category {
     },
     private controller
   ) {
-
     this.loadCategoryConfigure();
 
     this.load();
   }
 
-  private load() {
-    this.data = {
-      relativeOutputPath: this.name,
-      name: this.name || this.aliasName
+  public getAllArticles() {
+    return this.articles;
+  }
+
+  public render() {
+    if (!fs.existsSync(this.options.categoryOutputPath)) {
+      fs.mkdirSync(this.options.categoryOutputPath);
+    }
+
+    const sortedArticles = this.articles.sort((a, b) => {
+      return b.data.createTime - a.data.createTime;
+    });
+
+    const categoryData = {
+      path: getRelativePath(this.options.rootOutputPath, this.options.categoryOutputPath),
+      categoryName: this.options.categoryName,
+      articles: this.articles.map(a => a.data)
     };
 
-    const paths = fs.readdirSync(this.inputPath);
+    const html = this.controller.renderThemer.renderTemplate('CATEGORY', categoryData);
+
+    if (!fs.existsSync(this.options.categoryOutputPath)) {
+      fs.mkdirSync(this.options.categoryOutputPath);
+    }
+
+    const categoryIndexFilePath: string = path.join(this.options.categoryOutputPath, 'index.html');
+
+    fs.writeFileSync(categoryIndexFilePath, html);
+    this.controller.renderPluginManager.runPluinAfterCategoryRender(html, categoryData);
+
+
+    this.renderAllArticle();
+  }
+
+  private renderAllArticle() {
+    this.articles.forEach(article => {
+      article.render();
+    });
+  }
+
+  private loadCategoryConfigure() {
+    const categoryConfigureFilePath = path.join(this.options.categoryInputPath, '.category.yaml');
+  }
+
+  private load() {
+    const parsers = getParsersFromModules();
+
+    const paths = fs.readdirSync(this.options.rootInputPath);
 
     const [files, dirs] = _.partition(paths, pathName =>
-      isFile(path.resolve(this.inputPath, pathName))
+      isFile(path.resolve(this.options.rootInputPath, pathName))
     );
 
     const articleFiles = files.filter(
-      file => filterDotFiles(file) && R.values(this.parsers).some(parser => parser.check(file))
+      file => filterDotFiles(file) && R.values(parsers).some(parser => parser.check(file))
     );
 
     articleFiles.forEach(articleFile => {
@@ -56,59 +94,14 @@ export default class Category {
           ),
           rootOutputPath: this.options.rootOutputPath,
           rootInputPath: this.options.rootInputPath,
-        categoryInputPath: this.options.categoryInputPath,
+          categoryInputPath: this.options.categoryInputPath,
           categoryOutputPath: this.options.categoryOutputPath,
           filename: articleFile
         },
         this.controller
       );
-      this.addArticle.call(this, article);
-    });
-    this.data.articleNumber = articleFiles.length;
-  }
 
-  loadCategoryConfigure() {
-    // TODO
-    this.categoryConfigure = {};
-    const categoryConfigureFilePath = path.join(this.options.categoryInputPath, '.wdconfig.yaml');
-  }
-
-  getAllArticles() {
-    return this.articles;
-  }
-
-  addArticle(article) {
-    this.articles.push(article);
-  }
-
-  render() {
-    if (!fs.existsSync(this.options.categoryOutputPath)) {
-      fs.mkdirSync(this.options.categoryOutputPath);
-    }
-
-    const sortedArticles = this.articles.sort((a, b) => {
-      return b.data.createTime - a.data.createTime;
-    });
-
-    const categoryData = {
-      path: getRelativePath(this.options.rootOutputPath, this.options.categoryOutputPath),
-      categoryName: this.options.categoryName,
-      articles: this.articles.map(a => a.data)
-    }
-
-    const html = this.controller.renderThemer.renderTemplate('CATEGORY', categoryData);
-
-    if (!fs.existsSync(this.options.categoryOutputPath)) {
-      fs.mkdirSync(this.options.categoryOutputPath);
-    }
-
-    fs.writeFileSync(outputFilePath, html);
-    this.controller.renderPluginManager.runPluinAfterCategoryRender(html, data);
-  }
-
-  renderAllArticle() {
-    this.articles.forEach(article => {
-      article.render();
+      this.articles.push(article);
     });
   }
 }

@@ -30,10 +30,6 @@ export default class Blog {
 
   public load(): void {
     this.categorys = this.loadCategorys();
-    this.categorys.forEach(category => {
-      // TODO move to constructor
-      category.load();
-    });
 
     this.blogHome = new BlogHome(
       {
@@ -52,11 +48,10 @@ export default class Blog {
     );
   }
 
-  public render() {
+  public render(): void {
     this.categorys.forEach(category => {
       // TODO merge two function
       category.render();
-      category.renderAllArticle();
     });
     this.blogHome.render();
     this.categoryList.render();
