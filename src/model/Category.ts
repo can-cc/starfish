@@ -8,14 +8,15 @@ import { Article } from './Article';
 import { getParsersFromModules } from '../modules/render/render-util';
 
 export default class Category {
-  articles = [];
+  private articles: Article[];
+  private categoryData;
 
   constructor(
     private options: {
       categoryInputPath: string;
       categoryOutputPath: string;
-      rootInputPath: string;
-      rootOutputPath: string;
+      blogInputPath: string;
+      blogOutputPath: string;
       categoryName;
     },
     private controller
@@ -25,8 +26,12 @@ export default class Category {
     this.load();
   }
 
-  public getAllArticles() {
+  public getAllArticles(): Article[] {
     return this.articles;
+  }
+
+  public getCategoryData() {
+    return this.categoryData;
   }
 
   public render() {
@@ -39,10 +44,11 @@ export default class Category {
     });
 
     const categoryData = {
-      path: getRelativePath(this.options.rootOutputPath, this.options.categoryOutputPath),
+      path: getRelativePath(this.options.blogOutputPath, this.options.categoryOutputPath),
       categoryName: this.options.categoryName,
       articles: this.articles.map(a => a.data)
     };
+
 
     const html = this.controller.renderThemer.renderTemplate('CATEGORY', categoryData);
 
@@ -71,18 +77,17 @@ export default class Category {
 
   private load() {
     const parsers = getParsersFromModules();
-
-    const paths = fs.readdirSync(this.options.rootInputPath);
+    const paths = fs.readdirSync(this.options.categoryInputPath);
 
     const [files, dirs] = _.partition(paths, pathName =>
-      isFile(path.resolve(this.options.rootInputPath, pathName))
+      isFile(path.resolve(this.options.blogInputPath, pathName))
     );
 
-    const articleFiles = files.filter(
+    const articleFilenames: string[] = files.filter(
       file => filterDotFiles(file) && R.values(parsers).some(parser => parser.check(file))
     );
 
-    articleFiles.forEach(articleFile => {
+    this.articles =  articleFilenames.map((articleFile: string) => {
       const articleFileNameWithoutSuffix = takeFileNameWithoutSuffix(articleFile);
       const article = new Article(
         {
@@ -92,16 +97,16 @@ export default class Category {
             articleFileNameWithoutSuffix,
             'index.html'
           ),
-          rootOutputPath: this.options.rootOutputPath,
-          rootInputPath: this.options.rootInputPath,
-          categoryInputPath: this.options.categoryInputPath,
-          categoryOutputPath: this.options.categoryOutputPath,
+          rootOutputPath: this.options.blogOutputPath,
+          rootInputPath: this.options.blogInputPath,
+        categoryInputPath: this.options.categoryInputPath,
+        categoryOutputPath: this.options.categoryOutputPath,
           filename: articleFile
         },
         this.controller
       );
 
-      this.articles.push(article);
+      return article;
     });
   }
 }

@@ -70,12 +70,11 @@ export default class Blog {
       categoryName =>
         new Category(
           {
-            inputPath: path.join(this.options.blogInputPath, categoryName),
-          outputPath: path.join(this.options.blogOutputPath, categoryName),
-            name: categoryName,
-            outputRootPath: this.options.blogOutputPath,
-            inputRootPath: this.options.blogInputPath,
-            parsers: this.options.parsers
+            categoryInputPath: path.join(this.options.blogInputPath, categoryName),
+            categoryOutputPath: path.join(this.options.blogOutputPath, categoryName),
+            categoryName: categoryName,
+            blogOutputPath: this.options.blogOutputPath,
+            blogInputPath: this.options.blogInputPath
           },
           this.controller
         )
