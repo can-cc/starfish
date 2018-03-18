@@ -13,7 +13,6 @@ BLOG:
 
 CONFIG:
   CONFIG_FILE: 'starfish.config.yaml'
-  DIR_CONFIG_FILE: '.wdconfig.yaml'
   IGNORE_FILE: '.ignore'
 
 STYLE:
