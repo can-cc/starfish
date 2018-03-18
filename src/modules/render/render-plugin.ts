@@ -1,13 +1,51 @@
-import * as R from 'fw-ramda';
+import * as R from 'ramda';
 
 export class RenderPluginManager {
-  plugins: any;
+  private plugins: any;
 
   constructor(options) {
     this.plugins = this.getPluginFromNodeMudules(options);
   }
 
-  getPluginFromNodeMudules(options) {
+  public getPlugin() {
+    return this.plugins;
+  }
+
+  public runPlugin() {
+    /*ignore*/
+  }
+
+  public runPluinBeforeArticleRender(articleData) {
+    R.values(this.plugins).forEach(plugin => {
+      plugin.beforeArticleRender(articleData);
+    });
+  }
+
+  public runPluinAfterArticleRender(rawDocument, articleData) {
+    R.values(this.plugins).forEach(plugin => {
+      plugin.afterArticleRender(rawDocument, articleData);
+    });
+  }
+
+  public runPluinAfterRender(blog) {
+    R.values(this.plugins).forEach(plugin => plugin.afterRender(blog));
+  }
+
+  public runPluginAfterIndexRender(indexData) {
+    R.values(this.plugins).forEach(plugin => plugin.afterIndexRender(indexData));
+  }
+
+  public runPluinAfterwCategoryListRender(categorysData, options) {
+    R.values(this.plugins).forEach(plugin =>
+      plugin.afterCategoryListRender(categorysData, options)
+    );
+  }
+
+  public runPluinAfterCategoryRender(rendered, data) {
+    R.values(this.plugins).forEach(plugin => plugin.afterCategoryRender(rendered, data));
+  }
+
+  private getPluginFromNodeMudules(options) {
     const plugins = {};
     ['nobbb-render-ajax', '../../plugin/sitemap', '../../plugin/recent-article'].forEach(name => {
       if (!plugins[name]) {
@@ -19,40 +57,4 @@ export class RenderPluginManager {
     });
     return plugins;
   }
-
-  getPlugin() {
-    return this.plugins;
-  }
-
-  runPlugin() {}
-
-  runPluinBeforeArticleRender(articleData) {
-    R.values(this.plugins).forEach(plugin => {
-      plugin.beforeArticleRender(articleData);
-    });
-  }
-
-  runPluinAfterArticleRender(rawDocument, articleData) {
-    R.values(this.plugins).forEach(plugin => {
-      plugin.afterArticleRender(rawDocument, articleData);
-    });
-  }
-
-  runPluinAfterRender(blog) {
-    R.values(this.plugins).forEach(plugin => plugin.afterRender(blog));
-  }
-
-  runPluginAfterIndexRender(indexData) {
-    R.values(this.plugins).forEach(plugin => plugin.afterIndexRender(indexData));
-  }
-
-  runPluinAfterwCategoryListRender(categorysData, options) {
-    R.values(this.plugins).forEach(plugin => plugin.afterCategoryListRender(categorysData, options));
-  }
-
-  runPluinAfterCategoryRender(rendered, data) {
-    R.values(this.plugins).forEach(plugin => plugin.afterCategoryRender(rendered, data));
-  }
 }
-
-export default RenderPluginManager;

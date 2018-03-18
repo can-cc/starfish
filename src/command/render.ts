@@ -3,20 +3,21 @@ import { RenderController } from '../modules/render/render-controller';
 import * as ora from 'ora';
 
 export default class RenderCommand {
-  name = 'render';
+  public name = 'render';
 
-  constructor() {
-  }
-
-  getName() {
+  public getName(): string {
     return this.name;
   }
 
-  async run(inputs, flags) {
+  public async run(inputs: string[], flags: boolean[]) {
     const inputPath = inputs[0];
+    if (!inputPath) {
+      return console.error('Please spec blog path.')
+    }
+
     if (isDir(inputPath)) {
       // TODO fix
-      let outputPath = 'build';
+      const outputPath = 'build';
 
       const spinner = ora('Start render...').start();
       try {
@@ -28,9 +29,6 @@ export default class RenderCommand {
         spinner.fail('Build Fail...');
       }
       logCurrentTime();
-      console.log('Render completion!');
-    } else {
-      console.log('Invalid input!');
     }
   }
 }

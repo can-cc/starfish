@@ -13,17 +13,6 @@ export class BlogHome {
   ) {}
 
   public render(): void {
-    // const allarticles = this.concatAllArticle().sort((a, b) => {
-    //   return b.data.createTime.getTime() - a.data.createTime.getTime();
-    // });
-
-    // const categorys = this.categorys.map(category => {
-    //   return {
-    //     name: category.name,
-    //     indexUrl: path.join('/', category.data.relativeOutputPath, 'index.html'),
-    //     number: category.articles.length
-    //   };
-    // });
 
     const indexData = {
       // ...this.controller.getBlogInformation(),

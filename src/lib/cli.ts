@@ -45,10 +45,6 @@ cli.run = function() {
     return this.showHelp();
   }
   commandMap[this.input[0]].run(R.drop(1, this.input), this.flags);
-
-  // if (!runCommand(this.input, this.flags)) {
-  //   this.showHelp();
-  // }
 };
 
 export default cli;
