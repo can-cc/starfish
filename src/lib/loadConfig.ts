@@ -4,7 +4,7 @@ import * as fs from 'fs';
 
 import * as path from 'path';
 
-let loadConfig = filepath => {
+const loadConfig = filepath => {
   return yaml.safeLoad(fs.readFileSync(filepath, 'utf8'));
 };
 

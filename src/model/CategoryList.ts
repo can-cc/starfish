@@ -13,7 +13,7 @@ export class CategoryList {
   ) {}
 
   public render() {
-    const categorysData = this.categorys.map(c => c.data);
+    const categorysData = this.categorys.map(c => c.getData());
     if (!fs.existsSync(this.options.categoryListOutputPath)) {
       fs.mkdirSync(this.options.categoryListOutputPath);
     }

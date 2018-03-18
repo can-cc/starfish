@@ -30,7 +30,7 @@ const HashNum = 7;
 
 export class Article {
   private assetPath: string;
-  public data: any;
+  private data: any;
   private id: string;
 
   constructor(
@@ -48,6 +48,10 @@ export class Article {
     this.assetPath = takeFileNameWithoutSuffix(options.articleInputPath);
 
     this.load();
+  }
+
+  public getData() {
+    return this.data;
   }
 
   public render() {
@@ -88,7 +92,7 @@ export class Article {
       takeFileNameWithoutSuffix(this.options.filename)
     );
 
-    const articleData = {
+    return {
       id: this.id,
       type: parsed.type,
       path: '',
@@ -98,7 +102,6 @@ export class Article {
       ...this.getArticleGitData(this.options.articleInputPath)
     };
 
-    this.data = articleData;
   }
 
   private getArticleGitData(filePath) {
