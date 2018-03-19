@@ -33,18 +33,21 @@ export default class StarflishRenderAjaxPlugin {
     fs.writeFileSync(path.join(outputPath, outputName), JSON.stringify(articleData));
   }
 
-  afterwCategoryListRender(data, meta) {
+  public afterwCategoryListRender(data, meta) {
     if (!fs.existsSync(meta.outputPath)) {
       fs.mkdirSync(meta.outputPath);
     }
     fs.writeFileSync(path.join(meta.outputPath, 'index.json'), JSON.stringify(data));
   }
 
-  afterwCategoryRender(rendered, data) {
-    fs.writeFileSync(path.join(data.categoryPath, 'index.json'), JSON.stringify(data));
+  public afterCategoryRender(rendered, data) {
+    fs.writeFileSync(
+      path.join(this.options.rootOutputPath, data.path, 'index.json'),
+      JSON.stringify(data)
+    );
   }
 
-  afterIndexRender(indexData) {
+  public afterIndexRender(indexData) {
     fs.writeFileSync(
       path.join(this.options.rootOutputPath, 'index.json'),
       JSON.stringify(JSON.stringify(indexData))

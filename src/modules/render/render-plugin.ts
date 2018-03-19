@@ -47,7 +47,7 @@ export class RenderPluginManager {
 
   private getPluginFromNodeMudules(options) {
     const plugins = {};
-    ['nobbb-render-ajax', '../../plugin/sitemap', '../../plugin/recent-article'].forEach(name => {
+    ['../../plugin/api', '../../plugin/sitemap', '../../plugin/recent-article'].forEach(name => {
       if (!plugins[name]) {
         const plugin = new (require(name)).default(options);
         plugins[plugin.getName()] = plugin;

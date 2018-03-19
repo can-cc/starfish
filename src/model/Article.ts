@@ -29,8 +29,9 @@ const execSync = require('child_process').execSync;
 const HashNum = 7;
 
 export class Article {
+  private filenameWithoutSuffix: string;
   private assetPath: string;
-  private data: any;
+  private data: ArticleData;
   private id: string;
 
   constructor(
@@ -45,9 +46,10 @@ export class Article {
     },
     private controller: RenderController
   ) {
-    this.assetPath = takeFileNameWithoutSuffix(options.articleInputPath);
+    this.filenameWithoutSuffix = takeFileNameWithoutSuffix(options.articleInputPath)
+    this.assetPath = path.join(this.cate);
 
-    this.load();
+    this.data = this.loadArticleData();
   }
 
   public getData() {
@@ -61,11 +63,12 @@ export class Article {
     if (this.hasAsset()) {
       this.copyArticleAsset();
     }
-    if (!fs.existsSync(this.data.outputDirPath)) {
+
+    if (!fs.existsSync(this.data)) {
       fs.mkdirSync(this.data.outputDirPath);
     }
 
-    fs.writeFileSync(this.data.outputFilePath, rendered);
+    fs.writeFileSync(this.options.articleOutputPath, rendered);
     this.controller.renderPluginManager.runPluinAfterArticleRender(rendered, this.data);
   }
 
@@ -73,7 +76,7 @@ export class Article {
     return fs.existsSync(this.assetPath);
   }
 
-  private load() {
+  private loadArticleData() {
     const parsed = this.parseArticle(this.options.articleInputPath);
 
     const document = parsed.document;
@@ -101,7 +104,6 @@ export class Article {
       hasAsset: this.hasAsset(),
       ...this.getArticleGitData(this.options.articleInputPath)
     };
-
   }
 
   private getArticleGitData(filePath) {

@@ -41,12 +41,18 @@ export default class Category {
       fs.mkdirSync(this.options.categoryOutputPath);
     }
 
-    const outputHtmlContent = this.controller.renderThemer.renderTemplate('CATEGORY', this.categoryData);
+    const outputHtmlContent = this.controller.renderThemer.renderTemplate(
+      'CATEGORY',
+      this.categoryData
+    );
 
     const categoryIndexFilePath: string = path.join(this.options.categoryOutputPath, 'index.html');
 
     fs.writeFileSync(categoryIndexFilePath, outputHtmlContent);
-    this.controller.renderPluginManager.runPluinAfterCategoryRender(outputHtmlContent, this.categoryData);
+    this.controller.renderPluginManager.runPluinAfterCategoryRender(
+      outputHtmlContent,
+      this.categoryData
+    );
 
     this.renderAllArticle();
   }
@@ -65,7 +71,7 @@ export default class Category {
   }
 
   private loadCategoryData() {
-    const categoryData = {
+    return {
       path: getRelativePath(this.options.blogOutputPath, this.options.categoryOutputPath),
       categoryName: this.options.categoryName,
       articles: this.articles.map(a => a.getData())
@@ -78,7 +84,7 @@ export default class Category {
 
     // TODO remove loadsh
     const [files] = _.partition(inCategorypaths, pathName =>
-      isFile(path.resolve(this.options.blogInputPath, pathName))
+      isFile(path.resolve(this.options.categoryInputPath, pathName))
     );
 
     const articleFilenames: string[] = files.filter(
@@ -90,7 +96,7 @@ export default class Category {
       return new Article(
         {
           articleInputPath: path.join(this.options.categoryInputPath, articleFile),
-          articleOutputPath: path.join(
+        articleOutputPath: path.join(
             this.options.categoryOutputPath,
             articleFileNameWithoutSuffix,
             'index.html'

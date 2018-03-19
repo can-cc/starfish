@@ -9,7 +9,14 @@ interface ArticleData {
   title: string;
   content: string;
   hasAsset: boolean;
-  createTime: Date;
-  modifyTime: Date;
-  showTime: Date;
+  createTime: number;
+  modifyTime: number;
+  showTime: number;
 }
+
+interface CategoryData {
+  path: string;
+  categoryName: string;
+  articles: ArticleData[];
+}
+
