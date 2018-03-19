@@ -2,13 +2,11 @@ import * as fs from 'fs';
 import * as path from 'path';
 import * as R from 'ramda';
 
-export default class StarflishRenderAjaxPlugin {
+export default class StarflishRenderApiPlugin {
   private name = 'api';
   private type = 'redner';
 
-  constructor(
-    private options: PluginOptions
-  ) {}
+  constructor(private options: PluginOptions) {}
 
   public getName() {
     return this.name;
@@ -27,11 +25,14 @@ export default class StarflishRenderAjaxPlugin {
     fs.writeFileSync(path.join(outputPath, outputName), JSON.stringify(articleData));
   }
 
-  public afterwCategoryListRender(data, meta) {
-    if (!fs.existsSync(meta.outputPath)) {
-      fs.mkdirSync(meta.outputPath);
+  public afterCategoryListRender(html, categoryListData: CategoryListData) {
+    if (!fs.existsSync(categoryListData.categoryListOutputPath)) {
+      fs.mkdirSync(categoryListData.categoryListOutputPath);
     }
-    fs.writeFileSync(path.join(meta.outputPath, 'index.json'), JSON.stringify(data));
+    fs.writeFileSync(
+      path.join(categoryListData.categoryListOutputPath, 'index.json'),
+      JSON.stringify(categoryListData)
+    );
   }
 
   public afterCategoryRender(rendered, categoryData: CategoryData) {
@@ -51,6 +52,4 @@ export default class StarflishRenderAjaxPlugin {
   public afterRender() {
     /*ignore*/
   }
-
-  public afterCategoryListRender() {/*ignore*/}
 }

@@ -7,9 +7,7 @@ const inputPath = 'test/mock-source/';
 const outputPath = 'test/test-build/';
 const outputPathAbsolutelyPath = path.resolve(__dirname, '../../', outputPath);
 
-afterEach(() => {
-  execSync(`rm -rf ${outputPathAbsolutelyPath}`);
-});
+
 
 test('integrated test render feather', async () => {
   const renderCtrl = new RenderController(inputPath, outputPath);

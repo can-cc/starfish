@@ -9,9 +9,9 @@ import { RenderController } from '../modules/render/render-controller';
 import { getParsersFromModules } from '../modules/render/render-util';
 
 function fixArticleUrlAndCut(content, relativeOutputPath) {
-  let $ = cheerio.load(content);
+  const $ = cheerio.load(content);
 
-  var appendRelativeFn = function(i, e) {
+  const appendRelativeFn = function(i, e) {
     let src = $(this).attr('src');
     if (!/^[http|//]/.test(src)) {
       src = path.join('/', relativeOutputPath, src);
@@ -29,11 +29,11 @@ const execSync = require('child_process').execSync;
 const HashNum = 7;
 
 export class Article {
-  private filenameWithoutSuffix: string;
-  private assetPath: string;
-  private outputDirPath: string;
+  public outputDirPath: string;
+  public filenameWithoutSuffix: string;
+  public assetPath: string;
+  public id: string;
   private data: ArticleData;
-  private id: string;
 
   constructor(
     private options: {
@@ -100,7 +100,7 @@ export class Article {
     return {
       id: this.id,
       type: parsed.type,
-      path: '',
+      path: getRelativePath(this.options.rootOutputPath, this.options.articleOutputPath),
       title: document.title,
       content,
       hasAsset: this.hasAsset(),

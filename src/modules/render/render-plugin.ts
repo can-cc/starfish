@@ -35,9 +35,9 @@ export class RenderPluginManager {
     R.values(this.plugins).forEach(plugin => plugin.afterIndexRender(indexData));
   }
 
-  public runPluinAfterwCategoryListRender(categorysData, options) {
+  public runPluinAfterwCategoryListRender(renderedHtml, categoryListData) {
     R.values(this.plugins).forEach(plugin =>
-      plugin.afterCategoryListRender(categorysData, options)
+      plugin.afterCategoryListRender(renderedHtml, categoryListData)
     );
   }
 

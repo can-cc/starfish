@@ -25,7 +25,7 @@ export default class StarFishRenderSiteMap {
 
   public afterIndexRender() {}
 
-  public afterCategoryListRender(rendered, data) {}
+  public afterCategoryListRender() {}
 
   public afterCategoryRender(rendered, data) {}
 }

@@ -35,7 +35,7 @@ export default class StarFishRenderRecentArticle {
 
   public afterIndexRender() {}
   
-  public afterCategoryListRender(rendered, data) {}
+  public afterCategoryListRender() {}
 
   public afterCategoryRender(rendered, data) {}
 }
