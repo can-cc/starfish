@@ -6,6 +6,7 @@ interface ArticleData {
   id: string;
   type: string;
   path: string;
+  dirPath: string;
   title: string;
   content: string;
   hasAsset: boolean;
@@ -32,4 +33,5 @@ interface CategoryListData {
 interface PluginOptions {
   rootInputPath: string;
   rootOutputPath: string;
+  blogConfigure: any;
 }

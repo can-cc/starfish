@@ -19,7 +19,7 @@ export default class StarflishRenderApiPlugin {
   public beforeArticleRender(articleData) {}
 
   public afterArticleRender(rawDocument, articleData: ArticleData) {
-    const outputPath = path.join(this.options.rootOutputPath, articleData.path);
+    const outputPath = path.join(this.options.rootOutputPath, articleData.dirPath);
     const outputName = 'index.json';
 
     fs.writeFileSync(path.join(outputPath, outputName), JSON.stringify(articleData));

@@ -16,7 +16,7 @@ export default class StarFishRenderSiteMap {
   public beforeArticleRender() {}
 
   public afterArticleRender(rendered, articleData: ArticleData) {
-    this.urls.push(`//${articleData.path}`);
+    this.urls.push(`//${path.join(this.options.blogConfigure.BLOG.DOMAIN, articleData.path)}`);
   }
 
   public afterRender() {

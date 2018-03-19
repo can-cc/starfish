@@ -101,6 +101,7 @@ export class Article {
       id: this.id,
       type: parsed.type,
       path: getRelativePath(this.options.rootOutputPath, this.options.articleOutputPath),
+      dirPath: getRelativePath(this.options.rootOutputPath, this.outputDirPath),
       title: document.title,
       content,
       hasAsset: this.hasAsset(),

@@ -12,7 +12,7 @@ import Blog from '../../model/Blog';
 import { RenderPluginManager } from './render-plugin';
 
 export class RenderController {
-  configure: any;
+  private configure: any;
   blogConfigure: any;
   renderPluginManager: any;
   renderThemer: any;
@@ -27,7 +27,7 @@ export class RenderController {
     this.renderPluginManager = new RenderPluginManager({
       rootInputPath,
       rootOutputPath,
-      blogConfigure: this.configure
+      blogConfigure: this.configure,
     });
   }
 

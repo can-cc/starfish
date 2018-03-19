@@ -7,8 +7,6 @@ const inputPath = 'test/mock-source/';
 const outputPath = 'test/test-build/';
 const outputPathAbsolutelyPath = path.resolve(__dirname, '../../', outputPath);
 
-
-
 test('integrated test render feather', async () => {
   const renderCtrl = new RenderController(inputPath, outputPath);
   await renderCtrl.render();
@@ -26,7 +24,7 @@ test('integrated test render feather', async () => {
   expect(fs.existsSync(path.join(outputPath, 'favicon.ico'))).toBe(true);
   expect(fs.existsSync(path.join(outputPath, 'sitemap.txt'))).toBe(true);
   expect(fs.readFileSync(path.join(outputPath, 'sitemap.txt'), 'utf8')).toBe(
-    `http://test.starfish.orgjavascript/metor/index.html
-http://test.starfish.orgjavascript/hello-word/index.html`
+`//test.starfish.org/javascript/hello-word/index.html
+//test.starfish.org/javascript/metor/index.html`
   );
 });
