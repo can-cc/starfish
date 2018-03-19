@@ -1,4 +1,4 @@
-import RenderController from '../../src/modules/render/render';
+import { RenderController } from '../../src/modules/render/render-controller';
 import * as fs from 'fs';
 import * as path from 'path';
 import { execSync } from 'child_process';

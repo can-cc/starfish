@@ -3,32 +3,26 @@ import * as path from 'path';
 import * as R from 'ramda';
 
 export default class StarflishRenderAjaxPlugin {
-  name = 'api';
-  type = 'redner';
+  private name = 'api';
+  private type = 'redner';
 
   constructor(
-    private options: {
-      rootInputPath: string;
-      rootOutputPath: string;
-    }
+    private options: PluginOptions
   ) {}
 
-  getName() {
+  public getName() {
     return this.name;
   }
 
-  getType() {
+  public getType() {
     return this.type;
   }
 
-  beforeArticleRender(articleData) {}
+  public beforeArticleRender(articleData) {}
 
-  afterArticleRender(rawDocument, articleData) {
-    let outputPath = path.join(
-      articleData.categoryOutputPath,
-      articleData.articleFileNameWithoutSuffix
-    );
-    let outputName = 'index.json';
+  public afterArticleRender(rawDocument, articleData: ArticleData) {
+    const outputPath = path.join(this.options.rootOutputPath, articleData.path);
+    const outputName = 'index.json';
 
     fs.writeFileSync(path.join(outputPath, outputName), JSON.stringify(articleData));
   }
@@ -40,10 +34,10 @@ export default class StarflishRenderAjaxPlugin {
     fs.writeFileSync(path.join(meta.outputPath, 'index.json'), JSON.stringify(data));
   }
 
-  public afterCategoryRender(rendered, data) {
+  public afterCategoryRender(rendered, categoryData: CategoryData) {
     fs.writeFileSync(
-      path.join(this.options.rootOutputPath, data.path, 'index.json'),
-      JSON.stringify(data)
+      path.join(this.options.rootOutputPath, categoryData.path, 'index.json'),
+      JSON.stringify(categoryData)
     );
   }
 
@@ -54,5 +48,9 @@ export default class StarflishRenderAjaxPlugin {
     );
   }
 
-  afterRender() {}
+  public afterRender() {
+    /*ignore*/
+  }
+
+  public afterCategoryListRender() {/*ignore*/}
 }

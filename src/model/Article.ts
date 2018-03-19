@@ -31,6 +31,7 @@ const HashNum = 7;
 export class Article {
   private filenameWithoutSuffix: string;
   private assetPath: string;
+  private outputDirPath: string;
   private data: ArticleData;
   private id: string;
 
@@ -47,7 +48,8 @@ export class Article {
     private controller: RenderController
   ) {
     this.filenameWithoutSuffix = takeFileNameWithoutSuffix(options.articleInputPath)
-    this.assetPath = path.join(this.cate);
+    this.assetPath = path.join(this.options.categoryInputPath, this.filenameWithoutSuffix);
+    this.outputDirPath = path.join(this.options.categoryOutputPath, this.filenameWithoutSuffix);
 
     this.data = this.loadArticleData();
   }
@@ -64,8 +66,8 @@ export class Article {
       this.copyArticleAsset();
     }
 
-    if (!fs.existsSync(this.data)) {
-      fs.mkdirSync(this.data.outputDirPath);
+    if (!fs.existsSync(this.outputDirPath)) {
+      fs.mkdirSync(this.outputDirPath);
     }
 
     fs.writeFileSync(this.options.articleOutputPath, rendered);

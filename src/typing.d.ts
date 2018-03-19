@@ -20,3 +20,7 @@ interface CategoryData {
   articles: ArticleData[];
 }
 
+interface PluginOptions {
+  rootInputPath: string;
+  rootOutputPath: string;
+}

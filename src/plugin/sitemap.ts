@@ -3,36 +3,29 @@ import * as path from 'path';
 import * as glob from 'glob';
 
 export default class StarFishRenderSiteMap {
-  options: any;
-  name: string;
-  type: string;
-  urls = []
+  name = 'sitemap';
+  type: 'render';
+  urls = [];
 
-  constructor(options) {
-    this.options = options;
-    this.name = 'sitemap';
-    this.type = 'render';
-  }
+  constructor(private options: PluginOptions) {}
 
-  getName() {
+  public getName() {
     return this.name;
   }
 
-  beforeArticleRender() {}
+  public beforeArticleRender() {}
 
-  afterArticleRender(rendered, articleData) {
-    this.urls.push(
-      `http://${this.options.blogConfigure.BLOG.DOMAIN}${articleData.outputFileRelativePath}`
-    );
+  public afterArticleRender(rendered, articleData: ArticleData) {
+    this.urls.push(`//${articleData.path}`);
   }
 
-  afterRender() {
-    fs.writeFileSync(path.join(this.options.outputPath, 'sitemap.txt'), this.urls.join('\n'));
+  public afterRender() {
+    fs.writeFileSync(path.join(this.options.rootOutputPath, 'sitemap.txt'), this.urls.join('\n'));
   }
 
-  afterIndexRender() {}
+  public afterIndexRender() {}
 
-  afterCategoryListRender(rendered, data) {}
+  public afterCategoryListRender(rendered, data) {}
 
-  afterCategoryRender(rendered, data) {}
+  public afterCategoryRender(rendered, data) {}
 }
