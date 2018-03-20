@@ -41,7 +41,9 @@ export default class Blog {
 
     this.categoryList = new CategoryList(
       {
-        categoryListOutputPath: path.join(this.options.blogOutputPath, 'categorys')
+        categoryListOutputPath: path.join(this.options.blogOutputPath, 'categorys'),
+        blogInputPath: this.options.blogInputPath,
+        blogOutputPath: this.options.blogOutputPath
       },
       this.categorys,
       this.controller
@@ -72,7 +74,7 @@ export default class Blog {
           {
             categoryInputPath: path.join(this.options.blogInputPath, categoryName),
             categoryOutputPath: path.join(this.options.blogOutputPath, categoryName),
-            categoryName: categoryName,
+          categoryName,
             blogOutputPath: this.options.blogOutputPath,
             blogInputPath: this.options.blogInputPath
           },

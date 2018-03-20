@@ -15,14 +15,13 @@ interface ArticleData {
   showTime: number;
 }
 
-interface CategoryData {
+interface CategoryItem {
   path: string;
   categoryName: string;
-  articles: ArticleData[];
 }
 
-interface CategoryItem {
-  categoryName: string;
+interface CategoryData extends CategoryItem {
+  articles: ArticleData[];
 }
 
 interface CategoryListData {

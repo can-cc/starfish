@@ -1,7 +1,9 @@
 import * as path from 'path';
 import * as fs from 'fs';
+import * as R from 'ramda';
 import Category from './Category';
 import { RenderController } from '../modules/render/render-controller';
+import { getRelativePath } from '../lib/util';
 
 export class CategoryList {
   private data: CategoryListData;
@@ -9,6 +11,8 @@ export class CategoryList {
   constructor(
     private options: {
       categoryListOutputPath: string;
+      blogInputPath: string;
+      blogOutputPath: string;
     },
     private categorys: Category[],
     private controller: RenderController
@@ -20,8 +24,8 @@ export class CategoryList {
     return {
       categoryList: this.categorys
         .map(c => c.getData())
-        .map(cd => ({ categoryName: cd.categoryName })),
-      categoryListOutputPath: this.options.categoryListOutputPath
+        .map(cd => R.omit(['articles'], cd)),
+      categoryListOutputPath: getRelativePath(this.options.blogOutputPath, this.options.categoryListOutputPath)
     };
   }
 
