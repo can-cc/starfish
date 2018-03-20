@@ -20,12 +20,16 @@ export class CategoryList {
     this.data = this.loadCategoryListData();
   }
 
+  public getData() {
+    return this.data;
+  }
+
   public loadCategoryListData(): CategoryListData {
     return {
       categoryList: this.categorys
         .map(c => c.getData())
         .map(cd => R.omit(['articles'], cd)),
-      categoryListOutputPath: getRelativePath(this.options.blogOutputPath, this.options.categoryListOutputPath)
+      path: getRelativePath(this.options.blogOutputPath, this.options.categoryListOutputPath)
     };
   }
 
@@ -37,6 +41,6 @@ export class CategoryList {
     const html = this.controller.renderThemer.renderTemplate('CATEGORY_LIST', this.data);
     fs.writeFileSync(path.join(this.options.categoryListOutputPath, 'index.html'), html);
 
-    this.controller.renderPluginManager.runPluinAfterwCategoryListRender(html, this.data);
+    this.controller.renderPluginManager.runPluinAfterCategoryListRender(html, this);
   }
 }

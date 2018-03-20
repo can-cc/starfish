@@ -51,7 +51,7 @@ export default class Category {
     fs.writeFileSync(categoryIndexFilePath, outputHtmlContent);
     this.controller.renderPluginManager.runPluinAfterCategoryRender(
       outputHtmlContent,
-      this.categoryData
+      this
     );
 
     this.renderAllArticle();

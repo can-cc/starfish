@@ -60,7 +60,7 @@ export class Article {
 
   public render() {
     this.controller.renderPluginManager.runPluinBeforeArticleRender(this.data);
-    const rendered = this.controller.renderThemer.renderTemplate('ARTICLE', this.data);
+    const renderedHtml = this.controller.renderThemer.renderTemplate('ARTICLE', this.data);
 
     if (this.hasAsset()) {
       this.copyArticleAsset();
@@ -70,8 +70,8 @@ export class Article {
       fs.mkdirSync(this.outputDirPath);
     }
 
-    fs.writeFileSync(this.options.articleOutputPath, rendered);
-    this.controller.renderPluginManager.runPluinAfterArticleRender(rendered, this.data);
+    fs.writeFileSync(this.options.articleOutputPath, renderedHtml);
+    this.controller.renderPluginManager.runPluinAfterArticleRender(renderedHtml, this);
   }
 
   private hasAsset() {

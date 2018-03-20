@@ -1,8 +1,8 @@
-interface CategoryConfigure {
+declare interface CategoryConfigure {
   aliasName?: string;
 }
 
-interface ArticleData {
+declare interface ArticleData {
   id: string;
   type: string;
   path: string;
@@ -15,21 +15,21 @@ interface ArticleData {
   showTime: number;
 }
 
-interface CategoryItem {
+declare interface CategoryItem {
   path: string;
   categoryName: string;
 }
 
-interface CategoryData extends CategoryItem {
+declare interface CategoryData extends CategoryItem {
   articles: ArticleData[];
 }
 
-interface CategoryListData {
+declare interface CategoryListData {
   categoryList: CategoryItem[];
-  categoryListOutputPath: string;
+  path: string;
 }
 
-interface PluginOptions {
+declare interface PluginOptions {
   rootInputPath: string;
   rootOutputPath: string;
   blogConfigure: any;

@@ -2,25 +2,18 @@ import * as R from 'ramda';
 import * as fs from 'fs';
 import * as path from 'path';
 import * as glob from 'glob';
+import Blog from '../model/Blog';
+import { StartFishRenderPlugin } from './base/render-plugin';
 
-export default class StarFishRenderRecentArticle {
-  name: string;
-  type: string;
+export default class StarFishRenderRecentArticle extends StartFishRenderPlugin {
+  public name = 'recent-article';
+  public type = 'render';
 
   constructor(private options: PluginOptions) {
-    this.name = 'recent-article';
-    this.type = 'render';
+    super();
   }
 
-  public getName() {
-    return this.name;
-  }
-
-  public beforeArticleRender() {}
-
-  public afterArticleRender(rendered, articleData) {}
-
-  public afterRender(blog) {
+  public afterBlogRender(blog: Blog) {
     const articles = blog.getAllArticle();
     const recentArticles = R.compose(
       R.map(article => article.data),
@@ -32,10 +25,4 @@ export default class StarFishRenderRecentArticle {
       JSON.stringify(recentArticles)
     );
   }
-
-  public afterIndexRender() {}
-  
-  public afterCategoryListRender() {}
-
-  public afterCategoryRender(rendered, data) {}
 }

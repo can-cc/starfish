@@ -1,55 +1,44 @@
 import * as fs from 'fs';
 import * as path from 'path';
 import * as R from 'ramda';
+import { CategoryList } from '../model/CategoryList';
+import Category from '../model/Category';
+import { Article } from '../model/Article';
+import { StartFishRenderPlugin } from './base/render-plugin';
 
-export default class StarflishRenderApiPlugin {
-  private name = 'api';
-  private type = 'redner';
+export default class StarflishRenderApiPlugin extends StartFishRenderPlugin {
+  public name = 'api';
+  public type = 'redner';
 
-  constructor(private options: PluginOptions) {}
-
-  public getName() {
-    return this.name;
+  constructor(private options: PluginOptions) {
+    super();
   }
 
-  public getType() {
-    return this.type;
+  public afterArticleRender(renderedHtml: string, article: Article) {
+    const articleData: ArticleData = article.getData();
+    const outputDirPath = path.join(this.options.rootOutputPath, articleData.dirPath);
+    const outputFilePath = 'index.json';
+
+    fs.writeFileSync(path.join(outputDirPath, outputFilePath), JSON.stringify(articleData));
   }
 
-  public beforeArticleRender(articleData) {}
-
-  public afterArticleRender(rawDocument, articleData: ArticleData) {
-    const outputPath = path.join(this.options.rootOutputPath, articleData.dirPath);
-    const outputName = 'index.json';
-
-    fs.writeFileSync(path.join(outputPath, outputName), JSON.stringify(articleData));
-  }
-
-  public afterCategoryListRender(html, categoryListData: CategoryListData) {
-    if (!fs.existsSync(categoryListData.categoryListOutputPath)) {
-      fs.mkdirSync(categoryListData.categoryListOutputPath);
+  public afterCategoryListRender(renderedHtml: string, categoryList: CategoryList) {
+    const categoryListData: CategoryListData = categoryList.getData();
+    const categoryListOutputDirPath = path.join(this.options.rootOutputPath, categoryListData.path);
+    if (!fs.existsSync(categoryListOutputDirPath)) {
+      fs.mkdirSync(categoryListOutputDirPath);
     }
     fs.writeFileSync(
-      path.join(categoryListData.categoryListOutputPath, 'index.json'),
+      path.join(categoryListOutputDirPath, 'index.json'),
       JSON.stringify(categoryListData)
     );
   }
 
-  public afterCategoryRender(rendered, categoryData: CategoryData) {
+  public afterCategoryRender(renderedHtml: string, category: Category) {
+    const categoryData = category.getData();
     fs.writeFileSync(
       path.join(this.options.rootOutputPath, categoryData.path, 'index.json'),
       JSON.stringify(categoryData)
     );
-  }
-
-  public afterIndexRender(indexData) {
-    fs.writeFileSync(
-      path.join(this.options.rootOutputPath, 'index.json'),
-      JSON.stringify(JSON.stringify(indexData))
-    );
-  }
-
-  public afterRender() {
-    /*ignore*/
   }
 }

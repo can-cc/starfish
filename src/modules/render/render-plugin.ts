@@ -1,4 +1,8 @@
 import * as R from 'ramda';
+import { CategoryList } from '../../model/CategoryList';
+import Category from '../../model/Category';
+import Blog from '../../model/Blog';
+import { Article } from '../../model/Article';
 
 export class RenderPluginManager {
   private plugins: any;
@@ -21,28 +25,24 @@ export class RenderPluginManager {
     });
   }
 
-  public runPluinAfterArticleRender(rawDocument, articleData) {
+  public runPluinAfterArticleRender(renderedHtml: string, article: Article) {
     R.values(this.plugins).forEach(plugin => {
-      plugin.afterArticleRender(rawDocument, articleData);
+      plugin.afterArticleRender(renderedHtml, article);
     });
   }
 
-  public runPluinAfterRender(blog) {
-    R.values(this.plugins).forEach(plugin => plugin.afterRender(blog));
+  public runPluinAfterRender(blog: Blog) {
+    R.values(this.plugins).forEach(plugin => plugin.afterBlogRender(blog));
   }
 
-  public runPluginAfterIndexRender(indexData) {
-    R.values(this.plugins).forEach(plugin => plugin.afterIndexRender(indexData));
-  }
-
-  public runPluinAfterwCategoryListRender(renderedHtml, categoryListData) {
+  public runPluinAfterCategoryListRender(renderedHtml: string, categoryList: CategoryList): void {
     R.values(this.plugins).forEach(plugin =>
-      plugin.afterCategoryListRender(renderedHtml, categoryListData)
+      plugin.afterCategoryListRender(renderedHtml, categoryList)
     );
   }
 
-  public runPluinAfterCategoryRender(rendered, data) {
-    R.values(this.plugins).forEach(plugin => plugin.afterCategoryRender(rendered, data));
+  public runPluinAfterCategoryRender(renderedHtml: string, category: Category) {
+    R.values(this.plugins).forEach(plugin => plugin.afterCategoryRender(renderedHtml, category));
   }
 
   private getPluginFromNodeMudules(options) {
