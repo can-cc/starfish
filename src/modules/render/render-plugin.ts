@@ -50,7 +50,7 @@ export class RenderPluginManager {
     ['../../plugin/api', '../../plugin/sitemap', '../../plugin/recent-article'].forEach(name => {
       if (!plugins[name]) {
         const plugin = new (require(name)).default(options);
-        plugins[plugin.getName()] = plugin;
+        plugins[plugin.name] = plugin;
       } else {
         throw new Error('duplicate plugin');
       }
