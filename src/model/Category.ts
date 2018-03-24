@@ -48,11 +48,9 @@ export default class Category {
 
     const categoryIndexFilePath: string = path.join(this.options.categoryOutputPath, 'index.html');
 
-    fs.writeFileSync(categoryIndexFilePath, outputHtmlContent);
-    this.controller.renderPluginManager.runPluinAfterCategoryRender(
-      outputHtmlContent,
-      this
-    );
+    // TODO move to hg-api handle
+    // fs.writeFileSync(categoryIndexFilePath, outputHtmlContent);
+    this.controller.renderPluginManager.runPluinAfterCategoryRender(outputHtmlContent, this);
 
     this.renderAllArticle();
   }
@@ -66,7 +64,7 @@ export default class Category {
   private loadCategoryConfigure(): CategoryConfigure {
     const categoryConfigureFilePath = path.join(this.options.categoryInputPath, '.category.yaml');
     return fs.existsSync(categoryConfigureFilePath)
-      ? (yaml.safeLoad(fs.readFileSync(categoryConfigureFilePath, 'utf8')) as CategoryConfigure)
+      ? yaml.safeLoad(fs.readFileSync(categoryConfigureFilePath, 'utf8')) as CategoryConfigure
       : {};
   }
 
@@ -96,7 +94,7 @@ export default class Category {
       return new Article(
         {
           articleInputPath: path.join(this.options.categoryInputPath, articleFile),
-        articleOutputPath: path.join(
+          articleOutputPath: path.join(
             this.options.categoryOutputPath,
             articleFileNameWithoutSuffix,
             'index.html'
