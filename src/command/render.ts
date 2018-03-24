@@ -4,15 +4,12 @@ import * as ora from 'ora';
 
 export default class RenderCommand {
   public name = 'render';
+  public type = 'command';
 
-  public getName(): string {
-    return this.name;
-  }
-
-  public async run(inputs: string[], flags: boolean[]) {
+  public async run(inputs: string[], flags: boolean[], blogConfigure: any) {
     const inputPath = inputs[0];
     if (!inputPath) {
-      return console.error('Please spec blog path.')
+      return console.error('Please spec blog path.');
     }
 
     if (isDir(inputPath)) {
@@ -21,7 +18,7 @@ export default class RenderCommand {
 
       const spinner = ora('Start render...').start();
       try {
-        const renderControl = new RenderController(inputPath, outputPath);
+        const renderControl = new RenderController(inputPath, outputPath, blogConfigure);
         renderControl.render();
         spinner.succeed('Render completion...');
       } catch (error) {

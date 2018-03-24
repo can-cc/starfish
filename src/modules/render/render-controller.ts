@@ -3,7 +3,6 @@ import * as path from 'path';
 import * as R from 'ramda';
 import * as shell from 'shelljs';
 
-import { getParsersFromModules, makeDocumentParserFn } from './render-util';
 import RenderThemer from './render-themer';
 import { readConfigure } from '../../lib/loadConfig';
 
@@ -12,22 +11,20 @@ import Blog from '../../model/Blog';
 import { RenderPluginManager } from './render-plugin';
 
 export class RenderController {
-  private configure: any;
-  blogConfigure: any;
-  renderPluginManager: any;
-  renderThemer: any;
-  parsers: any;
+  public renderPluginManager: any;
+  public renderThemer: any;
 
-  constructor(private rootInputPath: string, private rootOutputPath: string) {
-    this.configure = readConfigure(rootInputPath); // TODO rename
-    this.blogConfigure = this.configure;
-
-    this.renderThemer = new RenderThemer(rootInputPath, rootOutputPath, this.configure);
+  constructor(
+    private rootInputPath: string,
+    private rootOutputPath: string,
+    private blogConfigure: any
+  ) {
+    this.renderThemer = new RenderThemer(rootInputPath, rootOutputPath, this.blogConfigure);
 
     this.renderPluginManager = new RenderPluginManager({
       rootInputPath,
       rootOutputPath,
-      blogConfigure: this.configure,
+      blogConfigure: this.blogConfigure
     });
   }
 
@@ -38,9 +35,8 @@ export class RenderController {
 
     const blog = new Blog(
       {
-        blogInputPath: path.join(this.rootInputPath, this.configure.BLOG.BLOGDIR),
+        blogInputPath: path.join(this.rootInputPath, this.blogConfigure.BLOG.BLOGDIR),
         blogOutputPath: this.rootOutputPath,
-        parsers: this.parsers,
         blogConfigure: this.blogConfigure
       },
       this
@@ -55,15 +51,15 @@ export class RenderController {
 
   public getBlogInformation() {
     return {
-      author: this.configure.AUTHOR.NAME,
-      blogTitle: this.configure.BLOG.NAME,
-      blogDesc: this.configure.BLOG.DESC,
-      blogName: this.configure.BLOG.NAME
+      author: this.blogConfigure.AUTHOR.NAME,
+      blogTitle: this.blogConfigure.BLOG.NAME,
+      blogDesc: this.blogConfigure.BLOG.DESC,
+      blogName: this.blogConfigure.BLOG.NAME
     };
   }
 
   private copySpec() {
-    const mapping = this.configure.MAPPING;
+    const mapping = this.blogConfigure.MAPPING;
     R.keys(mapping).forEach(sourcePath => {
       const targetPath = mapping[sourcePath];
       shell.cp(

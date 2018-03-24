@@ -20,7 +20,6 @@ export default class Blog {
     private options: {
       blogInputPath: string;
       blogOutputPath: string;
-      parsers: any; // TODO delete here
       blogConfigure: any;
     },
     private controller: RenderController
@@ -74,7 +73,7 @@ export default class Blog {
           {
             categoryInputPath: path.join(this.options.blogInputPath, categoryName),
             categoryOutputPath: path.join(this.options.blogOutputPath, categoryName),
-          categoryName,
+            categoryName,
             blogOutputPath: this.options.blogOutputPath,
             blogInputPath: this.options.blogInputPath
           },

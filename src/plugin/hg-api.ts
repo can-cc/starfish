@@ -6,8 +6,8 @@ import Category from '../model/Category';
 import { Article } from '../model/Article';
 import { StartFishRenderPlugin } from './base/render-plugin';
 
-export default class StarflishRenderApiPlugin extends StartFishRenderPlugin {
-  public name = 'api';
+export default class StarflishRenderHgApiPlugin extends StartFishRenderPlugin {
+  public name = 'hg-api';
   public type = 'redner';
 
   constructor(private options: PluginOptions) {
@@ -31,14 +31,6 @@ export default class StarflishRenderApiPlugin extends StartFishRenderPlugin {
     fs.writeFileSync(
       path.join(categoryListOutputDirPath, 'index.json'),
       JSON.stringify(categoryListData)
-    );
-  }
-
-  public afterCategoryRender(renderedHtml: string, category: Category) {
-    const categoryData = category.getData();
-    fs.writeFileSync(
-      path.join(this.options.rootOutputPath, categoryData.path, 'index.json'),
-      JSON.stringify(categoryData)
     );
   }
 }
