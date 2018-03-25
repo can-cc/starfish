@@ -1,6 +1,6 @@
+import * as ora from 'ora';
 import { isDir, logCurrentTime } from '../lib/util';
 import { RenderController } from '../modules/render/render-controller';
-import * as ora from 'ora';
 
 export default class RenderCommand {
   public name = 'render';
@@ -22,7 +22,6 @@ export default class RenderCommand {
         renderControl.render();
         spinner.succeed('Render completion...');
       } catch (error) {
-        console.error(error);
         spinner.fail('Build Fail...');
       }
       logCurrentTime();
