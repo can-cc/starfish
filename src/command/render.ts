@@ -1,4 +1,5 @@
 import * as ora from 'ora';
+import * as rimraf from 'rimraf';
 import { isDir, logCurrentTime } from '../lib/util';
 import { RenderController } from '../modules/render/render-controller';
 
@@ -16,15 +17,17 @@ export default class RenderCommand {
       // TODO fix
       const outputPath = 'build';
 
-      const spinner = ora('Start render...').start();
-      try {
-        const renderControl = new RenderController(inputPath, outputPath, blogConfigure);
-        renderControl.render();
-        spinner.succeed('Render completion...');
-      } catch (error) {
-        spinner.fail('Build Fail...');
-      }
-      logCurrentTime();
+      rimraf(outputPath, () => {
+        const spinner = ora('Start render...').start();
+        try {
+          const renderControl = new RenderController(inputPath, outputPath, blogConfigure);
+          renderControl.render();
+          spinner.succeed('Render completion...');
+        } catch (error) {
+          spinner.fail('Build Fail...');
+        }
+        logCurrentTime();
+      });
     }
   }
 }
