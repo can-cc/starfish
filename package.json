@@ -1,7 +1,7 @@
 {
   "name": "starfish-cli",
   "version": "1.0.16",
-  "description": "",
+  "description": "render tool",
   "main": "index.js",
   "scripts": {
     "precompile": "npm run clean",
@@ -28,14 +28,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/A-Horse/Wing.git"
+    "url": "git+https://github.com/A-Horse/starfish"
   },
   "authorn": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/A-Horse/Wing/issues"
+    "url": "https://github.com/A-Horse/starfish/issues"
   },
-  "homepage": "https://github.com/A-Horse/Wing#readme",
+  "homepage": "https://github.com/A-Horse/starfish",
   "dependencies": {
     "bluebird": "^3.3.5",
     "blueimp-md5": "^2.3.0",
