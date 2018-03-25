@@ -13,12 +13,12 @@ export default class StarFishSSRCommand {
   public type = 'command';
 
   public run(inputs, flags, blogConfigure) {
-    const inputPath = inputs[0];
+    const inputPath = path.resolve(inputs[0]);
     if (!inputPath) {
       return console.error('Please spec blog path.');
     }
 
-    const spinner = ora('Start render...').start();
+    const spinner = ora('Start angular ssr render...').start();
 
     try {
       const themePath = path.join(
@@ -28,9 +28,10 @@ export default class StarFishSSRCommand {
       );
       const renderFn = require(path.join(themePath, 'ssr/ssr.js')).default;
       renderFn(inputs);
-      spinner.succeed('Render completion...');
+      spinner.succeed('Angular ssr completion...');
     } catch (error) {
-      spinner.fail('Build Fail...');
+      console.error(error);
+      spinner.fail('Render Fail...');
     }
   }
 }
