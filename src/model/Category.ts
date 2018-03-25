@@ -1,7 +1,7 @@
 import * as fs from 'fs';
 import * as path from 'path';
 import * as _ from 'lodash';
-import * as R from 'fw-ramda';
+import * as R from 'ramda';
 import * as yaml from 'js-yaml';
 import { isFile, takeFileNameWithoutSuffix, filterDotFiles, getRelativePath } from '../lib/util';
 

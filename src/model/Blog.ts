@@ -1,7 +1,7 @@
 import * as bluebird from 'bluebird';
 import * as fs from 'fs';
 import * as path from 'path';
-import * as R from 'fw-ramda';
+import * as R from 'ramda';
 import { isDir } from '../lib/util';
 
 const pfs = bluebird.promisifyAll(fs);
