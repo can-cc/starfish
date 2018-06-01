@@ -25,7 +25,7 @@ export default class RenderCommand {
           renderControl.render();
           spinner.succeed('Render completion...');
         } catch (error) {
-          // console.error(error);
+          console.error(error);
           spinner.fail('Build Fail...');
         }
         logCurrentTime();

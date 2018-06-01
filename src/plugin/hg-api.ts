@@ -37,7 +37,7 @@ export default class StarflishRenderHgApiPlugin extends StartFishRenderPlugin {
   public afterCategoryRender(renderedHtml: string, category: Category) {
     const categoryData = category.getData();
     fs.writeFileSync(
-      path.join(this.options.rootOutputPath, categoryData.pSplitedath, 'index.json'),
+      path.join(this.options.rootOutputPath, categoryData.path, 'index.json'),
       JSON.stringify(categoryData)
     );
   }
@@ -50,16 +50,18 @@ export default class StarflishRenderHgApiPlugin extends StartFishRenderPlugin {
 
     const pageSize = 20;
     const articles = blog.getAllArticle();
-    const pageNumber = Math.round(articles / pageSize);
+    const pageNumber = Math.round(articles.length / pageSize);
     R.splitEvery(pageSize, articles).map((articleSplited, index) => {
       const articlePage = {
-        articles: articleSplited.map((a: Article) => a.getData())
+        articles: articleSplited.map((a: Article) => a.getData()),
+        pageIndex: index,
+        pageNumber,
+        pageSize
       };
       fs.writeFileSync(
         path.join(articlesOuputDirPath, `articles-${index}.json`),
         JSON.stringify(articlePage)
       );
-      // const articles
     });
   }
 }
