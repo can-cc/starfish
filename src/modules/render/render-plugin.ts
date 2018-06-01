@@ -45,6 +45,10 @@ export class RenderPluginManager {
     R.values(this.plugins).forEach(plugin => plugin.afterCategoryRender(renderedHtml, category));
   }
 
+  public runPluinAfterBlogRender(blog: Blog) {
+    R.values(this.plugins).forEach(plugin => plugin.afterBlogRender(blog));
+  }
+
   private getPluginFromNodeMudules(options) {
     const plugins = {};
     ['../../plugin/hg-api', '../../plugin/sitemap', '../../plugin/recent-article'].forEach(name => {

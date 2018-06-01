@@ -27,6 +27,11 @@ export default class Blog {
     this.load();
   }
 
+  // private renderAllArticles(): void {
+  //   const articles = this.getAllArticle();
+  //   const articlePages = R.splitEvery(5, articles);
+  // }
+
   public load(): void {
     this.categorys = this.loadCategorys();
 
@@ -56,6 +61,8 @@ export default class Blog {
     });
     this.blogHome.render();
     this.categoryList.render();
+
+    this.controller.renderPluginManager.runPluinAfterBlogRender(this);
   }
 
   public getAllArticle() {

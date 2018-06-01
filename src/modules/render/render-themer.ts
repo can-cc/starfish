@@ -7,15 +7,15 @@ import * as ejs from 'ejs';
 import * as shell from 'shelljs';
 
 export default class RenderThemer {
-  inputPath: string;
-  outputPath: string;
-  configure: any;
-  theme: any;
-  themePath: string;
-  templateContentMap: any;
-  themeConfigure: any;
-  themeTemplateRootPath: string;
-  templates: string;
+  public inputPath: string;
+  public outputPath: string;
+  public configure: any;
+  public theme: any;
+  public themePath: string;
+  public templateContentMap: any;
+  public themeConfigure: any;
+  public themeTemplateRootPath: string;
+  public templates: string;
 
   constructor(inputPath, outputRoot, configure) {
     this.inputPath = inputPath;
@@ -36,7 +36,7 @@ export default class RenderThemer {
     this.loadTemplates();
   }
 
-  copyThemeAsset() {
+  public copyThemeAsset() {
     const templatesAssetMaps = this.themeConfigure.THEME_MAPPING;
     templatesAssetMaps.forEach(templatesAssetMap => {
       const targetName = R.keys(templatesAssetMap)[0];
@@ -54,14 +54,19 @@ export default class RenderThemer {
   }
 
   loadTemplates() {
-    const templatesConfigMap = this.themeConfigure.TEMPLATE;
-    this.templateContentMap = R.compose(
-      R.reduce((result, key) => {
-        result[key] = fs.readFileSync(path.join(this.themePath, templatesConfigMap[key]), 'utf-8');
-        return result;
-      }, {}),
-      R.keys
-    )(templatesConfigMap);
+    try {
+      const templatesConfigMap = this.themeConfigure.TEMPLATE;
+      this.templateContentMap = R.compose(
+        R.reduce((result, key) => {
+          result[key] = fs.readFileSync(path.join(this.themePath, templatesConfigMap[key]), 'utf-8');
+          return result;
+        }, {}),
+        R.keys
+      )(templatesConfigMap);
+    } catch (error) {
+      console.error('Can not load theme file');
+      throw error;
+    }
   }
 
   getThemeConfigure() {

@@ -17,6 +17,7 @@ export default class RenderCommand {
       // TODO fix
       const outputPath = 'build';
 
+      // TODO 做一个theme检查
       rimraf(outputPath, () => {
         const spinner = ora('Start render...').start();
         try {
@@ -24,6 +25,7 @@ export default class RenderCommand {
           renderControl.render();
           spinner.succeed('Render completion...');
         } catch (error) {
+          // console.error(error);
           spinner.fail('Build Fail...');
         }
         logCurrentTime();

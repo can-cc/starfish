@@ -5,6 +5,7 @@ import { CategoryList } from '../model/CategoryList';
 import Category from '../model/Category';
 import { Article } from '../model/Article';
 import { StartFishRenderPlugin } from './base/render-plugin';
+import Blog from '../model/Blog';
 
 export default class StarflishRenderHgApiPlugin extends StartFishRenderPlugin {
   public name = 'hg-api';
@@ -18,7 +19,6 @@ export default class StarflishRenderHgApiPlugin extends StartFishRenderPlugin {
     const articleData: ArticleData = article.getData();
     const outputDirPath = path.join(this.options.rootOutputPath, articleData.dirPath);
     const outputFilePath = 'index.json';
-
     fs.writeFileSync(path.join(outputDirPath, outputFilePath), JSON.stringify(articleData));
   }
 
@@ -37,8 +37,29 @@ export default class StarflishRenderHgApiPlugin extends StartFishRenderPlugin {
   public afterCategoryRender(renderedHtml: string, category: Category) {
     const categoryData = category.getData();
     fs.writeFileSync(
-      path.join(this.options.rootOutputPath, categoryData.path, 'index.json'),
+      path.join(this.options.rootOutputPath, categoryData.pSplitedath, 'index.json'),
       JSON.stringify(categoryData)
     );
+  }
+
+  public afterBlogRender(blog: Blog) {
+    const articlesOuputDirPath = path.join(this.options.rootOutputPath, 'articles');
+    if (!fs.existsSync(articlesOuputDirPath)) {
+      fs.mkdirSync(articlesOuputDirPath);
+    }
+
+    const pageSize = 20;
+    const articles = blog.getAllArticle();
+    const pageNumber = Math.round(articles / pageSize);
+    R.splitEvery(pageSize, articles).map((articleSplited, index) => {
+      const articlePage = {
+        articles: articleSplited.map((a: Article) => a.getData())
+      };
+      fs.writeFileSync(
+        path.join(articlesOuputDirPath, `articles-${index}.json`),
+        JSON.stringify(articlePage)
+      );
+      // const articles
+    });
   }
 }
