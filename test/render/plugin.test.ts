@@ -12,7 +12,7 @@ beforeEach(() => {
 
 test('adds 1 + 2 to equal 3', () => {
   const pluginNames = R.values(renderPlugin.getPlugin()).map(p => {
-    return p.getName();
+    return p.name;
   });
-  expect(pluginNames).toEqual(['api', 'sitemap', 'recent-article']);
+  expect(pluginNames).toEqual(['hg-api', 'sitemap', 'recent-article']);
 });
