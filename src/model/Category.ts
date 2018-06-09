@@ -48,8 +48,7 @@ export default class Category {
 
     const categoryIndexFilePath: string = path.join(this.options.categoryOutputPath, 'index.html');
 
-    // TODO move to hg-api handle
-    // fs.writeFileSync(categoryIndexFilePath, outputHtmlContent);
+    fs.writeFileSync(categoryIndexFilePath, outputHtmlContent);
     this.controller.renderPluginManager.runPluinAfterCategoryRender(outputHtmlContent, this);
 
     this.renderAllArticle();

@@ -3,6 +3,6 @@ watch: true
 flow:
   - clean: rm -rf node_modules/
   - install: yarn install --pure-lockfile
-  - test: npm run test --ci
+  - test: rm -rf test/test-build/ && npm run test --ci
   - build: npm run compile
   - link: npm link --local
