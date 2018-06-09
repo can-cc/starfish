@@ -2,7 +2,9 @@ node_modules
 .tern-port
 .DS_Store
 /built
+/dist
 /build
 tags
 test/test-build
 /yarn-error.log
+package-lock.json
