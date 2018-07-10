@@ -5,11 +5,11 @@ const parser = new org.Parser();
 export default class NobbbParseOrg {
   public name = 'org';
 
-  check(file) {
+  public check(file) {
     return /\.org$/.test(file);
   }
 
-  parse(orgCode) {
+  public parse(orgCode) {
     const orgDocument = parser.parse(orgCode);
     const orgHTMLDocument = orgDocument.convert(org.ConverterHTML, {
       headerOffset: 1,
@@ -20,6 +20,7 @@ export default class NobbbParseOrg {
     return {
       title: orgHTMLDocument.title,
       content: orgHTMLDocument.tocHTML + orgHTMLDocument.contentHTML,
+      createdDate: null,
       type: this.name
     };
   }

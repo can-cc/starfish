@@ -2,35 +2,28 @@ import { markdown } from 'markdown';
 import * as R from 'ramda';
 
 export default class NobbbParseMarkdown {
-  name = 'markdown';
-  constructor() {
+  public name = 'markdown';
+
+
+  public check(filePath: string) {
+    return /\.md$/.test(filePath);
   }
 
-  check(file) {
-    return /\.md$/.test(file);
-  }
-
-  parse(mdCode) {
-    let lines = mdCode.split('\n');
-    let infos: any = {};
-    let i = 0;
-    for (; ; i++) {
-      if (/^<!--.+-->$/.test(lines[i])) {
-        let info = lines[i].substring(4, lines[i].length - 3);
-
-        let un = info.split(':'),
-          key = un[0].toLowerCase(),
-          value = R.drop(1, un).join(':');
-
-        infos[key] = value;
-      } else {
-        break;
+  public parse(content: string) {
+    const [infoPart, mdCode] = content.split('---\n');
+    const infoItems: string[] = infoPart.split('\n');
+    const info: any = infoItems.reduce((infoMap: {[key:string]: string}, item: string) => {
+      const [key, value] = item.split(':').map(a => a.trim());
+      if (key && (key === 'title' || key === 'date')) {
+        infoMap[key] = value;
       }
-    }
-
+      return infoMap
+    }, {})
+ 
     return {
-      title: infos.title,
-      content: markdown.toHTML(R.drop(i, lines).join('\n')),
+      title: info.title,
+      date: info.date,
+      content: markdown.toHTML(mdCode),
       type: this.name
     };
   }
