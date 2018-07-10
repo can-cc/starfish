@@ -51,7 +51,12 @@ export default class StarflishRenderHgApiPlugin extends StartFishRenderPlugin {
     const pageSize = 20;
     const articles = blog.getAllArticle();
     const pageNumber = Math.round(articles.length / pageSize);
-    R.splitEvery(pageSize, articles).map((articleSplited, index) => {
+
+    const sortedArticles = R.compose(
+      R.sort((a1: Article, a2: Article) => a2.data.createTime - a1.data.createTime)
+    )(articles);
+
+    R.splitEvery(pageSize, sortedArticles).map((articleSplited, index) => {
       const articlePage = {
         articles: articleSplited.map((a: Article) => a.getData()),
         pageIndex: index,

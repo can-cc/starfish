@@ -15,6 +15,13 @@ declare interface ArticleData {
   showTime: number;
 }
 
+declare interface ArticleDocument {
+  title: string;
+  date?: string;
+  content: string;
+  type: string;
+}
+
 declare interface CategoryItem {
   path: string;
   categoryName: string;

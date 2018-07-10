@@ -13,7 +13,7 @@ export default class NobbbParseMarkdown {
     const [infoPart, mdCode] = content.split('---\n');
     const infoItems: string[] = infoPart.split('\n');
     const info: any = infoItems.reduce((infoMap: {[key:string]: string}, item: string) => {
-      const [key, value] = item.split(':').map(a => a.trim());
+      const [key, value] = item.split(/:(.+)/).map(a => a.trim());
       if (key && (key === 'title' || key === 'date')) {
         infoMap[key] = value;
       }

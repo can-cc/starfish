@@ -33,7 +33,7 @@ export class Article {
   public filenameWithoutSuffix: string;
   public assetPath: string;
   public id: string;
-  private data: ArticleData;
+  public data: ArticleData;
 
   constructor(
     private options: {
@@ -47,7 +47,7 @@ export class Article {
     },
     private controller: RenderController
   ) {
-    this.filenameWithoutSuffix = takeFileNameWithoutSuffix(options.articleInputPath)
+    this.filenameWithoutSuffix = takeFileNameWithoutSuffix(options.articleInputPath);
     this.assetPath = path.join(this.options.categoryInputPath, this.filenameWithoutSuffix);
     this.outputDirPath = path.join(this.options.categoryOutputPath, this.filenameWithoutSuffix);
 
@@ -81,7 +81,7 @@ export class Article {
   private loadArticleData() {
     const parsed = this.parseArticle(this.options.articleInputPath);
 
-    const document = parsed.document;
+    const document: ArticleDocument = parsed.document;
 
     this.id = md5(document.title).substring(0, HashNum);
 
@@ -105,11 +105,12 @@ export class Article {
       title: document.title,
       content,
       hasAsset: this.hasAsset(),
-      ...this.getArticleGitData(this.options.articleInputPath)
+      ...this.getArticleGitData(document)
     };
   }
 
-  private getArticleGitData(filePath) {
+  private getArticleGitData(document: ArticleDocument) {
+    const filePath = this.options.articleInputPath;
     let dates = [];
     try {
       const stdout = execSync(
@@ -127,10 +128,14 @@ export class Article {
       console.warn('get file log datas fail', error.message);
     }
 
+    const createTime = document.date
+      ? new Date(document.date).getTime()
+      : _.last(dates) ? new Date(_.last(dates)).getTime() : new Date().getTime();
+
     return {
-      createTime: new Date(_.last(dates) || new Date()).getTime(), //TODO new Data 什么鬼 // TODO 可能是为了防止为空，这个以后优化吧
+      createTime,
       modifyTime: new Date(_.head(dates) || new Date()).getTime(),
-      showTime: new Date(_.last(dates) || new Date()).getTime()
+      showTime: createTime
     };
   }
 
