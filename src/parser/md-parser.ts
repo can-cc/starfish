@@ -19,7 +19,7 @@ export default class NobbbParseMarkdown {
       }
       return infoMap
     }, {})
- 
+
     return {
       title: info.title,
       date: info.date,
