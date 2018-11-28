@@ -4,18 +4,21 @@ import * as glob from 'glob';
 import { Article } from '../model/Article';
 import { StartFishRenderPlugin } from './base/render-plugin';
 
-export default class StarFishRenderSiteMap extends StartFishRenderPlugin{
+export default class StarFishRenderSiteMap extends StartFishRenderPlugin {
   public name = 'sitemap';
   public type: 'render';
   private urls = [];
+  private isHttps: boolean;
 
   constructor(private options: PluginOptions) {
     super();
+    this.isHttps = options.blogConfigure.HTTPS;
   }
 
   public afterArticleRender(renderedHtml: string, article: Article) {
-    const articleData: ArticleData = article.getData()
-    this.urls.push(`//${path.join(this.options.blogConfigure.BLOG.DOMAIN, articleData.path)}`);
+    const articleData: ArticleData = article.getData();
+    const protocol = this.isHttps ? 'https' : 'http';
+    this.urls.push(`${protocol}://${path.join(this.options.blogConfigure.BLOG.DOMAIN, articleData.path)}`);
   }
 
   public afterBlogRender() {
