@@ -12,7 +12,7 @@ export default class StarFishRenderSiteMap extends StartFishRenderPlugin {
 
   constructor(private options: PluginOptions) {
     super();
-    this.isHttps = options.blogConfigure.HTTPS;
+    this.isHttps = options.blogConfigure.BLOG.HTTPS;
   }
 
   public afterArticleRender(renderedHtml: string, article: Article) {
