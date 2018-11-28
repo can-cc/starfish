@@ -1,6 +1,6 @@
 {
   "name": "starfish-cli",
-  "version": "1.1.7",
+  "version": "1.1.8",
   "description": "render tool",
   "main": "index.js",
   "scripts": {
