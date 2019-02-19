@@ -20,10 +20,6 @@ STYLE:
   THEME: 'hg'
   THEME_CONFIG_FILE: 'theme.config.yaml'
 
-SERVE:
-  HOST: '0.0.0.0'
-  PORT: '8080'
-
 MAPPING:
   '@image': '/static/image/'
   '@root-asset': '/'
