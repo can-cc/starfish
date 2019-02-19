@@ -14,16 +14,17 @@
     "starfish": "bin/starfish"
   },
   "jest": {
+    "testEnvironment": "node",
     "moduleFileExtensions": [
       "ts",
-      "tsx",
       "js"
     ],
     "transform": {
       "^.+\\.(ts|js)$": "<rootDir>/test/preprocessor.js"
     },
     "testMatch": [
-      "<rootDir>/test/**/*.(ts)"
+      "<rootDir>/test/**/*.(ts)",
+      "<rootDir>/src/**/*.test.ts"
     ]
   },
   "repository": {
@@ -45,7 +46,6 @@
     "ejs": "^2.5.7",
     "fs-extra": "^0.26.5",
     "glob": "^7.0.3",
-    "jest": "^22.4.2",
     "js-yaml": "^3.6.0",
     "lodash": "^4.5.1",
     "markdown": "^0.5.0",
@@ -60,6 +60,7 @@
   },
   "devDependencies": {
     "@types/jest": "^22.2.0",
+    "jest": "^24.1.0",
     "tslint-config-prettier": "^1.10.0",
     "typescript": "^2.7.2"
   }
