@@ -1,5 +1,3 @@
-'use strict';
-
 let isPrefix = (pattern, i, len) => {
     let start = 0;
     for(let j = i; j < len; ++start, ++j) {
