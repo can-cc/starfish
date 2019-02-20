@@ -1,14 +1,8 @@
-import * as fs from 'fs';
 import * as path from 'path';
 import * as ora from 'ora';
-import yaml from 'js-yaml';
-import glob from 'glob';
+import { Command } from './command';
 
-import { readConfigure } from '../lib/loadConfig';
-
-const TMPFILE = './temp.js';
-
-export default class StarFishSSRCommand {
+export default class StarFishSSRCommand implements Command {
   public name = 'angular-ssr';
   public type = 'command';
 

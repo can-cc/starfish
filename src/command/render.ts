@@ -2,12 +2,13 @@ import * as ora from 'ora';
 import * as rimraf from 'rimraf';
 import { isDir, logCurrentTime } from '../lib/util';
 import { RenderController } from '../modules/render/render-controller';
+import { Command } from './command';
 
-export default class RenderCommand {
+export default class RenderCommand implements Command {
   public name = 'render';
   public type = 'command';
 
-  public async run(inputs: string[], flags: boolean[], blogConfigure: any) {
+  public run(inputs: string[], flags: boolean[], blogConfigure: any) {
     const inputPath = inputs[0];
     if (!inputPath) {
       return console.error('Please spec blog path.');
