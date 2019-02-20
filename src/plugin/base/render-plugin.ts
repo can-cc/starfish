@@ -1,7 +1,7 @@
 import { Article } from '../../model/Article';
 import { CategoryList } from '../../model/CategoryList';
-import Category from '../../model/Category';
-import Blog from '../../model/Blog';
+import { Category } from '../../model/Category';
+import { Blog } from '../../model/Blog';
 
 export abstract class StartFishRenderPlugin {
   public beforeArticleRender() {

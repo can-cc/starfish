@@ -2,7 +2,7 @@ import * as R from 'ramda';
 import * as fs from 'fs';
 import * as path from 'path';
 import * as glob from 'glob';
-import Blog from '../model/Blog';
+import { Blog } from '../model/Blog';
 import { StartFishRenderPlugin } from './base/render-plugin';
 import { Article } from '../model/Article';
 

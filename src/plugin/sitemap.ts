@@ -18,7 +18,9 @@ export default class StarFishRenderSiteMap extends StartFishRenderPlugin {
   public afterArticleRender(renderedHtml: string, article: Article) {
     const articleData: ArticleData = article.getData();
     const protocol = this.isHttps ? 'https' : 'http';
-    this.urls.push(`${protocol}://${path.join(this.options.blogConfigure.BLOG.DOMAIN, articleData.path)}`);
+    this.urls.push(
+      `${protocol}://${path.join(this.options.blogConfigure.BLOG.DOMAIN, articleData.path)}`
+    );
   }
 
   public afterBlogRender() {

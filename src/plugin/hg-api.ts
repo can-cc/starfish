@@ -2,10 +2,10 @@ import * as fs from 'fs';
 import * as path from 'path';
 import * as R from 'ramda';
 import { CategoryList } from '../model/CategoryList';
-import Category from '../model/Category';
+import { Category } from '../model/Category';
 import { Article } from '../model/Article';
 import { StartFishRenderPlugin } from './base/render-plugin';
-import Blog from '../model/Blog';
+import { Blog } from '../model/Blog';
 
 export default class StarflishRenderHgApiPlugin extends StartFishRenderPlugin {
   public name = 'hg-api';
