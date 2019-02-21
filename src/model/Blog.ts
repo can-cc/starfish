@@ -1,17 +1,14 @@
-import * as bluebird from 'bluebird';
 import * as fs from 'fs';
 import * as path from 'path';
 import * as R from 'ramda';
 import { isDir } from '../lib/util';
 
-const pfs = bluebird.promisifyAll(fs);
-
-import Category from './Category';
+import { Category } from './Category';
 import { BlogHome } from './Home';
 import { CategoryList } from './CategoryList';
 import { RenderController } from '../modules/render/render-controller';
 
-export default class Blog {
+export class Blog {
   private categorys: Category[];
   private blogHome: any;
   private categoryList: any;
@@ -26,11 +23,6 @@ export default class Blog {
   ) {
     this.load();
   }
-
-  // private renderAllArticles(): void {
-  //   const articles = this.getAllArticle();
-  //   const articlePages = R.splitEvery(5, articles);
-  // }
 
   public load(): void {
     this.categorys = this.loadCategorys();
@@ -66,7 +58,10 @@ export default class Blog {
   }
 
   public getAllArticle() {
-    return R.compose(R.flatten, R.map(category => category.getAllArticles()))(this.categorys);
+    return R.compose(
+      R.flatten,
+      R.map(category => category.getAllArticles())
+    )(this.categorys);
   }
 
   private loadCategorys(): Category[] {
