@@ -6,7 +6,7 @@ import * as shell from 'shelljs';
 import RenderThemer from './render-themer';
 import { readConfigure } from '../../lib/loadConfig';
 
-import Blog from '../../model/Blog';
+import { Blog } from '../../model/Blog';
 
 import { RenderPluginManager } from './render-plugin';
 
