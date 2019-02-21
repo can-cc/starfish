@@ -1,7 +1,7 @@
 import * as R from 'ramda';
 import { CategoryList } from '../../model/CategoryList';
-import Category from '../../model/Category';
-import Blog from '../../model/Blog';
+import { Category } from '../../model/Category';
+import { Blog } from '../../model/Blog';
 import { Article } from '../../model/Article';
 
 export class RenderPluginManager {
