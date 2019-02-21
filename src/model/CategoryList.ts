@@ -1,7 +1,7 @@
 import * as path from 'path';
 import * as fs from 'fs';
 import * as R from 'ramda';
-import Category from './Category';
+import { Category } from './Category';
 import { RenderController } from '../modules/render/render-controller';
 import { getRelativePath } from '../lib/util';
 
@@ -26,9 +26,7 @@ export class CategoryList {
 
   public loadCategoryListData(): CategoryListData {
     return {
-      categoryList: this.categorys
-        .map(c => c.getData())
-        .map(cd => R.omit(['articles'], cd)),
+      categoryList: this.categorys.map(c => c.getData()).map(cd => R.omit(['articles'], cd)),
       path: getRelativePath(this.options.blogOutputPath, this.options.categoryListOutputPath)
     };
   }

@@ -8,7 +8,7 @@ import { isFile, takeFileNameWithoutSuffix, filterDotFiles, getRelativePath } fr
 import { Article } from './Article';
 import { getParsersFromModules } from '../modules/render/render-util';
 
-export default class Category {
+export class Category {
   private articles: Article[];
   private categoryData;
   private categoryConfigure: CategoryConfigure;
@@ -63,7 +63,7 @@ export default class Category {
   private loadCategoryConfigure(): CategoryConfigure {
     const categoryConfigureFilePath = path.join(this.options.categoryInputPath, '.category.yaml');
     return fs.existsSync(categoryConfigureFilePath)
-      ? yaml.safeLoad(fs.readFileSync(categoryConfigureFilePath, 'utf8')) as CategoryConfigure
+      ? (yaml.safeLoad(fs.readFileSync(categoryConfigureFilePath, 'utf8')) as CategoryConfigure)
       : {};
   }
 
@@ -79,7 +79,7 @@ export default class Category {
     const parsers = getParsersFromModules();
     const inCategorypaths = fs.readdirSync(this.options.categoryInputPath);
 
-    // TODO remove loadsh
+    // TODO remove lodash
     const [files] = _.partition(inCategorypaths, pathName =>
       isFile(path.resolve(this.options.categoryInputPath, pathName))
     );
@@ -88,24 +88,26 @@ export default class Category {
       file => filterDotFiles(file) && R.values(parsers).some(parser => parser.check(file))
     );
 
-    return articleFilenames.map((articleFile: string): Article => {
-      const articleFileNameWithoutSuffix = takeFileNameWithoutSuffix(articleFile);
-      return new Article(
-        {
-          articleInputPath: path.join(this.options.categoryInputPath, articleFile),
-          articleOutputPath: path.join(
-            this.options.categoryOutputPath,
-            articleFileNameWithoutSuffix,
-            'index.html'
-          ),
-          rootOutputPath: this.options.blogOutputPath,
-          rootInputPath: this.options.blogInputPath,
-          categoryInputPath: this.options.categoryInputPath,
-          categoryOutputPath: this.options.categoryOutputPath,
-          filename: articleFile
-        },
-        this.controller
-      );
-    });
+    return articleFilenames.map(
+      (articleFile: string): Article => {
+        const articleFileNameWithoutSuffix = takeFileNameWithoutSuffix(articleFile);
+        return new Article(
+          {
+            articleInputPath: path.join(this.options.categoryInputPath, articleFile),
+            articleOutputPath: path.join(
+              this.options.categoryOutputPath,
+              articleFileNameWithoutSuffix,
+              'index.html'
+            ),
+            rootOutputPath: this.options.blogOutputPath,
+            rootInputPath: this.options.blogInputPath,
+            categoryInputPath: this.options.categoryInputPath,
+            categoryOutputPath: this.options.categoryOutputPath,
+            filename: articleFile
+          },
+          this.controller
+        );
+      }
+    );
   }
 }
