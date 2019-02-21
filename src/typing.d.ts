@@ -1,3 +1,32 @@
+declare interface BlogConfigure {
+  AUTHOR: {
+    NAME: string;
+    GITHUB: string;
+  };
+  BLOG: {
+    NAME: string;
+    TMPDIR: string;
+    TMPNAME: string;
+    PORT: number;
+    HOST: string;
+    INDEX_ARTICLE_NUMBER: number;
+    SORT_ARTICLE_BY: 'create';
+  };
+  CONFIG: {
+    CONFIG_FILE: string;
+    IGNORE_FILE: string;
+  };
+  STYLE: {
+    THEMEDIR: string;
+    THEME: string;
+    THEME_CONFIG_FILE: string;
+  };
+  MAPPING: {
+    [key: string]: string;
+  };
+  LANG: string;
+}
+
 declare interface CategoryConfigure {
   aliasName?: string;
 }
