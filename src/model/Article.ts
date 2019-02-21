@@ -130,7 +130,9 @@ export class Article {
 
     const createTime = document.date
       ? new Date(document.date).getTime()
-      : _.last(dates) ? new Date(_.last(dates)).getTime() : new Date().getTime();
+      : _.last(dates)
+      ? new Date(_.last(dates)).getTime()
+      : new Date().getTime();
 
     return {
       createTime,
