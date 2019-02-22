@@ -4,20 +4,21 @@ import * as R from 'ramda';
 import * as shell from 'shelljs';
 
 import RenderThemer from './render-themer';
-import { readConfigure } from '../../lib/loadConfig';
 
 import { Blog } from '../../model/Blog';
 
 import { RenderPluginManager } from './render-plugin';
+import { BlogReader } from '../reader/BlogReader';
 
 export class RenderController {
-  public renderPluginManager: any;
-  public renderThemer: any;
+  public renderPluginManager: RenderPluginManager;
+  public renderThemer: RenderThemer;
 
   constructor(
     private rootInputPath: string,
     private rootOutputPath: string,
-    private blogConfigure: any
+    private blogConfigure: BlogConfigure,
+    public reader: BlogReader
   ) {
     this.renderThemer = new RenderThemer(rootInputPath, rootOutputPath, this.blogConfigure);
 
@@ -35,13 +36,14 @@ export class RenderController {
 
     const blog = new Blog(
       {
-        blogInputPath: path.join(this.rootInputPath, this.blogConfigure.BLOG.BLOGDIR),
+        blogInputPath: path.join(this.rootInputPath),
         blogOutputPath: this.rootOutputPath,
         blogConfigure: this.blogConfigure
       },
       this
     );
 
+    blog.load();
     blog.render();
 
     this.renderPluginManager.runPluinAfterRender(blog);
