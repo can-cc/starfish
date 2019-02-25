@@ -5,6 +5,7 @@ declare interface BlogConfigure {
   };
   BLOG: {
     NAME: string;
+    DESC: string;
     TMPDIR: string;
     TMPNAME: string;
     PORT: number;
