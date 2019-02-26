@@ -40,11 +40,6 @@ export let isSuffix = (suffix, str) => {
   return reg.test(str);
 };
 
-export let logCurrentTime = () => {
-  let date = new Date();
-  console.log(`Time: ${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`);
-};
-
 export let filterDotFiles = name => {
   return name[0] !== '.' && name[0] !== '~' && name[0] !== '#';
 };
