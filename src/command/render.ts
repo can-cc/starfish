@@ -4,6 +4,8 @@ import { isDir } from '../lib/util';
 import { RenderController } from '../modules/render/render-controller';
 import { Command } from './command';
 import printer from '../util/printer';
+import { BlogReader } from '../modules/reader/BlogReader';
+import { FSBlogReader } from '../modules/reader/FSBlogReader';
 
 export default class RenderCommand implements Command {
   public name = 'render';
@@ -23,21 +25,22 @@ export default class RenderCommand implements Command {
 
     const outputPath = 'build';
 
-      this.cleanOutPutAssets(outputPath).then(() => {
+    this.cleanOutPutAssets(outputPath).then(() => {
+      this.startSpin();
 
-        this.startSpin();
-        try {
-          const renderControl = new RenderController(inputPath, outputPath, blogConfigure);
-          renderControl.render();
-          this.stopSpinSuccess();
-        } catch (error) {
-          console.error(error);
-          this.stopSpinFail();
-        }
+      try {
+        const reader: BlogReader = new FSBlogReader();
+        const renderControl = new RenderController(inputPath, outputPath, blogConfigure, reader);
+        renderControl.render();
 
-        this.logCurrentTime();
+        this.stopSpinSuccess();
+      } catch (error) {
+        console.error(error);
+        this.stopSpinFail();
+      }
 
-      });
+      this.logCurrentTime();
+    });
   }
 
   private startSpin() {
