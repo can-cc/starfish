@@ -4,8 +4,9 @@ import * as R from 'ramda';
 import { Category } from './Category';
 import { RenderController } from '../modules/render/render-controller';
 import { getRelativePath } from '../lib/util';
+import { RenderEntity } from './RenderEntity';
 
-export class CategoryList {
+export class CategoryList implements RenderEntity {
   private data: CategoryListData;
 
   constructor(

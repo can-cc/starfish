@@ -7,8 +7,9 @@ import { isFile, takeFileNameWithoutSuffix, filterDotFiles, getRelativePath } fr
 
 import { Article } from './Article';
 import { getParsersFromModules } from '../modules/render/render-util';
+import { RenderEntity } from './RenderEntity';
 
-export class Category {
+export class Category implements RenderEntity {
   private articles: Article[];
   private categoryData;
   private categoryConfigure: CategoryConfigure;
@@ -23,6 +24,10 @@ export class Category {
     },
     private controller
   ) {
+    // this.load();
+  }
+
+  public load(): void {
     this.categoryConfigure = this.loadCategoryConfigure();
     this.articles = this.loadArtices();
     this.categoryData = this.loadCategoryData();
