@@ -1,31 +1,29 @@
-import * as fs from 'fs';
 import * as path from 'path';
-import * as R from 'ramda';
-import { isDir } from '../lib/util';
-
+import R from 'ramda';
 import { Category } from './Category';
 import { BlogHome } from './Home';
 import { CategoryList } from './CategoryList';
 import { RenderController } from '../modules/render/render-controller';
+import { RenderEntity } from './RenderEntity';
 
-export class Blog {
+export class Blog implements RenderEntity {
   private categorys: Category[];
-  private blogHome: any;
-  private categoryList: any;
+  private blogHome: BlogHome;
+  private categoryList: CategoryList;
 
   constructor(
     private options: {
       blogInputPath: string;
       blogOutputPath: string;
-      blogConfigure: any;
+      blogConfigure: BlogConfigure;
     },
     private controller: RenderController
   ) {
-    this.load();
   }
 
   public load(): void {
     this.categorys = this.loadCategorys();
+    this.categorys.forEach(c => c.load());
 
     this.blogHome = new BlogHome(
       {
@@ -48,7 +46,6 @@ export class Blog {
 
   public render(): void {
     this.categorys.forEach(category => {
-      // TODO merge two function
       category.render();
     });
     this.blogHome.render();
@@ -65,9 +62,13 @@ export class Blog {
   }
 
   private loadCategorys(): Category[] {
-    const categoryPaths = fs
-      .readdirSync(this.options.blogInputPath)
-      .filter(p => isDir(path.join(this.options.blogInputPath, p)));
+
+
+    const categoryPaths: string[] = this.controller.reader.readCategoryPaths(this.options.blogInputPath);
+
+    // fs
+    //   .readdirSync(this.options.blogInputPath)
+    //   .filter(p => isDir(path.join(this.options.blogInputPath, p)));
 
     return categoryPaths.map(
       categoryName =>
