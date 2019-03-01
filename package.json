@@ -19,6 +19,12 @@
       "ts",
       "js"
     ],
+    "modulePathIgnorePatterns": [
+      "built"
+    ],
+    "watchPathIgnorePatterns": [
+      "<rootDir>/built/*"
+    ],
     "transform": {
       "^.+\\.(ts|js)$": "<rootDir>/test/preprocessor.js"
     },
