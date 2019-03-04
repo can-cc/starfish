@@ -42,6 +42,7 @@ export class Blog implements RenderEntity {
       this.categorys,
       this.controller
     );
+    this.categoryList.load();
   }
 
   public render(): void {
