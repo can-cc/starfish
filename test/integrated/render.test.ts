@@ -2,20 +2,23 @@ import { RenderController } from '../../src/modules/render/render-controller';
 import * as fs from 'fs';
 import * as path from 'path';
 import { readConfigure } from '../../src/lib/loadConfig';
+import { FSBlogReader } from '../../src/modules/reader/FSBlogReader';
 
 const inputPath = 'test/mock-source/';
 const outputPath = 'test/test-build/';
 const outputPathAbsolutelyPath = path.resolve(__dirname, '../../', outputPath);
 
+const reader = new FSBlogReader();
+
 test('integrated test render index.html', async () => {
-  const renderCtrl = new RenderController(inputPath, outputPath, readConfigure(path.join(__dirname, '../mock-source')));
+  const renderCtrl = new RenderController(inputPath, outputPath, readConfigure(path.join(__dirname, '../mock-source')), reader);
   await renderCtrl.render();
 
   expect(fs.existsSync(path.join(outputPath, 'index.html'))).toBe(true);
 });
 
 test('integrated test render category index', async () => {
-  const renderCtrl = new RenderController(inputPath, outputPath, readConfigure(path.join(__dirname, '../mock-source')));
+  const renderCtrl = new RenderController(inputPath, outputPath, readConfigure(path.join(__dirname, '../mock-source')), reader);
   await renderCtrl.render();
 
   expect(fs.existsSync(path.join(outputPath, 'categorys/index.html'))).toBe(true);
@@ -23,7 +26,7 @@ test('integrated test render category index', async () => {
 });
 
 test('integrated test render feather', async () => {
-  const renderCtrl = new RenderController(inputPath, outputPath, readConfigure(path.join(__dirname, '../mock-source')));
+  const renderCtrl = new RenderController(inputPath, outputPath, readConfigure(path.join(__dirname, '../mock-source')), reader);
   await renderCtrl.render();
 
   expect(fs.existsSync(path.join(outputPath, 'javascript/index.html'))).toBe(true);
@@ -36,7 +39,7 @@ test('integrated test render feather', async () => {
 });
 
 test('integrated test render javascript/hello-word', async () => {
-  const renderCtrl = new RenderController(inputPath, outputPath, readConfigure(path.join(__dirname, '../mock-source')));
+  const renderCtrl = new RenderController(inputPath, outputPath, readConfigure(path.join(__dirname, '../mock-source')), reader);
   await renderCtrl.render();
 
   expect(fs.existsSync(path.join(outputPath, 'javascript/hello-word/index.html'))).toBe(true);
@@ -44,7 +47,7 @@ test('integrated test render javascript/hello-word', async () => {
 });
 
 test('integrated test render simemap.txt', async () => {
-  const renderCtrl = new RenderController(inputPath, outputPath, readConfigure(path.join(__dirname, '../mock-source')));
+  const renderCtrl = new RenderController(inputPath, outputPath, readConfigure(path.join(__dirname, '../mock-source')), reader);
   await renderCtrl.render();
 
   expect(fs.readFileSync(path.join(outputPath, 'sitemap.txt'), 'utf8')).toBe(

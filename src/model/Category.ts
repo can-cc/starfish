@@ -20,7 +20,7 @@ export class Category implements RenderEntity {
       categoryOutputPath: string;
       blogInputPath: string;
       blogOutputPath: string;
-      categoryName;
+      categoryName: string;
     },
     private controller
   ) {
@@ -54,6 +54,7 @@ export class Category implements RenderEntity {
     const categoryIndexFilePath: string = path.join(this.options.categoryOutputPath, 'index.html');
 
     fs.writeFileSync(categoryIndexFilePath, outputHtmlContent);
+
     this.controller.renderPluginManager.runPluinAfterCategoryRender(outputHtmlContent, this);
 
     this.renderAllArticle();
