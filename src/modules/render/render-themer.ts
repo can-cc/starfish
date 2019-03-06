@@ -1,12 +1,11 @@
 import * as yaml from 'js-yaml';
-import * as fs from 'fs';
+import fs from 'fs';
 import * as path from 'path';
 import * as R from 'ramda';
 import * as ejs from 'ejs';
-
 import * as shell from 'shelljs';
 
-export default class RenderThemer {
+export class RenderThemer {
   public inputPath: string;
   public outputPath: string;
   public configure: any;
