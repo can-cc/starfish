@@ -4,6 +4,8 @@ declare interface BlogConfigure {
     GITHUB: string;
   };
   BLOG: {
+    DOMAIN: string;
+    ARTICLES_DIR: string;
     NAME: string;
     DESC: string;
     TMPDIR: string;
@@ -11,7 +13,7 @@ declare interface BlogConfigure {
     PORT: number;
     HOST: string;
     INDEX_ARTICLE_NUMBER: number;
-    SORT_ARTICLE_BY: 'create';
+    SORT_ARTICLE_BY: 'create' | 'update';
   };
   CONFIG: {
     CONFIG_FILE: string;
