@@ -1,7 +1,7 @@
 import * as fs from 'fs';
 import * as path from 'path';
 import * as fsExtra from 'fs-extra';
-import * as md5 from 'blueimp-md5';
+import md5 from 'blueimp-md5';
 import * as _ from 'lodash';
 import * as cheerio from 'cheerio';
 import { getRelativePath, takeFileNameWithoutSuffix } from '../lib/util';
