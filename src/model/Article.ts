@@ -159,7 +159,10 @@ export class Article {
   private copyArticleAsset() {
     fsExtra.copySync(
       this.assetPath,
-      path.resolve(this.options.categoryOutputPath, takeFileNameWithoutSuffix(this.options.filename))
+      path.resolve(
+        this.options.categoryOutputPath,
+        takeFileNameWithoutSuffix(this.options.filename)
+      )
     );
   }
 }

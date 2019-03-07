@@ -17,8 +17,7 @@ export class CategoryList implements RenderEntity {
     },
     private categorys: Category[],
     private controller: RenderController
-  ) {
-  }
+  ) {}
 
   public load(): void {
     this.data = this.loadCategoryListData();
