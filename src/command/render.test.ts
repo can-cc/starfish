@@ -12,6 +12,7 @@ jest.mock('../lib/util', () => {
     isDir: () => true
   };
 });
+jest.mock('../util/printer');
 
 import RenderCommand from './render';
 

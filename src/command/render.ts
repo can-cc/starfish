@@ -4,8 +4,8 @@ import { isDir } from '../lib/util';
 import { RenderController } from '../modules/render/render-controller';
 import { Command } from './command';
 import printer from '../util/printer';
-import { BlogReader } from '../modules/reader/BlogReader';
-import { FSBlogReader } from '../modules/reader/FSBlogReader';
+import { Reader } from '../modules/reader/Reader';
+import { FSReader } from '../modules/reader/FSReader';
 
 export default class RenderCommand implements Command {
   public name = 'render';
@@ -29,7 +29,7 @@ export default class RenderCommand implements Command {
       this.startSpin();
 
       try {
-        const reader: BlogReader = new FSBlogReader();
+        const reader: Reader = new FSReader();
         const renderControl = new RenderController(inputPath, outputPath, blogConfigure, reader);
         renderControl.render();
 
