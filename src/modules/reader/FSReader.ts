@@ -1,10 +1,10 @@
 import fs from 'fs';
 import path from 'path';
-import { BlogReader } from "./BlogReader";
+import { Reader } from "./Reader";
 import { isDir } from '../../lib/util';
 
 // 
-export class FSBlogReader implements BlogReader {
+export class FSReader implements Reader {
 
     public readCategoryPaths(blogInputPath: string): string[] {
         return fs

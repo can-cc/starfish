@@ -1,5 +1,5 @@
 
 
-export interface BlogReader {
+export interface Reader {
   readCategoryPaths(blogInputPath: string): string[]
 }
