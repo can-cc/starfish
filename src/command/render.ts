@@ -19,7 +19,7 @@ export default class RenderCommand implements Command {
     }
 
     if (!isDir(inputPath)) {
-      // TODO console.log
+      // TODO log it
       return;
     }
 

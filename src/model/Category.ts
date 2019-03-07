@@ -10,8 +10,18 @@ import { getParsersFromModules } from '../modules/render/render-util';
 import { RenderEntity } from './RenderEntity';
 
 export class Category implements RenderEntity {
+  public path: string;
+
   private articles: Article[];
-  private categoryData;
+
+  // remove this map data
+  // set in the Category instance this
+  private categoryData: {
+    path: string;
+    categoryName: string;
+    articles: any;
+  };
+
   private categoryConfigure: CategoryConfigure;
 
   constructor(
@@ -74,6 +84,7 @@ export class Category implements RenderEntity {
   }
 
   private loadCategoryData() {
+    this.path = getRelativePath(this.options.blogOutputPath, this.options.categoryOutputPath);
     return {
       path: getRelativePath(this.options.blogOutputPath, this.options.categoryOutputPath),
       categoryName: this.options.categoryName,

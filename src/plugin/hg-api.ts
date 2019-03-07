@@ -15,16 +15,17 @@ export default class StarflishRenderHgApiPlugin extends StartFishRenderPlugin {
     super();
   }
 
-  public afterArticleRender(renderedHtml: string, article: Article) {
+  public afterArticleRender(renderedHtml: string, article: Article): void {
     const articleData: ArticleData = article.getData();
     const outputDirPath = path.join(this.options.rootOutputPath, articleData.dirPath);
     const outputFilePath = 'index.json';
     fs.writeFileSync(path.join(outputDirPath, outputFilePath), JSON.stringify(articleData));
   }
 
-  public afterCategoryListRender(renderedHtml: string, categoryList: CategoryList) {
+  public afterCategoryListRender(renderedHtml: string, categoryList: CategoryList): void {
     const categoryListData: CategoryListData = categoryList.getData();
     const categoryListOutputDirPath = path.join(this.options.rootOutputPath, categoryListData.path);
+
     if (!fs.existsSync(categoryListOutputDirPath)) {
       fs.mkdirSync(categoryListOutputDirPath);
     }
@@ -34,7 +35,7 @@ export default class StarflishRenderHgApiPlugin extends StartFishRenderPlugin {
     );
   }
 
-  public afterCategoryRender(renderedHtml: string, category: Category) {
+  public afterCategoryRender(renderedHtml: string, category: Category): void {
     const categoryData = category.getData();
     fs.writeFileSync(
       path.join(this.options.rootOutputPath, categoryData.path, 'index.json'),
@@ -42,8 +43,10 @@ export default class StarflishRenderHgApiPlugin extends StartFishRenderPlugin {
     );
   }
 
-  public afterBlogRender(blog: Blog) {
+  public afterBlogRender(blog: Blog): void {
+    // TODO remove path.join, use ATRICLES_DIR
     const articlesOuputDirPath = path.join(this.options.rootOutputPath, 'articles');
+
     if (!fs.existsSync(articlesOuputDirPath)) {
       fs.mkdirSync(articlesOuputDirPath);
     }

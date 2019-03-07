@@ -35,7 +35,7 @@ export class Blog implements RenderEntity {
 
     this.categoryList = new CategoryList(
       {
-        categoryListOutputPath: path.join(this.options.blogOutputPath, 'categorys'),
+        categoryListOutputPath: path.resolve(this.options.blogOutputPath, 'categorys'),
         blogInputPath: this.options.blogInputPath,
         blogOutputPath: this.options.blogOutputPath
       },
@@ -63,26 +63,26 @@ export class Blog implements RenderEntity {
   }
 
   private loadCategorys(): Category[] {
-
-
-    const categoryPaths: string[] = this.controller.reader.readCategoryPaths(this.options.blogInputPath);
+    const categoryPaths: string[] = this.controller.reader.readCategoryPaths(path.join(this.options.blogInputPath, this.options.blogConfigure.BLOG.ARTICLES_DIR));
 
     // fs
     //   .readdirSync(this.options.blogInputPath)
     //   .filter(p => isDir(path.join(this.options.blogInputPath, p)));
 
     return categoryPaths.map(
-      categoryName =>
-        new Category(
+      (categoryName: string) => {
+        return new Category(
           {
-            categoryInputPath: path.join(this.options.blogInputPath, categoryName),
+            categoryInputPath: path.join(this.options.blogInputPath, this.options.blogConfigure.BLOG.ARTICLES_DIR, categoryName),
             categoryOutputPath: path.join(this.options.blogOutputPath, categoryName),
             categoryName,
             blogOutputPath: this.options.blogOutputPath,
             blogInputPath: this.options.blogInputPath
           },
           this.controller
-        )
+        );
+      }
+        
     );
   }
 }

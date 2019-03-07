@@ -3,9 +3,10 @@ import { CategoryList } from '../../model/CategoryList';
 import { Category } from '../../model/Category';
 import { Blog } from '../../model/Blog';
 import { Article } from '../../model/Article';
+import { StartFishRenderPlugin } from 'src/plugin/base/render-plugin';
 
 export class RenderPluginManager {
-  private plugins: any;
+  private plugins: {[name: string]: StartFishRenderPlugin[]};
 
   constructor(options) {
     this.plugins = this.getPluginFromNodeMudules(options);
@@ -49,7 +50,7 @@ export class RenderPluginManager {
     R.values(this.plugins).forEach(plugin => plugin.afterBlogRender(blog));
   }
 
-  private getPluginFromNodeMudules(options) {
+  private getPluginFromNodeMudules(options): {[name: string]: StartFishRenderPlugin[]} {
     const plugins = {};
     ['../../plugin/hg-api', '../../plugin/sitemap', '../../plugin/recent-article'].forEach(name => {
       if (!plugins[name]) {

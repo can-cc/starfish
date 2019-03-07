@@ -14,7 +14,7 @@ function fixArticleUrlAndCut(content, relativeOutputPath) {
   const appendRelativeFn = function(i, e) {
     let src = $(this).attr('src');
     if (!/^[http|//]/.test(src)) {
-      src = path.join('/', relativeOutputPath, src);
+      src = path.resolve('/', relativeOutputPath, src);
     }
     $(this).attr('src', src);
   };
@@ -48,8 +48,8 @@ export class Article {
     private controller: RenderController
   ) {
     this.filenameWithoutSuffix = takeFileNameWithoutSuffix(options.articleInputPath);
-    this.assetPath = path.join(this.options.categoryInputPath, this.filenameWithoutSuffix);
-    this.outputDirPath = path.join(this.options.categoryOutputPath, this.filenameWithoutSuffix);
+    this.assetPath = path.resolve(this.options.categoryInputPath, this.filenameWithoutSuffix);
+    this.outputDirPath = path.resolve(this.options.categoryOutputPath, this.filenameWithoutSuffix);
 
     this.data = this.loadArticleData();
   }
@@ -92,7 +92,7 @@ export class Article {
 
     const content = fixArticleUrlAndCut(document.content, relativeOutputPath);
 
-    const outputDirPath = path.join(
+    const outputDirPath = path.resolve(
       this.options.categoryOutputPath,
       takeFileNameWithoutSuffix(this.options.filename)
     );
@@ -159,7 +159,7 @@ export class Article {
   private copyArticleAsset() {
     fsExtra.copySync(
       this.assetPath,
-      path.join(this.options.categoryOutputPath, takeFileNameWithoutSuffix(this.options.filename))
+      path.resolve(this.options.categoryOutputPath, takeFileNameWithoutSuffix(this.options.filename))
     );
   }
 }

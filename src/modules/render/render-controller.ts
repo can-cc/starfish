@@ -3,7 +3,7 @@ import * as path from 'path';
 import * as R from 'ramda';
 import * as shell from 'shelljs';
 
-import RenderThemer from './render-themer';
+import {RenderThemer} from './render-themer';
 
 import { Blog } from '../../model/Blog';
 
@@ -30,14 +30,12 @@ export class RenderController {
   }
 
   public render(): void {
-    if (!fs.existsSync(this.rootOutputPath)) {
-      fs.mkdirSync(this.rootOutputPath);
-    }
+    this.insureOutputExist();
 
     const blog = new Blog(
       {
-        blogInputPath: path.join(this.rootInputPath),
-        blogOutputPath: this.rootOutputPath,
+        blogInputPath: path.resolve(this.rootInputPath), // unix like is "/blog/category", Windows is "\blog\category"
+        blogOutputPath: path.resolve(this.rootOutputPath), 
         blogConfigure: this.blogConfigure
       },
       this
@@ -48,7 +46,14 @@ export class RenderController {
 
     this.renderPluginManager.runPluinAfterRender(blog);
     this.renderThemer.copyThemeAsset();
+
     this.copySpec();
+  }
+
+  private insureOutputExist(): void {
+    if (!fs.existsSync(this.rootOutputPath)) {
+      fs.mkdirSync(this.rootOutputPath);
+    }
   }
 
   public getBlogInformation() {

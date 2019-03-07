@@ -3,7 +3,7 @@ AUTHOR:
   GITHUB: 'reboot'
 
 BLOG:
-  BLOGDIR: 'articles'
+  ARTICLES_DIR: 'articles'
   DOMAIN: 'test.starfish.org'
   NAME: 'reboot blog'
   DESC: 'this is reboot bog'
