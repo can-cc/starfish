@@ -4,18 +4,18 @@ import * as path from 'path';
 import { readConfigure } from '../../src/lib/loadConfig';
 import { FSBlogReader } from '../../src/modules/reader/FSBlogReader';
 
-const rimraf = require('rimraf');
+// const rimraf = require('rimraf');
 
 const inputPath = 'test/mock-source/';
 const outputPath = 'test/test-build/';
 
-const outputPathAbsolutelyPath = path.resolve(__dirname, '../../', outputPath);
+// const outputPathAbsolutelyPath = path.resolve(__dirname, '../../', outputPath);
 
-afterAll(() => {
-  rimraf(outputPathAbsolutelyPath, () => {
-    console.log('remove mock-build output success.');
-  });
-});
+// afterAll(() => {
+//   rimraf(outputPathAbsolutelyPath, () => {
+//     console.log('remove mock-build output success.');
+//   });
+// });
 
 const reader = new FSBlogReader();
 
