@@ -6,6 +6,8 @@ import { Command } from './command';
 import printer from '../util/printer';
 import { Reader } from '../modules/reader/Reader';
 import { FSReader } from '../modules/reader/FSReader';
+import { FSWriter } from '../modules/writer/FSWriter';
+import { Writer } from '../modules/writer/Writer';
 
 export default class RenderCommand implements Command {
   public name = 'render';
@@ -30,7 +32,14 @@ export default class RenderCommand implements Command {
 
       try {
         const reader: Reader = new FSReader();
-        const renderControl = new RenderController(inputPath, outputPath, blogConfigure, reader);
+        const writer: Writer = new FSWriter();
+        const renderControl = new RenderController(
+          inputPath,
+          outputPath,
+          blogConfigure,
+          reader,
+          writer
+        );
         renderControl.render();
 
         this.stopSpinSuccess();
