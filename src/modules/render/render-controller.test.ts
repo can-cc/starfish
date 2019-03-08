@@ -23,26 +23,28 @@ jest.mock('../../model/Blog', () => {
 });
 
 import { RenderController } from "./render-controller";
-import { FSBlogReader } from "../reader/FSBlogReader";
+import { FSReader } from "../reader/FSReader";
+import { FSWriter } from "../writer/FSWriter";
 
 test('render-controller initial', () => {
-    const reader = new FSBlogReader();
+    const reader = new FSReader();
+    const writer = new FSWriter();
     const renderController = new RenderController('', '', {
-    } as BlogConfigure, reader);
+    } as BlogConfigure, reader, writer);
     expect(renderController.renderThemer).toBeDefined();
     expect(renderController.renderPluginManager).toBeDefined();
 });
 
 
 test('render-controller render', () => {
-    const reader = new FSBlogReader();
-    
+    const reader = new FSReader();
+    const writer = new FSWriter();
 
     const renderController = new RenderController('', '', {
         AUTHOR: {
             NAME: 'Obama'
         },
-    } as BlogConfigure, reader);
+    } as BlogConfigure, reader, writer);
     jest.spyOn<any, 'insureOutputExist'>(renderController, 'insureOutputExist').mockImplementation(() => {});
     renderController.render();
     
