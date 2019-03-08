@@ -2,7 +2,8 @@ import { RenderController } from '../../src/modules/render/render-controller';
 import * as fs from 'fs';
 import * as path from 'path';
 import { readConfigure } from '../../src/lib/loadConfig';
-import { FSBlogReader } from '../../src/modules/reader/FSBlogReader';
+import { FSReader } from '../../src/modules/reader/FSReader';
+import { FSWriter } from '../../src/modules/writer/FSWriter';
 
 // const rimraf = require('rimraf');
 
@@ -17,14 +18,16 @@ const outputPath = 'test/test-build/';
 //   });
 // });
 
-const reader = new FSBlogReader();
+const reader = new FSReader();
+const writer = new FSWriter();
 
 test('integrated test render index.html', () => {
   const renderCtrl = new RenderController(
     inputPath,
     outputPath,
     readConfigure(path.join(__dirname, '../mock-source')),
-    reader
+    reader,
+    writer
   );
   renderCtrl.render();
 
@@ -36,7 +39,8 @@ test('integrated test render articles json', () => {
     inputPath,
     outputPath,
     readConfigure(path.join(__dirname, '../mock-source')),
-    reader
+    reader,
+    writer
   );
   renderCtrl.render();
 
@@ -48,7 +52,8 @@ test('integrated test render category index', () => {
     inputPath,
     outputPath,
     readConfigure(path.join(__dirname, '../mock-source')),
-    reader
+    reader,
+    writer
   );
   renderCtrl.render();
 
@@ -61,7 +66,8 @@ test('integrated test render feather', () => {
     inputPath,
     outputPath,
     readConfigure(path.join(__dirname, '../mock-source')),
-    reader
+    reader,
+    writer
   );
   renderCtrl.render();
 
@@ -79,7 +85,8 @@ test('integrated test render javascript/hello-word', () => {
     inputPath,
     outputPath,
     readConfigure(path.join(__dirname, '../mock-source')),
-    reader
+    reader,
+    writer
   );
   renderCtrl.render();
 
@@ -92,7 +99,8 @@ test('integrated test render simemap.txt', () => {
     inputPath,
     outputPath,
     readConfigure(path.join(__dirname, '../mock-source')),
-    reader
+    reader,
+    writer
   );
   renderCtrl.render();
 
