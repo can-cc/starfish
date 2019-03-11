@@ -3,12 +3,14 @@ import * as path from 'path';
 import * as R from 'ramda';
 import * as shell from 'shelljs';
 
-import {RenderThemer} from './render-themer';
+import { RenderThemer } from './render-themer';
 
 import { Blog } from '../../model/Blog';
 
 import { RenderPluginManager } from './render-plugin';
-import { BlogReader } from '../reader/BlogReader';
+
+import { Reader } from '../reader/Reader';
+import { Writer } from '../writer/Writer';
 
 export class RenderController {
   public renderPluginManager: RenderPluginManager;
@@ -18,15 +20,20 @@ export class RenderController {
     private rootInputPath: string,
     private rootOutputPath: string,
     private blogConfigure: BlogConfigure,
-    public reader: BlogReader
+    public reader: Reader,
+    public writer: Writer
   ) {
-    this.renderThemer = new RenderThemer(rootInputPath, rootOutputPath, this.blogConfigure);
+    this.renderThemer = new RenderThemer({
+      inputPath: rootInputPath, 
+      outputPath: rootOutputPath, 
+      blogConfigure: this.blogConfigure
+    });
 
     this.renderPluginManager = new RenderPluginManager({
       rootInputPath,
       rootOutputPath,
       blogConfigure: this.blogConfigure
-    });
+    }, this);
   }
 
   public render(): void {
@@ -35,7 +42,7 @@ export class RenderController {
     const blog = new Blog(
       {
         blogInputPath: path.resolve(this.rootInputPath), // unix like is "/blog/category", Windows is "\blog\category"
-        blogOutputPath: path.resolve(this.rootOutputPath), 
+        blogOutputPath: path.resolve(this.rootOutputPath),
         blogConfigure: this.blogConfigure
       },
       this
