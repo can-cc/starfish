@@ -5,6 +5,7 @@ AUTHOR:
 BLOG:
   ARTICLES_DIR: 'articles'
   DOMAIN: 'test.starfish.org'
+  HTTPS: false
   NAME: 'reboot blog'
   DESC: 'this is reboot bog'
   TMPDIR: '/tmp'
