@@ -1,9 +1,9 @@
 import * as fs from 'fs';
+
 import * as path from 'path';
-import * as glob from 'glob';
-import * as url from 'url';
 import { Article } from '../model/Article';
 import { StartFishRenderPlugin } from './base/render-plugin';
+import { RenderController } from '../modules/render/render-controller';
 
 export default class StarFishRenderSiteMap extends StartFishRenderPlugin {
   public name = 'sitemap';
@@ -11,8 +11,8 @@ export default class StarFishRenderSiteMap extends StartFishRenderPlugin {
   private urls = [];
   private isHttps: boolean;
 
-  constructor(private options: PluginOptions) {
-    super();
+  constructor(protected options: PluginOptions, protected renderController: RenderController) {
+    super(options, renderController);
     this.isHttps = options.blogConfigure.BLOG.HTTPS;
   }
 
@@ -32,6 +32,9 @@ export default class StarFishRenderSiteMap extends StartFishRenderPlugin {
   }
 
   public afterBlogRender() {
-    fs.writeFileSync(path.join(this.options.rootOutputPath, 'sitemap.txt'), this.urls.join('\n'));
+    this.renderController.writer.writeFileSync(
+      path.join(this.options.rootOutputPath, 'sitemap.txt'),
+      this.urls.join('\n')
+    );
   }
 }

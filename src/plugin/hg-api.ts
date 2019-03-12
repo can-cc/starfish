@@ -6,13 +6,14 @@ import { Category } from '../model/Category';
 import { Article } from '../model/Article';
 import { StartFishRenderPlugin } from './base/render-plugin';
 import { Blog } from '../model/Blog';
+import { RenderController } from '../modules/render/render-controller';
 
 export default class StarflishRenderHgApiPlugin extends StartFishRenderPlugin {
   public name = 'hg-api';
   public type = 'redner';
 
-  constructor(private options: PluginOptions) {
-    super();
+  constructor(protected options: PluginOptions, protected renderController: RenderController) {
+    super(options, renderController);
   }
 
   public afterArticleRender(renderedHtml: string, article: Article): void {

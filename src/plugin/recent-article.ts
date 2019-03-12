@@ -1,17 +1,17 @@
 import * as R from 'ramda';
 import * as fs from 'fs';
 import * as path from 'path';
-import * as glob from 'glob';
 import { Blog } from '../model/Blog';
 import { StartFishRenderPlugin } from './base/render-plugin';
 import { Article } from '../model/Article';
+import { RenderController } from '../modules/render/render-controller';
 
 export default class StarFishRenderRecentArticle extends StartFishRenderPlugin {
   public name = 'recent-article';
   public type = 'render';
 
-  constructor(private options: PluginOptions) {
-    super();
+  constructor(protected options: PluginOptions, protected renderController: RenderController) {
+    super(options, renderController);
   }
 
   public afterBlogRender(blog: Blog) {
