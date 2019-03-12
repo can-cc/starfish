@@ -4,21 +4,27 @@ jest.mock('./Category');
 
 import { Blog } from './Blog';
 import { RenderController } from '../modules/render/render-controller';
-import { FSBlogReader } from '../modules/reader/FSBlogReader';
+import { FSReader } from '../modules/reader/FSReader';
 import { Category } from './Category';
+import { FSWriter } from '../modules/writer/FSWriter';
 
 test('Blog load func', () => {
   const blogInputPath = '';
   const blogOutputPath = '';
-  const blogConfigure = {} as BlogConfigure;
+  const blogConfigure = {
+    BLOG: {
+      ARTICLES_DIR: 'articles'
+    }
+  } as BlogConfigure;
 
-  const reader = new FSBlogReader();
+  const reader = new FSReader();
+  const writer = new FSWriter();
 
   jest.spyOn(reader, 'readCategoryPaths').mockImplementation(() => {
     return ['/d/1', '/d/2'];
   });
 
-  const renderController = new RenderController('', '', {} as BlogConfigure, reader);
+  const renderController = new RenderController('', '', {} as BlogConfigure, reader, writer);
   const blog = new Blog({ blogInputPath, blogOutputPath, blogConfigure }, renderController);
 
   blog.load();
