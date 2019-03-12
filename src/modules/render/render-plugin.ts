@@ -4,11 +4,16 @@ import { Category } from '../../model/Category';
 import { Blog } from '../../model/Blog';
 import { Article } from '../../model/Article';
 import { StartFishRenderPlugin } from 'src/plugin/base/render-plugin';
+import { RenderController } from './render-controller';
 
 export class RenderPluginManager {
   private plugins: {[name: string]: StartFishRenderPlugin[]};
 
-  constructor(options) {
+  constructor(private options: {
+    rootInputPath: string;
+    rootOutputPath: string;
+    blogConfigure: BlogConfigure
+  }, private renderController: RenderController) {
     this.plugins = this.getPluginFromNodeMudules(options);
   }
 
@@ -16,9 +21,7 @@ export class RenderPluginManager {
     return this.plugins;
   }
 
-  public runPlugin() {
-    /*ignore*/
-  }
+  public runPlugin() {}
 
   public runPluinBeforeArticleRender(articleData) {
     R.values(this.plugins).forEach(plugin => {
@@ -33,7 +36,6 @@ export class RenderPluginManager {
   }
 
   public runPluinAfterRender(blog: Blog) {
-    R.values(this.plugins).forEach(plugin => plugin.afterBlogRender(blog));
   }
 
   public runPluinAfterCategoryListRender(renderedHtml: string, categoryList: CategoryList): void {
@@ -54,7 +56,7 @@ export class RenderPluginManager {
     const plugins = {};
     ['../../plugin/hg-api', '../../plugin/sitemap', '../../plugin/recent-article'].forEach(name => {
       if (!plugins[name]) {
-        const plugin = new (require(name)).default(options);
+        const plugin = new (require(name)).default(options, this.renderController);
         plugins[plugin.name] = plugin;
       } else {
         throw new Error('duplicate plugin');
