@@ -1,6 +1,7 @@
 import _ from 'lodash';
 
 var exec = require('child_process').exec;
+
 export const getModifyDates = (filePath, rootInputPath, cb) => {
   return new Promise((resovle, reject) => {
     exec(`git log --pretty=format:\'%ad\' ${filePath} | cat`, {
