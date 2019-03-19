@@ -5,6 +5,7 @@ import { RenderController } from '../modules/render/render-controller';
 import { Reader } from '../modules/reader/Reader';
 import { Writer } from '../modules/writer/Writer';
 import { RenderThemer } from '../modules/render/render-themer';
+import { Article } from './Article';
 
 let controller;
 
@@ -18,7 +19,7 @@ beforeEach(() => {
     writer: {
       writeFileSync: () => {},
       mkdirSync: () => {}
-    } as Writer,
+    } as any,
     renderThemer: {
       renderTemplate: () => 'IAMHTML'
     } as any,
@@ -90,4 +91,39 @@ test('Category render', () => {
   expect(writeFileSyncSpy.mock.calls[0][1].replace('\\', '/')).toEqual('IAMHTML');
   expect(runPluinAfterCategoryRenderSpy).toBeCalledWith('IAMHTML', category);
   expect(renderAllArticleSpy).toBeCalled();
+});
+
+
+test('Category renderAllArticle', () => {
+  const category = new Category(
+    {
+      categoryInputPath: '',
+      categoryOutputPath: '',
+      blogInputPath: '',
+      blogOutputPath: '',
+      categoryName: 'javascript'
+    },
+    controller
+  );
+
+  const article = new Article(
+    {
+      articleInputPath: '',
+      articleOutputPath: '',
+      categoryInputPath: '',
+      categoryOutputPath: '',
+      rootInputPath: 'javascript',
+      rootOutputPath: 'javascript',
+      filename: 'javascript-good.md'
+    },
+    controller
+  );
+
+  const articleRenderSpy = jest.spyOn(article, 'render');
+
+  (<any>category).articles = [article];
+
+  (<any>category).renderAllArticle();
+
+  expect(articleRenderSpy).toBeCalled();
 });

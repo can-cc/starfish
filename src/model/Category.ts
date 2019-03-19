@@ -37,7 +37,10 @@ export class Category implements RenderEntity {
 
   public load(): void {
     this.categoryConfigure = this.loadCategoryConfigure();
+    
     this.articles = this.loadArtices();
+    this.articles.forEach(a => a.load());
+
     this.categoryData = this.loadCategoryData();
   }
 
