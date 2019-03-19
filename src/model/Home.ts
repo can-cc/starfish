@@ -2,8 +2,9 @@ import * as path from 'path';
 import * as fs from 'fs';
 import { Category } from './Category';
 import { RenderController } from '../modules/render/render-controller';
+import { RenderEntity } from './RenderEntity';
 
-export class BlogHome {
+export class BlogHome implements RenderEntity {
   constructor(
     private options: {
       homeOutputPath: string;
