@@ -9,4 +9,8 @@ export class FSWriter implements Writer {
     public mkdirSync(path: string): void {
       fs.mkdirSync(path);
     }
+
+    public existsSync(path: string) {
+      return fs.existsSync(path);
+    }
 }
