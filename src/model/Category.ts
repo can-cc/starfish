@@ -1,13 +1,13 @@
-import * as fs from 'fs';
+import fs from 'fs';
 import * as path from 'path';
 import * as _ from 'lodash';
 import * as R from 'ramda';
-import * as yaml from 'js-yaml';
 import { isFile, takeFileNameWithoutSuffix, filterDotFiles, getRelativePath } from '../lib/util';
-
 import { Article } from './Article';
 import { getParsersFromModules } from '../modules/render/render-util';
 import { RenderEntity } from './RenderEntity';
+import { Reader } from '../modules/reader/Reader';
+import { RenderController } from '../modules/render/render-controller';
 
 export class Category implements RenderEntity {
   public path: string;
@@ -32,10 +32,8 @@ export class Category implements RenderEntity {
       blogOutputPath: string;
       categoryName: string;
     },
-    private controller
-  ) {
-    // this.load();
-  }
+    private controller: RenderController
+  ) {}
 
   public load(): void {
     this.categoryConfigure = this.loadCategoryConfigure();
@@ -53,7 +51,8 @@ export class Category implements RenderEntity {
 
   public render() {
     if (!fs.existsSync(this.options.categoryOutputPath)) {
-      fs.mkdirSync(this.options.categoryOutputPath);
+      // fs.mkdirSync(this.options.categoryOutputPath);
+      this.controller.writer.mkdirSync(this.options.categoryOutputPath);
     }
 
     const outputHtmlContent = this.controller.renderThemer.renderTemplate(
@@ -63,7 +62,7 @@ export class Category implements RenderEntity {
 
     const categoryIndexFilePath: string = path.join(this.options.categoryOutputPath, 'index.html');
 
-    fs.writeFileSync(categoryIndexFilePath, outputHtmlContent);
+    this.controller.writer.writeFileSync(categoryIndexFilePath, outputHtmlContent);
 
     this.controller.renderPluginManager.runPluinAfterCategoryRender(outputHtmlContent, this);
 
@@ -78,9 +77,11 @@ export class Category implements RenderEntity {
 
   private loadCategoryConfigure(): CategoryConfigure {
     const categoryConfigureFilePath = path.join(this.options.categoryInputPath, '.category.yaml');
-    return fs.existsSync(categoryConfigureFilePath)
-      ? (yaml.safeLoad(fs.readFileSync(categoryConfigureFilePath, 'utf8')) as CategoryConfigure)
-      : {};
+
+    const reader: Reader = this.controller.reader;
+    return reader.fileExist(categoryConfigureFilePath)
+      ? (reader.readYaml(categoryConfigureFilePath) as CategoryConfigure)
+      : ({} as CategoryConfigure);
   }
 
   private loadCategoryData() {
@@ -94,10 +95,15 @@ export class Category implements RenderEntity {
 
   private loadArtices(): Article[] {
     const parsers = getParsersFromModules();
-    const inCategorypaths = fs.readdirSync(this.options.categoryInputPath);
+
+    // const inCategorypaths = fs.readdirSync(this.options.categoryInputPath);
+    const inCategorypaths: string[] = this.controller.reader.readDirPaths(
+      this.options.categoryInputPath
+    );
 
     // TODO remove lodash
     const [files] = _.partition(inCategorypaths, pathName =>
+      // TODO
       isFile(path.resolve(this.options.categoryInputPath, pathName))
     );
 
