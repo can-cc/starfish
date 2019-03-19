@@ -12,10 +12,13 @@ beforeEach(() => {
     '',
     '',
     {
-      BLOG: {},
+      BLOG: {
+        DOMAIN: 'xx'
+      },
       STYLE: {
-        THEMEDIR: '@themes',
-        THEME: 'mock-theme'
+        THEMEDIR: 'test/mock-source/@themes',
+        THEME: 'mock-theme',
+        THEME_CONFIG_FILE: 'theme.config.yaml'
       }
     } as BlogConfigure,
     reader,
