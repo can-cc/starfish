@@ -5,7 +5,8 @@ const themerCopyThemeAssetSpy = jest.fn(() => {});
 
 jest.mock('./render-themer', () => ({
     RenderThemer: class MockRenderThemer {
-        copyThemeAsset = themerCopyThemeAssetSpy; 
+        copyThemeAsset = themerCopyThemeAssetSpy;
+        load = () => {};
     }
 }));
 jest.mock('./render-plugin', () => ({

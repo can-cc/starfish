@@ -4,11 +4,8 @@ import * as R from 'ramda';
 import * as shell from 'shelljs';
 
 import { RenderThemer } from './render-themer';
-
 import { Blog } from '../../model/Blog';
-
 import { RenderPluginManager } from './render-plugin';
-
 import { Reader } from '../reader/Reader';
 import { Writer } from '../writer/Writer';
 
@@ -28,6 +25,7 @@ export class RenderController {
       outputPath: rootOutputPath, 
       blogConfigure: this.blogConfigure
     });
+    this.renderThemer.load();
 
     this.renderPluginManager = new RenderPluginManager({
       rootInputPath,
