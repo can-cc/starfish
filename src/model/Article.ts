@@ -1,4 +1,3 @@
-import * as fs from 'fs';
 import * as path from 'path';
 import * as fsExtra from 'fs-extra';
 import md5 from 'blueimp-md5';
@@ -7,6 +6,7 @@ import * as cheerio from 'cheerio';
 import { getRelativePath, takeFileNameWithoutSuffix } from '../lib/util';
 import { RenderController } from '../modules/render/render-controller';
 import { getParsersFromModules } from '../modules/render/render-util';
+import { RenderEntity } from './RenderEntity';
 
 function fixArticleUrlAndCut(content, relativeOutputPath) {
   const $ = cheerio.load(content);
@@ -28,7 +28,7 @@ const execSync = require('child_process').execSync;
 
 const HashNum = 7;
 
-export class Article {
+export class Article implements RenderEntity {
   public outputDirPath: string;
   public filenameWithoutSuffix: string;
   public assetPath: string;
@@ -50,7 +50,9 @@ export class Article {
     this.filenameWithoutSuffix = takeFileNameWithoutSuffix(options.articleInputPath);
     this.assetPath = path.resolve(this.options.categoryInputPath, this.filenameWithoutSuffix);
     this.outputDirPath = path.resolve(this.options.categoryOutputPath, this.filenameWithoutSuffix);
+  }
 
+  public load() {
     this.data = this.loadArticleData();
   }
 
@@ -66,16 +68,20 @@ export class Article {
       this.copyArticleAsset();
     }
 
-    if (!fs.existsSync(this.outputDirPath)) {
-      fs.mkdirSync(this.outputDirPath);
+    // if (!fs.existsSync(this.outputDirPath)) {
+    if (!this.controller.reader.existsSync(this.outputDirPath)) {
+      // fs.mkdirSync(this.outputDirPath);
+      this.controller.writer.mkdirSync(this.outputDirPath);
     }
 
-    fs.writeFileSync(this.options.articleOutputPath, renderedHtml);
+    // fs.writeFileSync(this.options.articleOutputPath, renderedHtml);
+    this.controller.writer.writeFileSync(this.options.articleOutputPath, renderedHtml);
     this.controller.renderPluginManager.runPluinAfterArticleRender(renderedHtml, this);
   }
 
   private hasAsset() {
-    return fs.existsSync(this.assetPath);
+    return this.controller.reader.existsSync(this.assetPath);
+    // return fs.existsSync(this.assetPath);
   }
 
   private loadArticleData() {
@@ -109,7 +115,11 @@ export class Article {
     };
   }
 
-  private getArticleGitData(document: ArticleDocument) {
+  private getArticleGitData(document: ArticleDocument): {
+    createTime: number,
+    modifyTime: number,
+    showTime: number
+  } {
     const filePath = this.options.articleInputPath;
     let dates = [];
     try {
@@ -141,12 +151,17 @@ export class Article {
     };
   }
 
-  private parseArticle(inputPath) {
+  private parseArticle(inputPath): {
+    document: ArticleDocument;
+    type: string;
+  } {
     const parsers = getParsersFromModules();
-
     for (const i in parsers) {
       if (parsers[i].check(inputPath)) {
-        const articleRawData = fs.readFileSync(inputPath, 'utf-8');
+
+        // const articleRawData = fs.readFileSync(inputPath, 'utf-8');
+        const articleRawData = this.controller.reader.readFileSync(inputPath);
+
         return {
           document: parsers[i].parse(articleRawData),
           type: parsers[i].name
