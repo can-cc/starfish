@@ -26,4 +26,12 @@ export class FSReader implements Reader {
     public fileExist(filePath: string): boolean {
         return fs.existsSync(filePath);
     }
+
+    public existsSync(path: string) {
+        return fs.existsSync(path);
+      }
+
+    public readFileSync(filePath: string): string {
+        return fs.readFileSync(filePath, 'utf-8');
+    }
 }

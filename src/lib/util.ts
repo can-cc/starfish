@@ -43,9 +43,3 @@ export let isSuffix = (suffix, str) => {
 export let filterDotFiles = name => {
   return name[0] !== '.' && name[0] !== '~' && name[0] !== '#';
 };
-
-export let mergeForce = (o1, o2) => {
-  for (let key in o2) {
-    o1[key] = o2[key];
-  }
-};

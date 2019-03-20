@@ -1,15 +1,7 @@
 import * as path from 'path';
-import * as fs from 'fs';
 import * as fsExtra from 'fs-extra';
 import {
-  isFile,
-  isDir,
-  takeFileName,
-  takeFileNameWithoutSuffix,
-  getRelativePath,
-  filterDotFiles,
-  isSuffix,
-  mergeForce
+  takeFileName
 } from '../../lib/util';
 
 export async function syncMappingDirs(needMapping, mappingRules, dirPath, outputPath) {
@@ -25,7 +17,7 @@ export function makeDocumentParserFn(parsers) {
     const fileName = takeFileName(filePath);
     for (const i in parsers) {
       if (parsers[i].check(fileName)) {
-        const filenameWithoutSuffix = takeFileNameWithoutSuffix(filePath);
+        // const filenameWithoutSuffix = takeFileNameWithoutSuffix(filePath);
         const document = parsers[i].parse(data);
         return {
           fileName,
