@@ -36,3 +36,28 @@ test('Blog load func', () => {
     expect(c.load).toBeCalled();
   });
 });
+
+
+test('Blog render func', () => {
+  const blogInputPath = '';
+  const blogOutputPath = '';
+  const blogConfigure = {
+    BLOG: {
+      ARTICLES_DIR: 'articles'
+    }
+  } as BlogConfigure;
+
+  const reader = new FSReader();
+  const writer = new FSWriter();
+
+  jest.spyOn(reader, 'readCategoryPaths').mockImplementation(() => {
+    return ['/d/1', '/d/2'];
+  });
+
+  const renderController = new RenderController('', '', {} as BlogConfigure, reader, writer);
+
+  const blog = new Blog({ blogInputPath, blogOutputPath, blogConfigure }, renderController);
+  (<any>blog).categorys = [];
+
+  blog.render();
+});

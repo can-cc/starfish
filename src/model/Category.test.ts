@@ -1,10 +1,5 @@
 import { Category } from './Category';
-import { FSReader } from '../modules/reader/FSReader';
-import { FSWriter } from '../modules/writer/FSWriter';
 import { RenderController } from '../modules/render/render-controller';
-import { Reader } from '../modules/reader/Reader';
-import { Writer } from '../modules/writer/Writer';
-import { RenderThemer } from '../modules/render/render-themer';
 import { Article } from './Article';
 
 let controller;
@@ -119,11 +114,26 @@ test('Category renderAllArticle', () => {
     controller
   );
 
-  const articleRenderSpy = jest.spyOn(article, 'render');
+  const articleRenderSpy = jest.spyOn(article, 'render').mockImplementation(() => {});
 
   (<any>category).articles = [article];
-
   (<any>category).renderAllArticle();
 
   expect(articleRenderSpy).toBeCalled();
+});
+
+test('Category getAllArticles', () => {
+  const category = new Category(
+    {
+      categoryInputPath: '',
+      categoryOutputPath: '',
+      blogInputPath: '',
+      blogOutputPath: '',
+      categoryName: 'javascript'
+    },
+    controller
+  );
+  (<any>category).articles = [];
+
+  expect(category.getAllArticles()).toEqual([]);
 });

@@ -66,10 +66,6 @@ export class Blog implements RenderEntity {
       path.join(this.options.blogInputPath, this.options.blogConfigure.BLOG.ARTICLES_DIR)
     );
 
-    // fs
-    //   .readdirSync(this.options.blogInputPath)
-    //   .filter(p => isDir(path.join(this.options.blogInputPath, p)));
-
     return categoryPaths.map((categoryName: string) => {
       return new Category(
         {
