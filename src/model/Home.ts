@@ -1,5 +1,4 @@
 import * as path from 'path';
-import * as fs from 'fs';
 import { Category } from './Category';
 import { RenderController } from '../modules/render/render-controller';
 import { RenderEntity } from './RenderEntity';
@@ -13,6 +12,8 @@ export class BlogHome implements RenderEntity {
     private controller: RenderController
   ) {}
 
+  public load() {}
+
   public render(): void {
     const indexData = {
       // ...this.controller.getBlogInformation(),
@@ -22,6 +23,6 @@ export class BlogHome implements RenderEntity {
 
     const html = this.controller.renderThemer.renderTemplate('INDEX', indexData);
     const outputFilePath = path.join(this.options.homeOutputPath, 'index.html');
-    fs.writeFileSync(outputFilePath, html);
+    this.controller.writer.writeFileSync(outputFilePath, html);
   }
 }

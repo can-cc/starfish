@@ -1,5 +1,4 @@
 import * as path from 'path';
-import * as fs from 'fs';
 import * as R from 'ramda';
 import { Category } from './Category';
 import { RenderController } from '../modules/render/render-controller';
@@ -27,7 +26,7 @@ export class CategoryList implements RenderEntity {
     return this.data;
   }
 
-  public loadCategoryListData(): CategoryListData {
+  private loadCategoryListData(): CategoryListData {
     return {
       categoryList: this.categorys.map(c => c.getData()).map(cd => R.omit(['articles'], cd)),
       path: getRelativePath(this.options.blogOutputPath, this.options.categoryListOutputPath)
@@ -35,12 +34,12 @@ export class CategoryList implements RenderEntity {
   }
 
   public render() {
-    if (!fs.existsSync(this.options.categoryListOutputPath)) {
-      fs.mkdirSync(this.options.categoryListOutputPath);
+    if (!this.controller.reader.existsSync(this.options.categoryListOutputPath)) {
+      this.controller.writer.mkdirSync(this.options.categoryListOutputPath);
     }
 
     const html = this.controller.renderThemer.renderTemplate('CATEGORY_LIST', this.data);
-    fs.writeFileSync(path.join(this.options.categoryListOutputPath, 'index.html'), html);
+    this.controller.writer.writeFileSync(path.join(this.options.categoryListOutputPath, 'index.html'), html);
 
     this.controller.renderPluginManager.runPluinAfterCategoryListRender(html, this);
   }
