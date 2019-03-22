@@ -68,13 +68,10 @@ export class Article implements RenderEntity {
       this.copyArticleAsset();
     }
 
-    // if (!fs.existsSync(this.outputDirPath)) {
     if (!this.controller.reader.existsSync(this.outputDirPath)) {
-      // fs.mkdirSync(this.outputDirPath);
       this.controller.writer.mkdirSync(this.outputDirPath);
     }
 
-    // fs.writeFileSync(this.options.articleOutputPath, renderedHtml);
     this.controller.writer.writeFileSync(this.options.articleOutputPath, renderedHtml);
     this.controller.renderPluginManager.runPluinAfterArticleRender(renderedHtml, this);
   }
@@ -159,7 +156,6 @@ export class Article implements RenderEntity {
     for (const i in parsers) {
       if (parsers[i].check(inputPath)) {
 
-        // const articleRawData = fs.readFileSync(inputPath, 'utf-8');
         const articleRawData = this.controller.reader.readFileSync(inputPath);
 
         return {
@@ -172,7 +168,7 @@ export class Article implements RenderEntity {
   }
 
   private copyArticleAsset() {
-    fsExtra.copySync(
+    this.controller.writer.copySync(
       this.assetPath,
       path.resolve(
         this.options.categoryOutputPath,

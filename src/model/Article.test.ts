@@ -11,6 +11,18 @@ beforeEach(() => {
       readDirPaths: () => [],
       readFileSync: () => {},
       existsSync: () => true
+    } as any,
+    writer: {
+      mkdirSync: () => {},
+      copySync: () => {},
+      writeFileSync: () => {}
+    } as any,
+    renderPluginManager: {
+      runPluinBeforeArticleRender: () => {},
+      runPluinAfterArticleRender: () => {}
+    } as any,
+    renderThemer: {
+      renderTemplate: () => {}
     } as any
   } as RenderController;
 });
@@ -63,3 +75,52 @@ test('Article load', () => {
     type: "markdown"
   });
 });
+
+
+test('Article render', () => {
+  const article = new Article(
+    {
+      articleInputPath: 'javascript/javascript-good.md',
+      articleOutputPath: '',
+      categoryInputPath: '',
+      categoryOutputPath: '',
+      rootInputPath: 'javascript',
+      rootOutputPath: 'javascript',
+      filename: 'javascript-good.md'
+    },
+    controller
+  );
+
+  const mockArticleData = {
+    content: "<html><head></head><body>content</body></html>",
+    createTime: 1552966034338,
+    dirPath: "-good",
+    hasAsset: true,
+    id: "49f68a5",
+    modifyTime: 1552966034338,
+    path: "./",
+    showTime: 1552966034338,
+    title: "hi",
+    type: "markdown"
+  };
+
+  const renderTemplateSpy = jest.spyOn(controller.renderThemer, 'renderTemplate').mockImplementation(() => {
+    return 'I AM HTMl haha';
+  });
+  const runPluinAfterArticleRenderSpy = jest.spyOn(controller.renderPluginManager, 'runPluinAfterArticleRender').mockImplementation(() => {});
+  const mkdirSyncSpy = jest.spyOn(controller.writer, 'mkdirSync').mockImplementation(() => {});
+  jest.spyOn(controller.reader, 'existsSync').mockImplementationOnce(() => true);
+  jest.spyOn(controller.reader, 'existsSync').mockImplementationOnce(() => false);
+  const copyArticleAssetSpy = jest.spyOn<Article, any>(article, 'copyArticleAsset').mockImplementation(() => {});
+
+  (<any>article).data = mockArticleData;
+
+  article.render();
+
+  expect(renderTemplateSpy).toBeCalledWith('ARTICLE', mockArticleData);
+  expect(mkdirSyncSpy.mock.calls[0][0].indexOf('javascript-good')).toBeGreaterThan(0);
+  expect(copyArticleAssetSpy).toBeCalled();
+  expect(runPluinAfterArticleRenderSpy).toBeCalledWith('I AM HTMl haha', article);
+});
+
+
