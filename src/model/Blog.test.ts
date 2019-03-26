@@ -37,7 +37,6 @@ test('Blog load func', () => {
   });
 });
 
-
 test('Blog render func', () => {
   const blogInputPath = '';
   const blogOutputPath = '';
@@ -47,17 +46,25 @@ test('Blog render func', () => {
     }
   } as BlogConfigure;
 
-  const reader = new FSReader();
-  const writer = new FSWriter();
+  const blogHomeRenderSpy = jest.fn();
+  const blogListRenderSpy = jest.fn();
+  const categoryRenderSpy = jest.fn();
+  const runPluinAfterBlogRenderSpy = jest.fn();
 
-  jest.spyOn(reader, 'readCategoryPaths').mockImplementation(() => {
-    return ['/d/1', '/d/2'];
-  });
+  const blog = new Blog({ blogInputPath, blogOutputPath, blogConfigure }, {
+    renderPluginManager: {
+      runPluinAfterBlogRender: runPluinAfterBlogRenderSpy
+    }
+  } as any);
 
-  const renderController = new RenderController('', '', {} as BlogConfigure, reader, writer);
-
-  const blog = new Blog({ blogInputPath, blogOutputPath, blogConfigure }, renderController);
-  (<any>blog).categorys = [];
+  (<any>blog).categorys = [{render: categoryRenderSpy}];
+  (<any>blog).blogHome = {render: blogHomeRenderSpy};
+  (<any>blog).categoryList = {render: blogListRenderSpy};
 
   blog.render();
+
+  expect(categoryRenderSpy).toBeCalled();
+  expect(blogHomeRenderSpy).toBeCalled();
+  expect(blogListRenderSpy).toBeCalled();
+  expect(runPluinAfterBlogRenderSpy).toBeCalledWith(blog);
 });
