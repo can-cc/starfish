@@ -1,5 +1,5 @@
-import { filterDotFiles } from './util';
+import { getRelativePath } from './util';
 
-test('util filterDotFiles', () => {
-  expect(filterDotFiles(['.sdsd', 'file'])).toEqual(['file']);
+test('util takeFileName', () => {
+  expect(getRelativePath('/d/star', '/d/star/xx/kl')).toEqual('/xx/kl');
 });
