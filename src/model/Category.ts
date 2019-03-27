@@ -37,7 +37,7 @@ export class Category implements RenderEntity {
 
   public load(): void {
     this.categoryConfigure = this.loadCategoryConfigure();
-    
+
     this.articles = this.loadArtices();
     this.articles.forEach(a => a.load());
 
@@ -58,10 +58,7 @@ export class Category implements RenderEntity {
       this.controller.writer.mkdirSync(this.options.categoryOutputPath);
     }
 
-    const outputHtmlContent = this.controller.renderThemer.renderTemplate(
-      'CATEGORY',
-      this.categoryData
-    );
+    const outputHtmlContent = this.controller.renderThemer.renderTemplate('CATEGORY', this.categoryData);
 
     const categoryIndexFilePath: string = path.join(this.options.categoryOutputPath, 'index.html');
 
@@ -100,9 +97,7 @@ export class Category implements RenderEntity {
     const parsers = getParsersFromModules();
 
     // const inCategorypaths = fs.readdirSync(this.options.categoryInputPath);
-    const inCategorypaths: string[] = this.controller.reader.readDirPaths(
-      this.options.categoryInputPath
-    );
+    const inCategorypaths: string[] = this.controller.reader.readDirPaths(this.options.categoryInputPath);
 
     // TODO remove lodash
     const [files] = _.partition(inCategorypaths, pathName =>
@@ -120,11 +115,7 @@ export class Category implements RenderEntity {
         return new Article(
           {
             articleInputPath: path.join(this.options.categoryInputPath, articleFile),
-            articleOutputPath: path.join(
-              this.options.categoryOutputPath,
-              articleFileNameWithoutSuffix,
-              'index.html'
-            ),
+            articleOutputPath: path.join(this.options.categoryOutputPath, articleFileNameWithoutSuffix, 'index.html'),
             rootOutputPath: this.options.blogOutputPath,
             rootInputPath: this.options.blogInputPath,
             categoryInputPath: this.options.categoryInputPath,

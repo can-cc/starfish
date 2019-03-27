@@ -1,8 +1,6 @@
 import * as path from 'path';
 import * as fsExtra from 'fs-extra';
-import {
-  takeFileName
-} from '../../lib/util';
+import { takeFileName } from '../../lib/util';
 
 export async function syncMappingDirs(needMapping, mappingRules, dirPath, outputPath) {
   needMapping.map(async subDir => {
@@ -32,7 +30,5 @@ export function makeDocumentParserFn(parsers) {
 }
 
 export function getParsersFromModules() {
-  return ['../../parser/md-parser', '../../parser/org-parser'].map(
-    moduleName => new (require(moduleName)).default()
-  );
+  return ['../../parser/md-parser', '../../parser/org-parser'].map(moduleName => new (require(moduleName)).default());
 }

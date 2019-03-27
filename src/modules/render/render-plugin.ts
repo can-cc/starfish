@@ -7,13 +7,16 @@ import { StartFishRenderPlugin } from 'src/plugin/base/render-plugin';
 import { RenderController } from './render-controller';
 
 export class RenderPluginManager {
-  private plugins: {[name: string]: StartFishRenderPlugin[]};
+  private plugins: { [name: string]: StartFishRenderPlugin[] };
 
-  constructor(private options: {
-    rootInputPath: string;
-    rootOutputPath: string;
-    blogConfigure: BlogConfigure
-  }, private renderController: RenderController) {
+  constructor(
+    private options: {
+      rootInputPath: string;
+      rootOutputPath: string;
+      blogConfigure: BlogConfigure;
+    },
+    private renderController: RenderController
+  ) {
     this.plugins = this.getPluginFromNodeMudules(options);
   }
 
@@ -35,13 +38,10 @@ export class RenderPluginManager {
     });
   }
 
-  public runPluinAfterRender(blog: Blog) {
-  }
+  public runPluinAfterRender(blog: Blog) {}
 
   public runPluinAfterCategoryListRender(renderedHtml: string, categoryList: CategoryList): void {
-    R.values(this.plugins).forEach(plugin =>
-      plugin.afterCategoryListRender(renderedHtml, categoryList)
-    );
+    R.values(this.plugins).forEach(plugin => plugin.afterCategoryListRender(renderedHtml, categoryList));
   }
 
   public runPluinAfterCategoryRender(renderedHtml: string, category: Category) {
@@ -52,7 +52,7 @@ export class RenderPluginManager {
     R.values(this.plugins).forEach(plugin => plugin.afterBlogRender(blog));
   }
 
-  private getPluginFromNodeMudules(options): {[name: string]: StartFishRenderPlugin[]} {
+  private getPluginFromNodeMudules(options): { [name: string]: StartFishRenderPlugin[] } {
     const plugins = {};
     ['../../plugin/hg-api', '../../plugin/sitemap', '../../plugin/recent-article'].forEach(name => {
       if (!plugins[name]) {

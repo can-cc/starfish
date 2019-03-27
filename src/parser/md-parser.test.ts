@@ -22,7 +22,6 @@ date: 2019-04-01
   expect(parseredResult.type).toEqual('markdown');
 });
 
-
 test('markdown parser parser markdown content', () => {
   const parser = new MarkdownParser();
 

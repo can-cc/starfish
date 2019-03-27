@@ -26,11 +26,9 @@ const tick = () => {
 
 test('render command', async () => {
   const renderCommand = new RenderCommand();
-  jest
-    .spyOn<any, 'cleanOutPutAssets'>(renderCommand, 'cleanOutPutAssets')
-    .mockImplementation(() => {
-      return Promise.resolve();
-    });
+  jest.spyOn<any, 'cleanOutPutAssets'>(renderCommand, 'cleanOutPutAssets').mockImplementation(() => {
+    return Promise.resolve();
+  });
   jest.spyOn<any, 'startSpin'>(renderCommand, 'startSpin').mockImplementation(() => {});
   jest.spyOn<any, 'stopSpinSuccess'>(renderCommand, 'stopSpinSuccess').mockImplementation(() => {});
   jest.spyOn<any, 'stopSpinFail'>(renderCommand, 'stopSpinFail').mockImplementation(() => {});

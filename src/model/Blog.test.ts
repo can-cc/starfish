@@ -57,9 +57,9 @@ test('Blog render func', () => {
     }
   } as any);
 
-  (<any>blog).categorys = [{render: categoryRenderSpy}];
-  (<any>blog).blogHome = {render: blogHomeRenderSpy};
-  (<any>blog).categoryList = {render: blogListRenderSpy};
+  (<any>blog).categorys = [{ render: categoryRenderSpy }];
+  (<any>blog).blogHome = { render: blogHomeRenderSpy };
+  (<any>blog).categoryList = { render: blogListRenderSpy };
 
   blog.render();
 

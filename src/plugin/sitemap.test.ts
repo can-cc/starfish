@@ -38,7 +38,5 @@ test('sitemap afterBlogRender fileURLToPath', () => {
     renderController
   );
 
-  expect((<any>starFishRenderSiteMap).fileURLToPath(`\\asdasdas\\asdasd\\asd`)).toEqual(
-    '/asdasdas/asdasd/asd'
-  );
+  expect((<any>starFishRenderSiteMap).fileURLToPath(`\\asdasdas\\asdasd\\asd`)).toEqual('/asdasdas/asdasd/asd');
 });

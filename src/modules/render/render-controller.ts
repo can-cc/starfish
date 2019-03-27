@@ -21,17 +21,20 @@ export class RenderController {
     public writer: Writer
   ) {
     this.renderThemer = new RenderThemer({
-      inputPath: rootInputPath, 
-      outputPath: rootOutputPath, 
+      inputPath: rootInputPath,
+      outputPath: rootOutputPath,
       blogConfigure: this.blogConfigure
     });
     this.renderThemer.load();
 
-    this.renderPluginManager = new RenderPluginManager({
-      rootInputPath,
-      rootOutputPath,
-      blogConfigure: this.blogConfigure
-    }, this);
+    this.renderPluginManager = new RenderPluginManager(
+      {
+        rootInputPath,
+        rootOutputPath,
+        blogConfigure: this.blogConfigure
+      },
+      this
+    );
   }
 
   public render(): void {
@@ -74,11 +77,7 @@ export class RenderController {
     const mapping = this.blogConfigure.MAPPING;
     R.keys(mapping).forEach(sourcePath => {
       const targetPath = mapping[sourcePath];
-      shell.cp(
-        '-R',
-        path.join(this.rootInputPath, sourcePath),
-        path.join(this.rootOutputPath, targetPath)
-      );
+      shell.cp('-R', path.join(this.rootInputPath, sourcePath), path.join(this.rootOutputPath, targetPath));
     });
   }
 }

@@ -70,13 +70,8 @@ test('Category render', () => {
   const mkdirSyncSpy = jest.spyOn(controller.writer, 'mkdirSync');
   const renderTemplateSpy = jest.spyOn(controller.renderThemer, 'renderTemplate');
   const writeFileSyncSpy = jest.spyOn(controller.writer, 'writeFileSync');
-  const runPluinAfterCategoryRenderSpy = jest.spyOn(
-    controller.renderPluginManager,
-    'runPluinAfterCategoryRender'
-  );
-  const renderAllArticleSpy = jest
-    .spyOn<any, any>(category, 'renderAllArticle')
-    .mockImplementation(() => {});
+  const runPluinAfterCategoryRenderSpy = jest.spyOn(controller.renderPluginManager, 'runPluinAfterCategoryRender');
+  const renderAllArticleSpy = jest.spyOn<any, any>(category, 'renderAllArticle').mockImplementation(() => {});
 
   category.render();
 
@@ -87,7 +82,6 @@ test('Category render', () => {
   expect(runPluinAfterCategoryRenderSpy).toBeCalledWith('IAMHTML', category);
   expect(renderAllArticleSpy).toBeCalled();
 });
-
 
 test('Category renderAllArticle', () => {
   const category = new Category(

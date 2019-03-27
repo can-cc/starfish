@@ -33,13 +33,7 @@ export default class RenderCommand implements Command {
       try {
         const reader: Reader = new FSReader();
         const writer: Writer = new FSWriter();
-        const renderControl = new RenderController(
-          inputPath,
-          outputPath,
-          blogConfigure,
-          reader,
-          writer
-        );
+        const renderControl = new RenderController(inputPath, outputPath, blogConfigure, reader, writer);
         renderControl.render();
 
         this.stopSpinSuccess();

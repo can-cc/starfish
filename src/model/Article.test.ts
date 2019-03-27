@@ -52,7 +52,7 @@ test('Article load', () => {
       title: 'hi',
       date: '2019-06-01',
       content: 'content',
-      type: 'markdown',
+      type: 'markdown'
     } as ArticleDocument,
     type: 'markdown'
   }));
@@ -63,19 +63,18 @@ test('Article load', () => {
   expect(article.assetPath.indexOf('javascript-good')).toBeGreaterThan(0);
   expect(article.outputDirPath.indexOf('javascript-good')).toBeGreaterThan(0);
   expect(article.data).toEqual({
-    content: "<html><head></head><body>content</body></html>",
+    content: '<html><head></head><body>content</body></html>',
     createTime: 1552966034338,
-    dirPath: "-good",
+    dirPath: '-good',
     hasAsset: true,
-    id: "49f68a5",
+    id: '49f68a5',
     modifyTime: 1552966034338,
-    path: "./",
+    path: './',
     showTime: 1552966034338,
-    title: "hi",
-    type: "markdown"
+    title: 'hi',
+    type: 'markdown'
   });
 });
-
 
 test('Article render', () => {
   const article = new Article(
@@ -92,22 +91,24 @@ test('Article render', () => {
   );
 
   const mockArticleData = {
-    content: "<html><head></head><body>content</body></html>",
+    content: '<html><head></head><body>content</body></html>',
     createTime: 1552966034338,
-    dirPath: "-good",
+    dirPath: '-good',
     hasAsset: true,
-    id: "49f68a5",
+    id: '49f68a5',
     modifyTime: 1552966034338,
-    path: "./",
+    path: './',
     showTime: 1552966034338,
-    title: "hi",
-    type: "markdown"
+    title: 'hi',
+    type: 'markdown'
   };
 
   const renderTemplateSpy = jest.spyOn(controller.renderThemer, 'renderTemplate').mockImplementation(() => {
     return 'I AM HTMl haha';
   });
-  const runPluinAfterArticleRenderSpy = jest.spyOn(controller.renderPluginManager, 'runPluinAfterArticleRender').mockImplementation(() => {});
+  const runPluinAfterArticleRenderSpy = jest
+    .spyOn(controller.renderPluginManager, 'runPluinAfterArticleRender')
+    .mockImplementation(() => {});
   const mkdirSyncSpy = jest.spyOn(controller.writer, 'mkdirSync').mockImplementation(() => {});
   jest.spyOn(controller.reader, 'existsSync').mockImplementationOnce(() => true);
   jest.spyOn(controller.reader, 'existsSync').mockImplementationOnce(() => false);
@@ -122,5 +123,3 @@ test('Article render', () => {
   expect(copyArticleAssetSpy).toBeCalled();
   expect(runPluinAfterArticleRenderSpy).toBeCalledWith('I AM HTMl haha', article);
 });
-
-

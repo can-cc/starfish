@@ -18,7 +18,7 @@ export class RenderThemer {
 
   private loaded = false;
 
-  constructor({inputPath, outputPath, blogConfigure}) {
+  constructor({ inputPath, outputPath, blogConfigure }) {
     this.inputPath = inputPath;
     this.outputPath = outputPath;
     this.configure = blogConfigure;

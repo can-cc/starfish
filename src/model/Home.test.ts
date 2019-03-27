@@ -15,7 +15,7 @@ test('Home load func', () => {
     return ['/d/1', '/d/2'];
   });
 
-  const categorys  = [];
+  const categorys = [];
 
   const renderController = new RenderController('', '', {} as BlogConfigure, reader, writer);
   const home = new BlogHome({ homeOutputPath: '' }, categorys, renderController);
@@ -26,24 +26,23 @@ test('Home load func', () => {
 });
 
 test('Home render func', () => {
-    const renderTemplateSpy = jest.fn(() => 'HTMLLLLL');
-    const writeFileSyncSpy = jest.fn(() => {});
+  const renderTemplateSpy = jest.fn(() => 'HTMLLLLL');
+  const writeFileSyncSpy = jest.fn(() => {});
 
-    const categorys  = [];
-    const renderController = {
-        renderThemer: {
-            renderTemplate: renderTemplateSpy
-        },
-        writer: {
-            writeFileSync: writeFileSyncSpy
-        } as any
-    } as any;
-  
-    const home = new BlogHome({ homeOutputPath: '' }, categorys, renderController);
-  
-    home.render();
+  const categorys = [];
+  const renderController = {
+    renderThemer: {
+      renderTemplate: renderTemplateSpy
+    },
+    writer: {
+      writeFileSync: writeFileSyncSpy
+    } as any
+  } as any;
 
-    expect(renderTemplateSpy).toHaveBeenCalledWith('INDEX', {});
-    expect(writeFileSyncSpy).toHaveBeenCalledWith('index.html', 'HTMLLLLL');
-  });
-  
+  const home = new BlogHome({ homeOutputPath: '' }, categorys, renderController);
+
+  home.render();
+
+  expect(renderTemplateSpy).toHaveBeenCalledWith('INDEX', {});
+  expect(writeFileSyncSpy).toHaveBeenCalledWith('index.html', 'HTMLLLLL');
+});

@@ -22,9 +22,6 @@ export default class StarFishRenderRecentArticle extends StartFishRenderPlugin {
       R.sort((a1: Article, a2: Article) => a2.data.createTime - a1.data.createTime)
     )(articles);
 
-    fs.writeFileSync(
-      path.join(this.options.rootOutputPath, 'recent-articles.json'),
-      JSON.stringify(recentArticles)
-    );
+    fs.writeFileSync(path.join(this.options.rootOutputPath, 'recent-articles.json'), JSON.stringify(recentArticles));
   }
 }

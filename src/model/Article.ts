@@ -87,10 +87,7 @@ export class Article implements RenderEntity {
 
     this.id = md5(document.title).substring(0, HashNum);
 
-    const relativeOutputPath = getRelativePath(
-      this.options.rootOutputPath,
-      this.options.categoryOutputPath
-    );
+    const relativeOutputPath = getRelativePath(this.options.rootOutputPath, this.options.categoryOutputPath);
 
     const content = fixArticleUrlAndCut(document.content, relativeOutputPath);
 
@@ -111,19 +108,18 @@ export class Article implements RenderEntity {
     };
   }
 
-  private getArticleGitData(document: ArticleDocument): {
-    createTime: number,
-    modifyTime: number,
-    showTime: number
+  private getArticleGitData(
+    document: ArticleDocument
+  ): {
+    createTime: number;
+    modifyTime: number;
+    showTime: number;
   } {
     const filePath = this.options.articleInputPath;
     let dates = [];
     try {
       const stdout = execSync(
-        `git log --follow --pretty=format:\'%ad\' ${path.relative(
-          this.options.rootInputPath,
-          filePath
-        )} | cat`,
+        `git log --follow --pretty=format:\'%ad\' ${path.relative(this.options.rootInputPath, filePath)} | cat`,
         {
           cwd: this.options.rootInputPath,
           encoding: 'utf-8'
@@ -147,14 +143,15 @@ export class Article implements RenderEntity {
     };
   }
 
-  private parseArticle(inputPath): {
+  private parseArticle(
+    inputPath
+  ): {
     document: ArticleDocument;
     type: string;
   } {
     const parsers = getParsersFromModules();
     for (const i in parsers) {
       if (parsers[i].check(inputPath)) {
-
         const articleRawData = this.controller.reader.readFileSync(inputPath);
 
         return {
@@ -169,10 +166,7 @@ export class Article implements RenderEntity {
   private copyArticleAsset() {
     this.controller.writer.copySync(
       this.assetPath,
-      path.resolve(
-        this.options.categoryOutputPath,
-        takeFileNameWithoutSuffix(this.options.filename)
-      )
+      path.resolve(this.options.categoryOutputPath, takeFileNameWithoutSuffix(this.options.filename))
     );
   }
 }

@@ -30,10 +30,7 @@ export default class StarflishRenderHgApiPlugin extends StartFishRenderPlugin {
     if (!fs.existsSync(categoryListOutputDirPath)) {
       fs.mkdirSync(categoryListOutputDirPath);
     }
-    fs.writeFileSync(
-      path.join(categoryListOutputDirPath, 'index.json'),
-      JSON.stringify(categoryListData)
-    );
+    fs.writeFileSync(path.join(categoryListOutputDirPath, 'index.json'), JSON.stringify(categoryListData));
   }
 
   public afterCategoryRender(renderedHtml: string, category: Category): void {
@@ -56,9 +53,9 @@ export default class StarflishRenderHgApiPlugin extends StartFishRenderPlugin {
     const articles = blog.getAllArticle();
     const pageNumber = Math.round(articles.length / pageSize);
 
-    const sortedArticles = R.compose(
-      R.sort((a1: Article, a2: Article) => a2.data.createTime - a1.data.createTime)
-    )(articles);
+    const sortedArticles = R.compose(R.sort((a1: Article, a2: Article) => a2.data.createTime - a1.data.createTime))(
+      articles
+    );
 
     R.splitEvery(pageSize, sortedArticles).map((articleSplited, index) => {
       const articlePage = {
@@ -67,10 +64,7 @@ export default class StarflishRenderHgApiPlugin extends StartFishRenderPlugin {
         pageNumber,
         pageSize
       };
-      fs.writeFileSync(
-        path.join(articlesOuputDirPath, `articles-${index}.json`),
-        JSON.stringify(articlePage)
-      );
+      fs.writeFileSync(path.join(articlesOuputDirPath, `articles-${index}.json`), JSON.stringify(articlePage));
     });
   }
 }
