@@ -1,4 +1,1 @@
-
-export class RenderPluginManager {
- 
-}
+export class RenderPluginManager {}

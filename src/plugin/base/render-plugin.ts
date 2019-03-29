@@ -5,10 +5,7 @@ import { Blog } from '../../model/Blog';
 import { RenderController } from '../../modules/render/render-controller';
 
 export abstract class StartFishRenderPlugin {
-  constructor(
-    protected options: PluginOptions,
-    protected renderController: RenderController
-  ) {}
+  constructor(protected options: PluginOptions, protected renderController: RenderController) {}
 
   public beforeArticleRender() {}
 

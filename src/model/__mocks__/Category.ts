@@ -17,14 +17,13 @@ export class Category implements RenderEntity {
       categoryName;
     },
     private controller
-  ) {
-  }
+  ) {}
 
   public load = jest.fn();
 
   public render(): void {}
 
   public getData(): any {
-      return {};
+    return {};
   }
 }

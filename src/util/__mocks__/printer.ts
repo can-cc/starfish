@@ -1,7 +1,7 @@
 export class Printer {
-    public log(...args) {}
-    
-    public error(...args) {}
+  public log(...args) {}
+
+  public error(...args) {}
 }
 
 const printer = new Printer();

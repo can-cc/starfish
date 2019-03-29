@@ -1,3 +1,1 @@
-export class Blog {
-
-}
+export class Blog {}
