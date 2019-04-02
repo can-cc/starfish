@@ -1,4 +1,4 @@
-import * as path from 'path';
+import path from 'path';
 import R from 'ramda';
 import { Category } from './Category';
 import { BlogHome } from './Home';

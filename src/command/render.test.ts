@@ -14,7 +14,7 @@ jest.mock('../lib/util', () => {
 });
 jest.mock('../util/printer');
 
-import RenderCommand from './render';
+import RenderCommand from './render.command';
 
 const tick = () => {
   return new Promise(resolve => {

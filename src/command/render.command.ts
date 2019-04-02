@@ -1,5 +1,5 @@
-import * as ora from 'ora';
-import * as rimraf from 'rimraf';
+import ora from 'ora';
+import rimraf from 'rimraf';
 import { isDir } from '../lib/util';
 import { RenderController } from '../modules/render/render-controller';
 import { Command } from './command';

@@ -4,5 +4,7 @@ export default class InitCommand implements Command {
   public name = 'init';
   public type = 'command';
 
-  public run(inputs: string[], flags: boolean[], blogConfigure: any) {}
+  public run(inputs: string[], flags: boolean[], blogConfigure: any) {
+    console.log('init feature in deveplement.');
+  }
 }
