@@ -8,6 +8,7 @@ export default class StarFishSSRCommand implements Command {
 
   public run(inputs, flags, blogConfigure) {
     const inputPath = path.resolve(inputs[0]);
+
     if (!inputPath) {
       return console.error('Please spec blog path.');
     }
