@@ -1,5 +1,5 @@
-import * as path from 'path';
-import * as ora from 'ora';
+import path from 'path';
+import ora from 'ora';
 import { Command } from './command';
 
 export default class StarFishSSRCommand implements Command {
