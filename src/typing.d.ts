@@ -14,6 +14,7 @@ declare interface BlogConfigure {
     HOST: string;
     INDEX_ARTICLE_NUMBER: number;
     SORT_ARTICLE_BY: 'create' | 'update';
+    IGNORE_CATEGORY_RENDER: boolean;
   };
   CONFIG: {
     CONFIG_FILE: string;

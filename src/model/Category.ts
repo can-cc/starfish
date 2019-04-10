@@ -52,17 +52,18 @@ export class Category implements RenderEntity {
     return this.categoryData;
   }
 
+  // TODO split render category self function
   public render() {
     if (!fs.existsSync(this.options.categoryOutputPath)) {
-      // fs.mkdirSync(this.options.categoryOutputPath);
       this.controller.writer.mkdirSync(this.options.categoryOutputPath);
     }
 
     const outputHtmlContent = this.controller.renderThemer.renderTemplate('CATEGORY', this.categoryData);
-
     const categoryIndexFilePath: string = path.join(this.options.categoryOutputPath, 'index.html');
-
-    this.controller.writer.writeFileSync(categoryIndexFilePath, outputHtmlContent);
+    
+    if (!this.controller.blogConfigure.BLOG.IGNORE_CATEGORY_RENDER) {
+      this.controller.writer.writeFileSync(categoryIndexFilePath, outputHtmlContent);
+    }
 
     this.controller.renderPluginManager.runPluinAfterCategoryRender(outputHtmlContent, this);
 

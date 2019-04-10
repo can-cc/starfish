@@ -6,6 +6,10 @@ let controller;
 
 beforeEach(() => {
   controller = {
+    blogConfigure: {
+      BLOG: {
+      }
+    },
     reader: {
       fileExist: () => true,
       readYaml: () => ({}),
@@ -81,6 +85,36 @@ test('Category render', () => {
   expect(writeFileSyncSpy.mock.calls[0][1].replace('\\', '/')).toEqual('IAMHTML');
   expect(runPluinAfterCategoryRenderSpy).toBeCalledWith('IAMHTML', category);
   expect(renderAllArticleSpy).toBeCalled();
+});
+
+test('Category not render when IGNORE_CATEGORY_RENDER', () => {
+  controller.blogConfigure.BLOG.IGNORE_CATEGORY_RENDER = true;
+
+  const category = new Category(
+    {
+      categoryInputPath: '',
+      categoryOutputPath: 'test-output',
+      blogInputPath: '',
+      blogOutputPath: '',
+      categoryName: 'javascript'
+    },
+    controller
+  );
+
+  const mockCategoryData = {
+    path: '/path',
+    categoryName: 'javascript',
+    articles: []
+  };
+
+  (<any>category).categoryData = mockCategoryData;
+  (<any>category).articles = [];
+  
+  const writeFileSyncSpy = jest.spyOn(controller.writer, 'writeFileSync');
+  
+  category.render();
+
+  expect(writeFileSyncSpy).toHaveBeenCalledTimes(0);
 });
 
 test('Category renderAllArticle', () => {

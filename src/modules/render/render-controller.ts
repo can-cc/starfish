@@ -16,7 +16,7 @@ export class RenderController {
   constructor(
     private rootInputPath: string,
     private rootOutputPath: string,
-    private blogConfigure: BlogConfigure,
+    public blogConfigure: BlogConfigure,
     public reader: Reader,
     public writer: Writer
   ) {

@@ -19,7 +19,7 @@ export default class StarFishSSRCommand implements Command {
       const themePath = path.join(inputPath, blogConfigure.STYLE.THEMEDIR, blogConfigure.STYLE.THEME);
       const renderFn = require(path.join(themePath, 'ssr/ssr.js')).default;
       renderFn(inputPath);
-      spinner.succeed('Angular ssr completion...');
+      spinner.succeed('Angular ssr completion 🎉🎉');
     } catch (error) {
       console.error(error);
       spinner.fail('Render Fail...');
