@@ -7,4 +7,3 @@ node_modules
 tags
 test/test-build
 /yarn-error.log
-package-lock.json
