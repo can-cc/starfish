@@ -35,8 +35,8 @@ AUTHOR:
   GITHUB: 'reboot'
 
 BLOG:
-  ARTICLES_DIR: 'articles'
-  DOMAIN: 'test.starfish.org'
+  ARTICLES_DIR: 'articles' # place where store articles
+  DOMAIN: 'test.starfish.org' # expect blog domain
   HTTPS: false
   NAME: 'reboot blog'
   DESC: 'this is reboot bog'
