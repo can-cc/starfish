@@ -14,7 +14,7 @@ export default class RenderCommand implements Command {
   public type = 'command';
   private spinner;
 
-  public run(inputs: string[], flags: boolean[], blogConfigure: BlogConfigure): void {
+  public run(inputs: string[], flags: any[], blogConfigure: BlogConfigure): void {
     const inputPath = inputs[0];
     if (!inputPath) {
       return console.error('Please spec blog path.');
@@ -25,7 +25,7 @@ export default class RenderCommand implements Command {
       return;
     }
 
-    const outputPath = 'build';
+    const outputPath = flags['output'] || 'build';
 
     this.cleanOutPutAssets(outputPath).then(() => {
       this.startSpin();
