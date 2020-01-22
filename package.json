@@ -1,7 +1,7 @@
 {
   "name": "@starfishx/cli",
-  "version": "1.1.11",
-  "description": "render tool",
+  "version": "1.0.1",
+  "description": "blog render tool",
   "main": "index.js",
   "scripts": {
     "precompile": "npm run clean",
