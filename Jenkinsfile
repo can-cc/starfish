@@ -9,6 +9,7 @@ pipeline {
     }
     environment {
         CI = 'true' 
+        HOME = '.'
     }
     stages {
         stage('Npm install') {
