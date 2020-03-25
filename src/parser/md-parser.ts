@@ -1,4 +1,4 @@
-import { markdown } from 'markdown';
+import * as marked from 'marked';
 import { Parser, ParseResult } from './parser';
 
 export default class MarkdownParser implements Parser {
@@ -22,7 +22,7 @@ export default class MarkdownParser implements Parser {
     return {
       title: info.title,
       date: info.date,
-      content: markdown.toHTML(mdCode),
+      content: marked(mdCode),
       type: this.name
     };
   }
