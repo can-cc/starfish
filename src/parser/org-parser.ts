@@ -10,7 +10,7 @@ export default class OrgParser implements Parser {
     return /\.org$/.test(file);
   }
 
-  public parse(orgCode: string) {
+  public parse(orgCode: string) { 
     const orgDocument = parser.parse(orgCode);
     const orgHTMLDocument = orgDocument.convert(org.ConverterHTML, {
       headerOffset: 1,
@@ -21,7 +21,7 @@ export default class OrgParser implements Parser {
     return {
       title: orgHTMLDocument.title,
       content: orgHTMLDocument.tocHTML + orgHTMLDocument.contentHTML,
-      date: null,
+      date: orgHTMLDocument.date,
       type: this.name
     };
   }

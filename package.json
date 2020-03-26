@@ -1,6 +1,6 @@
 {
   "name": "@starfishx/cli",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "blog render tool",
   "main": "index.js",
   "scripts": {
@@ -59,8 +59,7 @@
     "meow": "^3.3.0",
     "moment": "^2.24.0",
     "ora": "^1.2.0",
-    "org": "^0.2.0",
-    "orgpr": "^0.2.3",
+    "orgpr": "^0.2.10",
     "ramda": "^0.21.0",
     "rimraf": "^2.6.2",
     "shelljs": "^0.7.8"

@@ -33,7 +33,10 @@ date: 2019-04-01
 - first
 - second
   `);
-  expect(parseredResult.content).toEqual(`<h1>hi</h1>
-
-<ul><li>first</li><li>second</li></ul>`);
+  expect(parseredResult.content).toEqual(`<h1 id="hi">hi</h1>
+<ul>
+<li>first</li>
+<li>second</li>
+</ul>
+`);
 });

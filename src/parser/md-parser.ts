@@ -22,7 +22,7 @@ export default class MarkdownParser implements Parser {
     return {
       title: info.title,
       date: info.date,
-      content: marked(mdCode),
+      content: marked.parse(mdCode),
       type: this.name
     };
   }
