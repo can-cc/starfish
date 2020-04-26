@@ -46,7 +46,7 @@ export default class StarflishRenderHgApiPlugin extends StartFishRenderPlugin {
   public afterBlogRender(blog: Blog): void {
     this.writeAllCategory();
 
-    const articlesOutputDirPath = this.options.blogConfigure.BLOG.ARTICLES_DIR;
+    const articlesOutputDirPath = path.join(this.options.rootOutputPath, this.options.blogConfigure.BLOG.ARTICLES_DIR);
 
     if (!fs.existsSync(articlesOutputDirPath)) {
       fs.mkdirSync(articlesOutputDirPath);
