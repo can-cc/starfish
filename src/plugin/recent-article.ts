@@ -1,7 +1,7 @@
 import * as R from 'ramda';
 import * as path from 'path';
 import { Blog } from '../model/Blog';
-import { StartFishRenderPlugin } from './base/render-plugin';
+import { StartFishRenderPlugin } from './interface/render-plugin';
 import { Article } from '../model/Article';
 import { RenderController } from '../modules/render/render-controller';
 

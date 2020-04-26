@@ -52,7 +52,7 @@ export class RenderController {
     blog.load();
     blog.render();
 
-    this.renderPluginManager.runPluinAfterRender(blog);
+    this.renderPluginManager.runPluginAfterRender(blog);
     this.renderThemer.copyThemeAsset();
 
     this.copySpec();

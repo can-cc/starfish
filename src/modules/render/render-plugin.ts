@@ -3,7 +3,7 @@ import { CategoryList } from '../../model/CategoryList';
 import { Category } from '../../model/Category';
 import { Blog } from '../../model/Blog';
 import { Article } from '../../model/Article';
-import { StartFishRenderPlugin } from '../../plugin/base/render-plugin';
+import { StartFishRenderPlugin } from '../../plugin/interface/render-plugin';
 import { RenderController } from './render-controller';
 
 export class RenderPluginManager {
@@ -38,7 +38,7 @@ export class RenderPluginManager {
     });
   }
 
-  public runPluinAfterRender(blog: Blog) {}
+  public runPluginAfterRender(blog: Blog) {}
 
   public runPluinAfterCategoryListRender(renderedHtml: string, categoryList: CategoryList): void {
     R.values(this.plugins).forEach(plugin => plugin.afterCategoryListRender(renderedHtml, categoryList));

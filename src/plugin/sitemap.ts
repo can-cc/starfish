@@ -1,8 +1,6 @@
-import * as fs from 'fs';
-
 import * as path from 'path';
 import { Article } from '../model/Article';
-import { StartFishRenderPlugin } from './base/render-plugin';
+import { StartFishRenderPlugin } from './interface/render-plugin';
 import { RenderController } from '../modules/render/render-controller';
 
 export default class StarFishRenderSiteMap extends StartFishRenderPlugin {

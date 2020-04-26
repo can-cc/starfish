@@ -11,7 +11,7 @@ jest.mock('./render-themer', () => ({
 }));
 jest.mock('./render-plugin', () => ({
   RenderPluginManager: class MockRenderPluginManager {
-    runPluinAfterRender = pluginRunPluinAfterRenderSpy;
+    runPluginAfterRender = pluginRunPluinAfterRenderSpy;
   }
 }));
 jest.mock('../../model/Blog', () => {

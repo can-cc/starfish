@@ -15,6 +15,7 @@ declare interface BlogConfigure {
     INDEX_ARTICLE_NUMBER: number;
     SORT_ARTICLE_BY: 'create' | 'update';
     IGNORE_CATEGORY_RENDER: boolean;
+    HTTPS: boolean;
   };
   CONFIG: {
     CONFIG_FILE: string;
@@ -44,7 +45,6 @@ declare interface ArticleData {
   content: string;
   hasAsset: boolean;
   createTime: number;
-  modifyTime: number;
   showTime: number;
 }
 
@@ -72,5 +72,5 @@ declare interface CategoryListData {
 declare interface PluginOptions {
   rootInputPath: string;
   rootOutputPath: string;
-  blogConfigure: any;
+  blogConfigure: BlogConfigure;
 }

@@ -9,6 +9,12 @@ import { RenderEntity } from './RenderEntity';
 import { Reader } from '../modules/reader/Reader';
 import { RenderController } from '../modules/render/render-controller';
 
+interface CategoryData {
+  path: string;
+  categoryName: string;
+  articles: any;
+}
+
 export class Category implements RenderEntity {
   public path: string;
 
@@ -16,11 +22,7 @@ export class Category implements RenderEntity {
 
   // remove this map data
   // set in the Category instance this
-  private categoryData: {
-    path: string;
-    categoryName: string;
-    articles: any;
-  };
+  private categoryData: CategoryData;
 
   private categoryConfigure: CategoryConfigure;
 
@@ -60,7 +62,7 @@ export class Category implements RenderEntity {
 
     const outputHtmlContent = this.controller.renderThemer.renderTemplate('CATEGORY', this.categoryData);
     const categoryIndexFilePath: string = path.join(this.options.categoryOutputPath, 'index.html');
-    
+
     if (!this.controller.blogConfigure.BLOG.IGNORE_CATEGORY_RENDER) {
       this.controller.writer.writeFileSync(categoryIndexFilePath, outputHtmlContent);
     }

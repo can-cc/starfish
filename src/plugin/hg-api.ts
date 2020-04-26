@@ -4,13 +4,14 @@ import * as R from 'ramda';
 import { CategoryList } from '../model/CategoryList';
 import { Category } from '../model/Category';
 import { Article } from '../model/Article';
-import { StartFishRenderPlugin } from './base/render-plugin';
+import { StartFishRenderPlugin } from './interface/render-plugin';
 import { Blog } from '../model/Blog';
 import { RenderController } from '../modules/render/render-controller';
 
 export default class StarflishRenderHgApiPlugin extends StartFishRenderPlugin {
   public name = 'hg-api';
-  public type = 'redner';
+  public type = 'render';
+  private allCategories = [];
 
   constructor(protected options: PluginOptions, protected renderController: RenderController) {
     super(options, renderController);
@@ -35,6 +36,7 @@ export default class StarflishRenderHgApiPlugin extends StartFishRenderPlugin {
 
   public afterCategoryRender(renderedHtml: string, category: Category): void {
     const categoryData = category.getData();
+    this.allCategories.push(categoryData);
     fs.writeFileSync(
       path.join(this.options.rootOutputPath, categoryData.path, 'index.json'),
       JSON.stringify(categoryData)
@@ -42,11 +44,12 @@ export default class StarflishRenderHgApiPlugin extends StartFishRenderPlugin {
   }
 
   public afterBlogRender(blog: Blog): void {
-    // TODO remove path.join, use ATRICLES_DIR
-    const articlesOuputDirPath = path.join(this.options.rootOutputPath, 'articles');
+    this.writeAllCategory();
 
-    if (!fs.existsSync(articlesOuputDirPath)) {
-      fs.mkdirSync(articlesOuputDirPath);
+    const articlesOutputDirPath = this.options.blogConfigure.BLOG.ARTICLES_DIR;
+
+    if (!fs.existsSync(articlesOutputDirPath)) {
+      fs.mkdirSync(articlesOutputDirPath);
     }
 
     const pageSize = 20;
@@ -57,14 +60,18 @@ export default class StarflishRenderHgApiPlugin extends StartFishRenderPlugin {
       articles
     );
 
-    R.splitEvery(pageSize, sortedArticles).map((articleSplited, index) => {
+    R.splitEvery(pageSize, sortedArticles).map((articleSpited, index) => {
       const articlePage = {
-        articles: articleSplited.map((a: Article) => a.getData()),
+        articles: articleSpited.map((a: Article) => a.getData()),
         pageIndex: index,
         pageNumber,
         pageSize
       };
-      fs.writeFileSync(path.join(articlesOuputDirPath, `articles-${index}.json`), JSON.stringify(articlePage));
+      fs.writeFileSync(path.join(articlesOutputDirPath, `articles-${index}.json`), JSON.stringify(articlePage));
     });
+  }
+
+  private writeAllCategory() {
+    fs.writeFileSync(path.join(this.options.rootOutputPath, 'all-category.json'), JSON.stringify(this.allCategories));
   }
 }

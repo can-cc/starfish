@@ -27,6 +27,8 @@ export default class RenderCommand implements Command {
 
     const outputPath = flags['output'] || 'build';
 
+    const startTime = new Date();
+
     this.cleanOutPutAssets(outputPath).then(() => {
       this.startSpin();
 
@@ -37,12 +39,13 @@ export default class RenderCommand implements Command {
         renderControl.render();
 
         this.stopSpinSuccess();
+
+        const endTime = new Date();
+        const renderSeconds = (endTime.getTime() - startTime.getTime()) / 1000;
+        printer.log(`Rendering takes ${renderSeconds} seconds`);
       } catch (error) {
-        console.error(error);
         this.stopSpinFail();
       }
-
-      this.logCurrentTime();
     });
   }
 
@@ -67,10 +70,5 @@ export default class RenderCommand implements Command {
         return resolve();
       });
     });
-  }
-
-  private logCurrentTime() {
-    let date = new Date();
-    printer.log(`Time: ${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`);
   }
 }
