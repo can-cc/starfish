@@ -18,8 +18,8 @@ beforeEach(() => {
       writeFileSync: () => {}
     } as any,
     renderPluginManager: {
-      runPluinBeforeArticleRender: () => {},
-      runPluinAfterArticleRender: () => {}
+      runPluginBeforeArticleRender: () => {},
+      runPluginAfterArticleRender: () => {}
     } as any,
     renderThemer: {
       renderTemplate: () => {}
@@ -106,8 +106,8 @@ test('Article render', () => {
   const renderTemplateSpy = jest.spyOn(controller.renderThemer, 'renderTemplate').mockImplementation(() => {
     return 'I AM HTMl haha';
   });
-  const runPluinAfterArticleRenderSpy = jest
-    .spyOn(controller.renderPluginManager, 'runPluinAfterArticleRender')
+  const runPluginAfterArticleRenderSpy = jest
+    .spyOn(controller.renderPluginManager, 'runPluginAfterArticleRender')
     .mockImplementation(() => {});
   const mkdirSyncSpy = jest.spyOn(controller.writer, 'mkdirSync').mockImplementation(() => {});
   jest.spyOn(controller.reader, 'existsSync').mockImplementationOnce(() => true);
@@ -121,5 +121,5 @@ test('Article render', () => {
   expect(renderTemplateSpy).toBeCalledWith('ARTICLE', mockArticleData);
   expect(mkdirSyncSpy.mock.calls[0][0].indexOf('javascript-good')).toBeGreaterThan(0);
   expect(copyArticleAssetSpy).toBeCalled();
-  expect(runPluinAfterArticleRenderSpy).toBeCalledWith('I AM HTMl haha', article);
+  expect(runPluginAfterArticleRenderSpy).toBeCalledWith('I AM HTMl haha', article);
 });

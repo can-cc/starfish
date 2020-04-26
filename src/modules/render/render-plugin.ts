@@ -26,13 +26,13 @@ export class RenderPluginManager {
 
   public runPlugin() {}
 
-  public runPluinBeforeArticleRender(articleData) {
+  public runPluginBeforeArticleRender(articleData) {
     R.values(this.plugins).forEach(plugin => {
       plugin.beforeArticleRender(articleData);
     });
   }
 
-  public runPluinAfterArticleRender(renderedHtml: string, article: Article) {
+  public runPluginAfterArticleRender(renderedHtml: string, article: Article) {
     R.values(this.plugins).forEach(plugin => {
       plugin.afterArticleRender(renderedHtml, article);
     });

@@ -58,7 +58,7 @@ export class Article implements RenderEntity {
   }
 
   public render() {
-    this.controller.renderPluginManager.runPluinBeforeArticleRender(this.data);
+    this.controller.renderPluginManager.runPluginBeforeArticleRender(this.data);
     const renderedHtml = this.controller.renderThemer.renderTemplate("ARTICLE", this.data);
 
     if (this.hasAsset()) {
@@ -70,7 +70,7 @@ export class Article implements RenderEntity {
     }
 
     this.controller.writer.writeFileSync(this.options.articleOutputPath, renderedHtml);
-    this.controller.renderPluginManager.runPluinAfterArticleRender(renderedHtml, this);
+    this.controller.renderPluginManager.runPluginAfterArticleRender(renderedHtml, this);
   }
 
   private hasAsset() {
