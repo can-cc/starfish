@@ -44,6 +44,8 @@ export default class RenderCommand implements Command {
         const renderSeconds = (endTime.getTime() - startTime.getTime()) / 1000;
         printer.log(`Rendering takes ${renderSeconds} seconds`);
       } catch (error) {
+        console.log();
+        console.error(error);
         this.stopSpinFail();
       }
     });

@@ -41,7 +41,7 @@ test('Article load', () => {
     controller
   );
 
-  jest.spyOn<any, any>(article, 'getArticleGitData').mockImplementation(() => ({
+  jest.spyOn<any, any>(article, 'getArticleDate').mockImplementation(() => ({
     createTime: 1552966034338,
     modifyTime: 1552966034338,
     showTime: 1552966034338

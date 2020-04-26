@@ -16,9 +16,22 @@ export default class StarFishSSRCommand implements Command {
     const spinner = ora('Start angular ssr render...').start();
 
     try {
-      const themePath = path.join(inputPath, blogConfigure.STYLE.THEMEDIR, blogConfigure.STYLE.THEME);
+      let themePath;
+      if (blogConfigure.STYLE.THEMEDIR.startsWith('/')) {
+        themePath = path.join(blogConfigure.STYLE.THEMEDIR, blogConfigure.STYLE.THEME);
+      } else {
+        themePath = path.join(inputPath, blogConfigure.STYLE.THEMEDIR, blogConfigure.STYLE.THEME);
+      }
+
+      // TODO: let `blog-static` input
+      const renderedDistPath = path.join(inputPath, 'blog-static');
+      console.log('renderedDistPath', renderedDistPath);
       const renderFn = require(path.join(themePath, 'ssr/ssr.js')).default;
-      renderFn(inputPath);
+      renderFn({
+        rootInputPath: inputPath,
+        renderedDistPath,
+        themePath
+      });
       spinner.succeed('Angular ssr completion 🎉🎉');
     } catch (error) {
       console.error(error);

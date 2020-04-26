@@ -34,7 +34,7 @@ export class Blog implements RenderEntity {
 
     this.categoryList = new CategoryList(
       {
-        categoryListOutputPath: path.resolve(this.options.blogOutputPath, 'categorys'),
+        categoryListOutputPath: path.resolve(this.options.blogOutputPath, 'category'),
         blogInputPath: this.options.blogInputPath,
         blogOutputPath: this.options.blogOutputPath
       },
