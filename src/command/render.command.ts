@@ -61,6 +61,7 @@ export default class RenderCommand implements Command {
 
   private stopSpinFail() {
     this.spinner.fail('Build Fail...');
+    process.exit(1)
   }
 
   private cleanOutPutAssets(outputPath: string): Promise<void> {
