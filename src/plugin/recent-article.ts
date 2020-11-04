@@ -14,6 +14,11 @@ export default class StarFishRenderRecentArticle extends StartFishRenderPlugin {
   }
 
   public afterBlogRender(blog: Blog) {
+    this.renderRecent10Articles(blog);
+    this.renderRecentPagesArticles(blog);
+  }
+
+  private renderRecent10Articles(blog: Blog) {
     const articles = blog.getAllArticle();
     const recentArticles = R.compose(
       R.map(article => article.data),
@@ -25,5 +30,21 @@ export default class StarFishRenderRecentArticle extends StartFishRenderPlugin {
       path.join(this.options.rootOutputPath, 'recent-articles.json'),
       JSON.stringify(recentArticles)
     );
+  }
+
+  private renderRecentPagesArticles(blog: Blog) {
+    const articles = blog.getAllArticle();
+    const recentArticlesList: Article[][] = R.compose(
+      R.map(article => article.data),
+      R.sort((a1: Article, a2: Article) => a2.data.createTime - a1.data.createTime),
+      R.splitEvery(10)  // TODO 读配置
+    )(articles);
+
+    recentArticlesList.forEach((articles, index) => {
+      this.renderController.writer.writeFileSync(
+        path.join(this.options.rootOutputPath, `recent-articles-${index}.json`),
+        JSON.stringify(articles)
+      );
+    });
   }
 }
