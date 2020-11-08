@@ -79,7 +79,12 @@ export class Article implements RenderEntity {
   }
 
   private loadArticleData() {
-    const parsed = this.parseArticle(this.options.articleInputPath);
+    let parsed;
+    try {
+      parsed = this.parseArticle(this.options.articleInputPath);
+    } catch (error) {
+      console.error(`Parse article error, fileName = [${this.options.articleInputPath}]`, error);
+    }
 
     const document: ArticleDocument = parsed.document;
 
