@@ -73,3 +73,6 @@ LANG: 'zh-CN'
 ```
 
 
+
+## FAQ
+在windows下渲染markdown会有问题
