@@ -9,8 +9,8 @@ export default class MarkdownParser implements Parser {
   }
 
   public parse(content: string): ParseResult {
-    const [infoPart, mdCode] = content.split('---\n');
-    const infoItems: string[] = infoPart.split('\n');
+    const [infoPart, mdCode] = content.split(/---\r?\n/);
+    const infoItems: string[] = infoPart.split(/\r?\n/);
     const info: any = infoItems.reduce((infoMap: { [key: string]: string }, item: string) => {
       const [key, value] = item.split(/:(.+)/).map(a => a.trim());
       if (key && (key === 'title' || key === 'date')) {
@@ -18,7 +18,7 @@ export default class MarkdownParser implements Parser {
       }
       return infoMap;
     }, {});
-
+    
     return {
       title: info.title,
       date: info.date,
