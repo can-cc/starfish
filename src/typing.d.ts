@@ -3,6 +3,7 @@ declare interface BlogConfigure {
     NAME: string;
     GITHUB: string;
   };
+  page_size: number;
   BLOG: {
     DOMAIN: string;
     ARTICLES_DIR: string;
