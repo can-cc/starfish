@@ -35,9 +35,9 @@ export default class StarFishRenderRecentArticle extends StartFishRenderPlugin {
   private renderRecentPagesArticles(blog: Blog) {
     const articles = blog.getAllArticle();
     const recentArticlesList: Article[][] = R.compose(
+      R.splitEvery(10), // TODO 读配置
       R.map(article => article.data),
       R.sort((a1: Article, a2: Article) => a2.data.createTime - a1.data.createTime),
-      R.splitEvery(10)  // TODO 读配置
     )(articles);
 
     recentArticlesList.forEach((articles, index) => {

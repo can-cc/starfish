@@ -16,12 +16,12 @@ test('recent article afterBlogRender', () => {
 
   const mockBlog = {
     getAllArticle: () => {
-      return [];
+      return [{data: 'mock'}];
     }
   } as any;
 
   starFishRenderRecentArticle.afterBlogRender(mockBlog);
-  expect(writeFileSyncSpy).toBeCalledWith('/dreamplace/heart/recent-articles.json', '[]');
-  expect(writeFileSyncSpy).toBeCalledWith('/dreamplace/heart/recent-articles-0.json', '[]');
-
+  expect(writeFileSyncSpy).toHaveBeenCalledTimes(2);
+  expect(writeFileSyncSpy).toBeCalledWith('/dreamplace/heart/recent-articles.json', '[\"mock\"]');
+  expect(writeFileSyncSpy).toBeCalledWith('/dreamplace/heart/recent-articles-0.json', '[\"mock\"]');
 });

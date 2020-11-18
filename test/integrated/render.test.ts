@@ -1,7 +1,7 @@
 import { RenderController } from '../../src/modules/render/render-controller';
 import * as fs from 'fs';
 import * as path from 'path';
-import { readConfigure } from '../../src/lib/loadConfig';
+import { BlogConfigureLoader } from '../../src/lib/BlogConfigureLoader';
 import { FSReader } from '../../src/modules/reader/FSReader';
 import { FSWriter } from '../../src/modules/writer/FSWriter';
 
@@ -9,6 +9,8 @@ import { FSWriter } from '../../src/modules/writer/FSWriter';
 
 const inputPath = 'test/mock-source/';
 const outputPath = 'test/test-build/';
+const blogConfigureLoader = new BlogConfigureLoader();
+blogConfigureLoader.read(path.join(__dirname, '../mock-source'));
 
 // const outputPathAbsolutelyPath = path.resolve(__dirname, '../../', outputPath);
 
@@ -25,7 +27,7 @@ test('integrated test render index.html', () => {
   const renderCtrl = new RenderController(
     inputPath,
     outputPath,
-    readConfigure(path.join(__dirname, '../mock-source')),
+    blogConfigureLoader.getConfigure(),
     reader,
     writer
   );
@@ -38,7 +40,7 @@ test('integrated test render articles json', () => {
   const renderCtrl = new RenderController(
     inputPath,
     outputPath,
-    readConfigure(path.join(__dirname, '../mock-source')),
+    blogConfigureLoader.getConfigure(),
     reader,
     writer
   );
@@ -51,7 +53,7 @@ test('integrated test render category index', () => {
   const renderCtrl = new RenderController(
     inputPath,
     outputPath,
-    readConfigure(path.join(__dirname, '../mock-source')),
+    blogConfigureLoader.getConfigure(),
     reader,
     writer
   );
@@ -65,7 +67,7 @@ test('integrated test render feather', () => {
   const renderCtrl = new RenderController(
     inputPath,
     outputPath,
-    readConfigure(path.join(__dirname, '../mock-source')),
+    blogConfigureLoader.getConfigure(),
     reader,
     writer
   );
@@ -84,7 +86,7 @@ test('integrated test render javascript/hello-word', () => {
   const renderCtrl = new RenderController(
     inputPath,
     outputPath,
-    readConfigure(path.join(__dirname, '../mock-source')),
+    blogConfigureLoader.getConfigure(),
     reader,
     writer
   );
@@ -98,7 +100,7 @@ test('integrated test render simemap.txt', () => {
   const renderCtrl = new RenderController(
     inputPath,
     outputPath,
-    readConfigure(path.join(__dirname, '../mock-source')),
+    blogConfigureLoader.getConfigure(),
     reader,
     writer
   );
