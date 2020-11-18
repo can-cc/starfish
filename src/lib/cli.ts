@@ -3,7 +3,7 @@ import * as R from 'ramda';
 import * as fs from 'fs';
 import * as path from 'path';
 import { filterDotFiles } from './util';
-import { readConfigure } from './loadConfig';
+import { BlogConfigureLoader } from './BlogConfigureLoader';
 
 const Package = JSON.parse(fs.readFileSync(path.join(__dirname, '../../package.json')).toString());
 
@@ -42,9 +42,10 @@ cli.run = function() {
     return this.showHelp();
   }
   const rootInputPath: string = this.input[1];
-  const blogConfigure = rootInputPath ? readConfigure(rootInputPath) : null;
+  const blogConfigureLoader = new BlogConfigureLoader();
+  blogConfigureLoader.read(rootInputPath);
 
-  commandMap[this.input[0]].run(R.drop(1, this.input), this.flags, blogConfigure);
+  commandMap[this.input[0]].run(R.drop(1, this.input), this.flags, blogConfigureLoader.getConfigure());
 };
 
 export default cli;
