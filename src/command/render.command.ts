@@ -25,7 +25,7 @@ export default class RenderCommand implements Command {
       return;
     }
 
-    const outputPath = flags['output'] || 'build';
+    const outputPath = flags['output'] || 'blog-dist';
 
     const startTime = new Date();
 
