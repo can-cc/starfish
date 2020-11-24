@@ -4,6 +4,7 @@ node_modules
 /built
 /dist
 /build
+/blog-dist
 tags
 test/test-build
 /yarn-error.log

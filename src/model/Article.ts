@@ -12,11 +12,10 @@ function fixArticleUrlAndCut(content, relativeOutputPath) {
   const appendRelativeFn = function(i, e) {
     let src = $(this).attr("src");
     if (!/^[http|//]/.test(src)) {
-      src = path.resolve("/", relativeOutputPath, src);
+      src = path.join("/", relativeOutputPath, src).replace(/\\/g, '/');
     }
     $(this).attr("src", src);
   };
-
   $("img").each(appendRelativeFn);
   $("script").each(appendRelativeFn);
   return $.html();

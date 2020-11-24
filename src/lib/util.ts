@@ -32,7 +32,7 @@ export let joinPwd = filePath => {
 };
 
 export let getRelativePath = (rootPath, fullPath) => {
-  return fullPath.split(rootPath)[1] || './';
+  return (fullPath.split(rootPath)[1] || './').replace(/\\/g, '/');
 };
 
 export let isSuffix = (suffix, str) => {
