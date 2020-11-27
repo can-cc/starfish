@@ -5,74 +5,48 @@ import { BlogConfigureLoader } from '../../src/lib/BlogConfigureLoader';
 import { FSReader } from '../../src/modules/reader/FSReader';
 import { FSWriter } from '../../src/modules/writer/FSWriter';
 
-// const rimraf = require('rimraf');
+const rimraf = require('rimraf');
 
 const inputPath = 'test/mock-source/';
 const outputPath = 'test/test-build/';
 const blogConfigureLoader = new BlogConfigureLoader();
 blogConfigureLoader.read(path.join(__dirname, '../mock-source'));
 
-// const outputPathAbsolutelyPath = path.resolve(__dirname, '../../', outputPath);
+const outputPathAbsolutelyPath = path.resolve(__dirname, '../../', outputPath);
 
-// afterAll(() => {
-//   rimraf(outputPathAbsolutelyPath, () => {
-//     console.log('remove mock-build output success.');
-//   });
-// });
+
+beforeAll(() => {
+  const renderCtrl = new RenderController(
+    inputPath,
+    outputPath,
+    blogConfigureLoader.getConfigure(),
+    reader,
+    writer
+  );
+  renderCtrl.render();
+});
+
+afterAll(() => {
+  rimraf(outputPathAbsolutelyPath, () => {});
+});
 
 const reader = new FSReader();
 const writer = new FSWriter();
 
 test('integrated test render index.html', () => {
-  const renderCtrl = new RenderController(
-    inputPath,
-    outputPath,
-    blogConfigureLoader.getConfigure(),
-    reader,
-    writer
-  );
-  renderCtrl.render();
-
   expect(fs.existsSync(path.join(outputPath, 'index.html'))).toBe(true);
 });
 
 test('integrated test render articles json', () => {
-  const renderCtrl = new RenderController(
-    inputPath,
-    outputPath,
-    blogConfigureLoader.getConfigure(),
-    reader,
-    writer
-  );
-  renderCtrl.render();
-
   expect(fs.existsSync(path.join(outputPath, 'articles/articles-0.json'))).toBe(true);
 });
 
 test('integrated test render category index', () => {
-  const renderCtrl = new RenderController(
-    inputPath,
-    outputPath,
-    blogConfigureLoader.getConfigure(),
-    reader,
-    writer
-  );
-  renderCtrl.render();
-
   expect(fs.existsSync(path.join(outputPath, 'category/index.html'))).toBe(true);
   expect(fs.existsSync(path.join(outputPath, 'category/index.json'))).toBe(true);
 });
 
 test('integrated test render feather', () => {
-  const renderCtrl = new RenderController(
-    inputPath,
-    outputPath,
-    blogConfigureLoader.getConfigure(),
-    reader,
-    writer
-  );
-  renderCtrl.render();
-
   expect(fs.existsSync(path.join(outputPath, 'javascript/index.html'))).toBe(true);
   expect(fs.existsSync(path.join(outputPath, 'javascript/index.json'))).toBe(true);
   expect(fs.existsSync(path.join(outputPath, 'javascript/metor/index.json'))).toBe(true);
@@ -83,31 +57,20 @@ test('integrated test render feather', () => {
 });
 
 test('integrated test render javascript/hello-word', () => {
-  const renderCtrl = new RenderController(
-    inputPath,
-    outputPath,
-    blogConfigureLoader.getConfigure(),
-    reader,
-    writer
-  );
-  renderCtrl.render();
-
   expect(fs.existsSync(path.join(outputPath, 'javascript/hello-word/index.html'))).toBe(true);
   expect(fs.existsSync(path.join(outputPath, 'javascript/hello-word/index.json'))).toBe(true);
 });
 
 test('integrated test render simemap.txt', () => {
-  const renderCtrl = new RenderController(
-    inputPath,
-    outputPath,
-    blogConfigureLoader.getConfigure(),
-    reader,
-    writer
-  );
-  renderCtrl.render();
-
   expect(fs.readFileSync(path.join(outputPath, 'sitemap.txt'), 'utf8')).toBe(
     `http://test.starfish.org/javascript/hello-word/index.html
 http://test.starfish.org/javascript/metor/index.html`
   );
+});
+
+test('integrated test render rencent-articles.json', () => {
+  const articles = JSON.parse(fs.readFileSync(path.join(outputPath, 'recent-articles.json'), 'utf8'));
+  const articlesPage0 = JSON.parse(fs.readFileSync(path.join(outputPath, 'recent-articles-0.json'), 'utf8'));
+  expect(articles.map(a => a.title)).toEqual(['hello world', 'metor']);
+  expect(articlesPage0.map(a => a.title)).toEqual(['hello world', 'metor']);
 });
