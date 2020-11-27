@@ -45,7 +45,7 @@ export default class StarFishRenderRecentArticle extends StartFishRenderPlugin {
         path.join(this.options.rootOutputPath, `recent-articles-${index}.json`),
         JSON.stringify({
           pageSize: 10,
-          total: articles.length,
+          total: allArticles.length,
           articles,
         })
       );
