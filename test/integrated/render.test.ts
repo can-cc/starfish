@@ -72,5 +72,7 @@ test('integrated test render rencent-articles.json', () => {
   const articles = JSON.parse(fs.readFileSync(path.join(outputPath, 'recent-articles.json'), 'utf8'));
   const articlesPage0 = JSON.parse(fs.readFileSync(path.join(outputPath, 'recent-articles-0.json'), 'utf8'));
   expect(articles.map(a => a.title)).toEqual(['hello world', 'metor']);
-  expect(articlesPage0.map(a => a.title)).toEqual(['hello world', 'metor']);
+  expect(articlesPage0.articles.map(a => a.title)).toEqual(['hello world', 'metor']);
+  expect(articlesPage0.total).toEqual(2);
+  expect(articlesPage0.pageSize).toEqual(10);
 });

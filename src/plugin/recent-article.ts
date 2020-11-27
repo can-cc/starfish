@@ -33,17 +33,21 @@ export default class StarFishRenderRecentArticle extends StartFishRenderPlugin {
   }
 
   private renderRecentPagesArticles(blog: Blog) {
-    const articles = blog.getAllArticle();
+    const allArticles = blog.getAllArticle();
     const recentArticlesList: Article[][] = R.compose(
       R.splitEvery(10), // TODO 读配置
       R.map(article => article.data),
       R.sort((a1: Article, a2: Article) => a2.data.createTime - a1.data.createTime),
-    )(articles);
+    )(allArticles);
 
     recentArticlesList.forEach((articles, index) => {
       this.renderController.writer.writeFileSync(
         path.join(this.options.rootOutputPath, `recent-articles-${index}.json`),
-        JSON.stringify(articles)
+        JSON.stringify({
+          pageSize: 10,
+          total: articles.length,
+          articles,
+        })
       );
     });
   }

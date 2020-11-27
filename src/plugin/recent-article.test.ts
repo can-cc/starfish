@@ -23,5 +23,5 @@ test('recent article afterBlogRender', () => {
   starFishRenderRecentArticle.afterBlogRender(mockBlog);
   expect(writeFileSyncSpy).toHaveBeenCalledTimes(2);
   expect(writeFileSyncSpy).toBeCalledWith('/dreamplace/heart/recent-articles.json', '[\"mock\"]');
-  expect(writeFileSyncSpy).toBeCalledWith('/dreamplace/heart/recent-articles-0.json', '[\"mock\"]');
+  expect(writeFileSyncSpy).toBeCalledWith('/dreamplace/heart/recent-articles-0.json', '{\"pageSize\":10,\"total\":1,\"articles\":[\"mock\"]}');
 });
