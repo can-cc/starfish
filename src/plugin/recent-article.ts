@@ -1,3 +1,4 @@
+
 import * as R from 'ramda';
 import * as path from 'path';
 import { Blog } from '../model/Blog';
@@ -33,6 +34,12 @@ export default class StarFishRenderRecentArticle extends StartFishRenderPlugin {
   }
 
   private renderRecentPagesArticles(blog: Blog) {
+    // TODO 这里生成 articles/index.html, articles/2/index.html 属无奈之举，以后必须重构
+    const recentArticlesDir = path.resolve(this.options.rootOutputPath, 'articles');
+    if (!this.renderController.reader.existsSync(recentArticlesDir)) {
+      this.renderController.writer.mkdirSync(recentArticlesDir);
+    }
+
     const allArticles = blog.getAllArticle();
     const recentArticlesList: Article[][] = R.compose(
       R.splitEvery(10), // TODO 读配置
@@ -41,6 +48,17 @@ export default class StarFishRenderRecentArticle extends StartFishRenderPlugin {
     )(allArticles);
 
     recentArticlesList.forEach((articles, index) => {
+      const html = this.renderController.renderThemer.renderTemplate('CATEGORY_LIST', articles);
+      if (index === 0) {
+        this.renderController.writer.writeFileSync(path.join(recentArticlesDir, 'index.html'), html);
+      } else {
+        const dir = path.join(recentArticlesDir, (index + 1).toString())
+        if (!this.renderController.reader.existsSync(dir)) {
+          this.renderController.writer.mkdirSync(dir);
+        }
+        this.renderController.writer.writeFileSync(path.join(dir, 'index.html'), html);
+      }
+
       this.renderController.writer.writeFileSync(
         path.join(this.options.rootOutputPath, `recent-articles-${index}.json`),
         JSON.stringify({
