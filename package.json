@@ -1,6 +1,6 @@
 {
   "name": "@starfishx/cli",
-  "version": "1.0.9",
+  "version": "1.0.10",
   "description": "blog render tool",
   "main": "index.js",
   "scripts": {

@@ -2,3 +2,5 @@ src/
 node_modules/
 test/
 build/
+blog-dist/
+blog-static/
