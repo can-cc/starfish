@@ -4,7 +4,8 @@ test('recent article afterBlogRender', () => {
   const writeFileSyncSpy = jest.fn();
   const renderController = {
     writer: {
-      writeFileSync: writeFileSyncSpy
+      writeFileSync: writeFileSyncSpy,
+      existsSync: () => true
     }
   } as any;
   const starFishRenderRecentArticle: StarFishRenderRecentArticle = new StarFishRenderRecentArticle(

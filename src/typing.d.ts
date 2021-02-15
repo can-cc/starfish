@@ -34,7 +34,7 @@ declare interface BlogConfigure {
 }
 
 declare interface CategoryConfigure {
-  aliasName?: string;
+  name?: string;
 }
 
 declare interface ArticleData {
