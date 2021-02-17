@@ -5,7 +5,12 @@ test('recent article afterBlogRender', () => {
   const renderController = {
     writer: {
       writeFileSync: writeFileSyncSpy,
+    },
+    reader: {
       existsSync: () => true
+    },
+    renderThemer: {
+      renderTemplate: () => '<html>content</html>'
     }
   } as any;
   const starFishRenderRecentArticle: StarFishRenderRecentArticle = new StarFishRenderRecentArticle(
@@ -22,7 +27,7 @@ test('recent article afterBlogRender', () => {
   } as any;
 
   starFishRenderRecentArticle.afterBlogRender(mockBlog);
-  expect(writeFileSyncSpy).toHaveBeenCalledTimes(2);
+  expect(writeFileSyncSpy).toHaveBeenCalledTimes(3);
   expect(writeFileSyncSpy).toBeCalledWith('/dreamplace/heart/recent-articles.json', '[\"mock\"]');
   expect(writeFileSyncSpy).toBeCalledWith('/dreamplace/heart/recent-articles-0.json', '{\"pageSize\":10,\"total\":1,\"articles\":[\"mock\"]}');
 });
