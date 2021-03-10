@@ -2,6 +2,8 @@
 a blog render system, support `org-mode` and `markdown`.
 also support custom renderer by write a plugin.
 
+View [my blog](https://www.chencanhao.com/development/build-my-blog) for how build a blog website.
+
 ![render](./image/render.png)
 
 ## Install
