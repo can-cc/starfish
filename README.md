@@ -1,29 +1,44 @@
 # Starfish
-
 a blog render system, support `org-mode` and `markdown`.
-
 also support custom renderer by write a plugin.
 
-## install
+![render](./image/render.png)
 
-`npm install -g starfish-cli`
+## Install
+`npm install -g starfish-cli`or `yarn add -g starfish-cli`
 
-or 
+## How to Use
+### init
+`starfish init`
 
-`yarn add -g starfish-cli`
 
-## use
+### blog source structure
+``` bash
+├── articles
+│   ├── Algorithm
+│   │   └── boyer-moore.org
+│   ├── Hardware
+│   │   ├── build-home-nas
+│   │   └── build-home-nas.md
+├── config.yaml
+├── Dockerfile
+├── Jenkinsfile
+├── nginx.conf
+├── package.json
+├── package-lock.json
+├── README.md
+└── @root-asset
+    ├── aboutme.jpg
+    ├── avatar.jpg
+    ├── CNAME
+    ├── favicon.ico
+    ├── google7065849eb323b007.html
+    └── robots.txt
+```
 
 ### render
 `starfish render [blog source path]`
 
-### init
-
-# blog source structure
-
-``` bash
-
-```
 
 ### configure
 
@@ -71,8 +86,7 @@ MAPPING:
 LANG: 'zh-CN'
 
 ```
-
-
-
-## FAQ
-在windows下渲染markdown会有问题
+## Roadmap
+- Offical Website
+- Support deploy etc. command
+- more offical theme
