@@ -15,5 +15,7 @@ export abstract class StartFishRenderPlugin {
 
   public afterCategoryListRender(renderedHtml: string, categoryList: CategoryList) {}
 
+  public afterArchiveRender(renderedHtml: string, categoryList: CategoryList) {}
+
   public afterBlogRender(blog: Blog) {}
 }

@@ -30,6 +30,7 @@ test('Blog load func', () => {
   blog.load();
 
   expect((<any>blog).categoryList).toBeDefined();
+  expect((<any>blog).archive).toBeDefined();
   expect((<any>blog).blogHome).toBeDefined();
   expect((<any>blog).categorys).toBeDefined();
   (<any>blog).categorys.forEach((c: Category) => {
@@ -49,6 +50,7 @@ test('Blog render func', () => {
   const blogHomeRenderSpy = jest.fn();
   const blogListRenderSpy = jest.fn();
   const categoryRenderSpy = jest.fn();
+  const archiveRenderSpy = jest.fn();
   const runPluinAfterBlogRenderSpy = jest.fn();
 
   const blog = new Blog({ blogInputPath, blogOutputPath, blogConfigure }, {
@@ -60,11 +62,13 @@ test('Blog render func', () => {
   (<any>blog).categorys = [{ render: categoryRenderSpy }];
   (<any>blog).blogHome = { render: blogHomeRenderSpy };
   (<any>blog).categoryList = { render: blogListRenderSpy };
+  (<any>blog).archive = { render: archiveRenderSpy };
 
   blog.render();
 
   expect(categoryRenderSpy).toBeCalled();
   expect(blogHomeRenderSpy).toBeCalled();
   expect(blogListRenderSpy).toBeCalled();
+  expect(archiveRenderSpy).toBeCalled();
   expect(runPluinAfterBlogRenderSpy).toBeCalledWith(blog);
 });

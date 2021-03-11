@@ -1,5 +1,6 @@
 import * as R from 'ramda';
 import { CategoryList } from '../../model/CategoryList';
+import { Archive } from '../../model/Archive';
 import { Category } from '../../model/Category';
 import { Blog } from '../../model/Blog';
 import { Article } from '../../model/Article';
@@ -41,6 +42,10 @@ export class RenderPluginManager {
   public runPluginAfterRender(blog: Blog) {}
 
   public runPluinAfterCategoryListRender(renderedHtml: string, categoryList: CategoryList): void {
+    R.values(this.plugins).forEach(plugin => plugin.afterCategoryListRender(renderedHtml, categoryList));
+  }
+
+  public runPluinAfterArchiveRender(renderedHtml: string, categoryList: Archive): void {
     R.values(this.plugins).forEach(plugin => plugin.afterCategoryListRender(renderedHtml, categoryList));
   }
 
