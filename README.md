@@ -8,10 +8,6 @@ View [my blog](https://www.chencanhao.com/development/build-my-blog) for how bui
 
 ![render](./image/render.png)
 
-## Install
-
-`npm install -g starfish-cli`or `yarn add -g starfish-cli`
-
 ## Getting Started
 
 ## Prerequisites
@@ -23,8 +19,7 @@ Install the cli first:
 
 `starfish init`
 
-
-### Blog source structure
+### Blog Source Structure
 
 ``` bash
 ├── articles
@@ -49,11 +44,11 @@ Install the cli first:
     └── robots.txt
 ```
 
-### render
+### Render Your Blog site
+
 `starfish render [blog source path]`
 
-
-### configure
+### Configure
 
 `config.yml` example:
 
