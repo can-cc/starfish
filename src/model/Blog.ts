@@ -5,10 +5,12 @@ import { BlogHome } from './Home';
 import { CategoryList } from './CategoryList';
 import { RenderController } from '../modules/render/render-controller';
 import { RenderEntity } from './RenderEntity';
+import { Archive } from './Archive';
 
 export class Blog implements RenderEntity {
   private categorys: Category[];
   private blogHome: BlogHome;
+  private archive: Archive;
   private categoryList: CategoryList;
 
   constructor(
@@ -42,6 +44,17 @@ export class Blog implements RenderEntity {
       this.controller
     );
     this.categoryList.load();
+
+    this.archive = new Archive(
+      {
+        archiveOutputPath: path.resolve(this.options.blogOutputPath, 'category'),
+        blogInputPath: this.options.blogInputPath,
+        blogOutputPath: this.options.blogOutputPath
+      },
+      this.categorys,
+      this.controller
+    );
+    this.archive.load();
   }
 
   public render(): void {
@@ -50,6 +63,7 @@ export class Blog implements RenderEntity {
     });
     this.blogHome.render();
     this.categoryList.render();
+    this.archive.render();
 
     this.controller.renderPluginManager.runPluinAfterBlogRender(this);
   }

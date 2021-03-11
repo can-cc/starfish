@@ -1,31 +1,54 @@
 # Starfish
+<img src="https://ae01.alicdn.com/kf/U50f2895627bc449dabfcfcf4c0de653aN.jpg" alt="y5c1eA.png" border="0" height="120" align="right" />
 
 a blog render system, support `org-mode` and `markdown`.
-
 also support custom renderer by write a plugin.
 
-## install
+View [my blog](https://www.chencanhao.com/development/build-my-blog) for how build a blog website.
 
-`npm install -g starfish-cli`
+![render](./image/render.png)
 
-or 
+## Getting Started
 
-`yarn add -g starfish-cli`
+## Prerequisites
 
-## use
+Install the cli first:
+`npm install @starfishx/cli -g`
 
-### render
-`starfish render [blog source path]`
+### Init
 
-### init
+`starfish init`
 
-# blog source structure
+### Blog Source Structure
 
 ``` bash
-
+├── articles
+│   ├── Algorithm
+│   │   └── boyer-moore.org
+│   ├── Hardware
+│   │   ├── build-home-nas
+│   │   └── build-home-nas.md
+├── config.yaml
+├── Dockerfile
+├── Jenkinsfile
+├── nginx.conf
+├── package.json
+├── package-lock.json
+├── README.md
+└── @root-asset
+    ├── aboutme.jpg
+    ├── avatar.jpg
+    ├── CNAME
+    ├── favicon.ico
+    ├── google7065849eb323b007.html
+    └── robots.txt
 ```
 
-### configure
+### Render Your Blog site
+
+`starfish render [blog source path]`
+
+### Configure
 
 `config.yml` example:
 
@@ -69,10 +92,30 @@ MAPPING:
   '@root-asset/*': '/'
 
 LANG: 'zh-CN'
-
 ```
+## Roadmap
+- Offical Website
+- Support deploy etc. command
+- more offical theme
 
+## Development
+Contributions are what make the open source community such an amazing place to be learn, inspire, and create. Any contributions you make are greatly appreciated.
 
+- Fork the Project
+- Create your Feature Branch (git checkout -b feature/AmazingFeature)
+- Commit your Changes (git commit -m 'Add some AmazingFeature')
+- Push to the Branch (git push origin feature/AmazingFeature)
+- Open a Pull Request
 
-## FAQ
-在windows下渲染markdown会有问题
+### Test
+
+run `npm run test`
+
+## License
+
+Distributed under the MIT License. See LICENSE for more information.
+
+## Contact
+
+Email: me@chenfangwei.com
+Project Link: https://github.com/fwchen/starfish.git

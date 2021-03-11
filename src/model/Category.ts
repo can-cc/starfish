@@ -79,7 +79,7 @@ export class Category implements RenderEntity {
   }
 
   private loadCategoryConfigure(): CategoryConfigure {
-    const categoryConfigureFilePath = path.join(this.options.categoryInputPath, '.category.yaml');
+    const categoryConfigureFilePath = path.join(this.options.categoryInputPath, '.starfishrc');
 
     const reader: Reader = this.controller.reader;
     return reader.fileExist(categoryConfigureFilePath)
@@ -91,7 +91,7 @@ export class Category implements RenderEntity {
     this.path = getRelativePath(this.options.blogOutputPath, this.options.categoryOutputPath);
     return {
       path: getRelativePath(this.options.blogOutputPath, this.options.categoryOutputPath),
-      categoryName: this.options.categoryName,
+      categoryName: this.categoryConfigure.name || this.options.categoryName,
       articles: this.articles.map(a => a.getData())
     };
   }
