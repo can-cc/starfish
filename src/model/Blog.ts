@@ -47,7 +47,7 @@ export class Blog implements RenderEntity {
 
     this.archive = new Archive(
       {
-        archiveOutputPath: path.resolve(this.options.blogOutputPath, 'category'),
+        archiveOutputPath: path.resolve(this.options.blogOutputPath, 'archive'),
         blogInputPath: this.options.blogInputPath,
         blogOutputPath: this.options.blogOutputPath
       },

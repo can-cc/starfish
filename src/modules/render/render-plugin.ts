@@ -46,7 +46,7 @@ export class RenderPluginManager {
   }
 
   public runPluinAfterArchiveRender(renderedHtml: string, categoryList: Archive): void {
-    R.values(this.plugins).forEach(plugin => plugin.afterCategoryListRender(renderedHtml, categoryList));
+    R.values(this.plugins).forEach(plugin => plugin.afterArchiveRender(renderedHtml, categoryList));
   }
 
   public runPluinAfterCategoryRender(renderedHtml: string, category: Category) {

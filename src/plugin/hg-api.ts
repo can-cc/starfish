@@ -34,6 +34,17 @@ export default class StarflishRenderHgApiPlugin extends StartFishRenderPlugin {
     fs.writeFileSync(path.join(categoryListOutputDirPath, 'index.json'), JSON.stringify(categoryListData));
   }
 
+
+  public afterArchiveRender(renderedHtml: string, archive: CategoryList): void {
+    const archiveData: CategoryListData = archive.getData();
+    const categoryListOutputDirPath = path.join(this.options.rootOutputPath, archiveData.path);
+
+    if (!fs.existsSync(categoryListOutputDirPath)) {
+      fs.mkdirSync(categoryListOutputDirPath);
+    }
+    fs.writeFileSync(path.join(categoryListOutputDirPath, 'index.json'), JSON.stringify(archiveData));
+  }
+
   public afterCategoryRender(renderedHtml: string, category: Category): void {
     const categoryData = category.getData();
     this.allCategories.push(categoryData);

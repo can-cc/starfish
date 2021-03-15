@@ -46,6 +46,11 @@ test('integrated test render category index', () => {
   expect(fs.existsSync(path.join(outputPath, 'category/index.json'))).toBe(true);
 });
 
+test('integrated test render archive index', () => {
+  expect(fs.existsSync(path.join(outputPath, 'archive/index.html'))).toBe(true);
+  expect(fs.existsSync(path.join(outputPath, 'archive/index.json'))).toBe(true);
+});
+
 test('integrated test render feather', () => {
   expect(fs.existsSync(path.join(outputPath, 'javascript/index.html'))).toBe(true);
   expect(fs.existsSync(path.join(outputPath, 'javascript/index.json'))).toBe(true);
